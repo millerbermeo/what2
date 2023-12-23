@@ -97,7 +97,7 @@ const Sidebar = () => {
                   style={{ height: isChatOpen ? '90px' : '0' }}
                 >
                   <ul className="p-2 pl-14">
-                    <Link to="home">
+                    <Link to="/home">
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Panel Chat</li>
                     </Link>
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Masivos</li>
@@ -127,22 +127,25 @@ const Sidebar = () => {
                     <Link to="/mensajes">
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Crear Campaña</li>
                     </Link>
+                    <Link to="/campanas">
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
+                    </Link>
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Enviar Campaña</li>
                   </ul>
                 </div>
-
+                <Link to="/perfil">
                 <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
 
                   <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
                   <FontAwesomeIcon icon={faAddressCard} />
 
                   </div>
-                  <Link to="/perfil">
+               
                   <li className='text-lg'>Perfil</li>
-                  </Link>
+                
                 </div>
-
+                </Link>
+                
                 <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
 
                   <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">

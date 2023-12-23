@@ -4,7 +4,6 @@ import { faFile, faImage } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 
-
 function Mensajes() {
     useEffect(() => {
         const endpoint = "";
@@ -91,36 +90,44 @@ function Mensajes() {
                 });
         }
 
-        document.getElementById('imagenInput').addEventListener('change', function () {
+        const handleImageChange = function () {
             console.log('Cambio en el input de imagen.');
             document.getElementById('mostrar-documento').textContent = '';
             previewImage(this, 'mostrar-imagen-doc');
-        });
+        };
 
-        document.getElementById('documentoInput').addEventListener('change', function () {
+        const handleDocumentChange = function () {
             console.log('Cambio en el input de documento.');
             document.getElementById('mostrar-imagen-doc').innerHTML = '';
             previewDocument(this, 'mostrar-documento');
-        });
+        };
 
-        document.getElementById('texto').addEventListener('input', function () {
+        const handleTextChange = function () {
             console.log('Cambio en el input de texto.');
             updateTextPreview(this, 'mostrar-texto');
-        });
+        };
 
-        document.getElementById('submit-button').addEventListener('click', function () {
+        const handleButtonClick = function () {
             console.log('Enviando datos al servidor...');
             sendData();
-        });
+        };
+
+        document.getElementById('imagenInput').addEventListener('change', handleImageChange);
+        document.getElementById('documentoInput').addEventListener('change', handleDocumentChange);
+        document.getElementById('texto').addEventListener('input', handleTextChange);
+        document.getElementById('submit-button').addEventListener('click', handleButtonClick);
 
         // Cleanup event listeners when component unmounts
-        return () => {
-            document.getElementById('imagenInput').removeEventListener('change', previewImage);
-            document.getElementById('documentoInput').removeEventListener('change', previewDocument);
-            document.getElementById('texto').removeEventListener('input', updateTextPreview);
-            document.getElementById('submit-button').removeEventListener('click', sendData);
-        };
+        // return () => {
+        //     document.getElementById('imagenInput').removeEventListener('change', handleImageChange);
+        //     document.getElementById('documentoInput').removeEventListener('change', handleDocumentChange);
+        //     document.getElementById('texto').removeEventListener('input', handleTextChange);
+        //     document.getElementById('submit-button').removeEventListener('click', handleButtonClick);
+        // };
+
+
     }, []);
+
     return (
         <>
             <div className="flex">
@@ -128,7 +135,7 @@ function Mensajes() {
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
                     <div className='w-full flex flex-col lg:flex-row overflow-hidden h-[88vh] md:h-auto rounded-lg mt-2 lg:mt-2 border gap-10 md:gap-0'>
-
+                        {/* Contenido aquí */}
                     </div>
                     <div className="flex justify-center items-start mt-10 h-[80vh] gap-6">
                         <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg">
@@ -143,18 +150,18 @@ function Mensajes() {
                             </div>
 
                             <div className="card-container flex mt-4 space-x-4 justify-center">
-                                <label htmlFor="imagenInput" className='bg-blue-600 p-2 rounded w-44'>
+                                <label htmlFor="imagenInput" className='bg-gray-700 p-2 rounded w-44'>
                                     <div className="card flex flex-col items-center justify-center text-white">
-                                        <FontAwesomeIcon icon={faImage} className="text-2xl text-blue-300" />
+                                        <FontAwesomeIcon icon={faImage} className="text-2xl text-white" />
                                         <div>Imagen</div>
                                         <input type="file" id="imagenInput" accept="image/*" />
                                         <div className="placeholder">No Selecionada</div>
                                     </div>
                                 </label>
 
-                                <label htmlFor="documentoInput" className='bg-blue-600 p-2 rounded w-44'>
+                                <label htmlFor="documentoInput" className='bg-gray-700 p-2 rounded w-44'>
                                     <div className="card flex flex-col items-center justify-center text-white">
-                                        <FontAwesomeIcon icon={faFile} className="text-2xl text-blue-300" />
+                                        <FontAwesomeIcon icon={faFile} className="text-2xl text-white" />
                                         <div>Documento</div>
                                         <input type="file" id="documentoInput" accept=".pdf, .doc, .docx" />
                                         <div className="placeholder">No Seleccinado</div>
@@ -164,7 +171,7 @@ function Mensajes() {
                         </div>
 
                         <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg mt-0">
-                            <div id="mostrar-imagen-doc" className='w-64 m-auto'></div>
+                            <div id="mostrar-imagen-doc" className='w-64 overflow-hidden max-h-44 m-auto'></div>
                             <div id="mostrar-documento" className='bg-blue-300 rounded w-auto break-all'></div>
                             <span className="block mt-4 text-lg font-semibold">Mensaje:</span>
                             <div id="mostrar-texto" className="break-all p-2 rounded shadow mt-2 max-h-20 overflow-y-auto"></div>
@@ -175,7 +182,7 @@ function Mensajes() {
                 </main>
             </div>
         </>
-    )
+    );
 }
 
-export default Mensajes
+export default Mensajes;

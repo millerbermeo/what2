@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import ModalChat from './ModalChat';
 import ModalAgenda from './ModalAgenda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faBell, faPaperPlane, faFlag } from '@fortawesome/free-solid-svg-icons';
+import { faRobot, faFlag } from '@fortawesome/free-solid-svg-icons';
 import ModalLeft from './ModalLeft';
 import ModalName from './ModalName';
 
@@ -225,7 +225,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
                             <div className='flex mb-[14px] z-1 gap-1'>
                                 <div className="bg-gray-800 text-xs hover:bg-black text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
-                                <FontAwesomeIcon icon={faPaperPlane} />
+                                <FontAwesomeIcon icon={faRobot} />
                                 </div>
                                 <div className="bg-green-500 text-xs hover:bg-green-600 text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
                                     <ModalName/>

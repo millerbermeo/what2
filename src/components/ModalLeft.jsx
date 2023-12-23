@@ -35,7 +35,7 @@ const ModalLeft = () => {
       </button>
 
       {isOpen && (
-        <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 md:p-0">
          <div className="bg-white w-96 p-4 rounded shadow-lg z-50">
               <h2 className="text-2xl text-black font-semibold mb-4 text-center">Transferir</h2>
 
