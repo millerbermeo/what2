@@ -98,7 +98,7 @@ const Sidebar = () => {
                 >
                   <ul className="p-2 pl-14">
                     <Link to="/home">
-                    <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Panel Chat</li>
+                      <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Panel Chat</li>
                     </Link>
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Masivos</li>
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Reportes</li>
@@ -125,36 +125,36 @@ const Sidebar = () => {
                 >
                   <ul className="p-2 pl-12">
                     <Link to="/mensajes">
-                    <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Crear Campaña</li>
+                      <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Crear Campaña</li>
                     </Link>
                     <Link to="/campanas">
-                    <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
+                      <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
                     </Link>
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Enviar Campaña</li>
                   </ul>
                 </div>
                 <Link to="/perfil">
-                <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
+                  <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
 
-                  <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
-                  <FontAwesomeIcon icon={faAddressCard} />
+                    <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
+                      <FontAwesomeIcon icon={faAddressCard} />
+
+                    </div>
+
+                    <li className='text-lg'>Perfil</li>
 
                   </div>
-               
-                  <li className='text-lg'>Perfil</li>
-                
-                </div>
                 </Link>
-                
+
                 <Link to="/contacto">
-                <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
+                  <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
 
-<div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
-  <FontAwesomeIcon icon={faCommentDots} />
+                    <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
+                      <FontAwesomeIcon icon={faCommentDots} />
 
-</div>
-<li className='text-lg'>Contacto</li>
-</div>
+                    </div>
+                    <li className='text-lg'>Contacto</li>
+                  </div>
                 </Link>
 
               </ul>

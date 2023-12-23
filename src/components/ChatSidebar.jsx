@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot, faFlag } from '@fortawesome/free-solid-svg-icons';
 import ModalLeft from './ModalLeft';
 import ModalName from './ModalName';
+import ModalBot from './ModalBot';
 
 
 
@@ -233,14 +234,14 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
                             <div className='flex mb-[14px] z-1 gap-1'>
                                 <div className="bg-gray-800 text-xs hover:bg-black text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
-                                    <FontAwesomeIcon icon={faRobot} />
+                                   <ModalBot numero={item.numberw}/>
                                 </div>
                                 <div className="bg-green-500 text-xs hover:bg-green-600 text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
-                                    <ModalName />
+                                    <ModalName numero={item.numberw} />
                                 </div>
                                 <div className="bg-blue-500 text-xs hover:bg-blue-600 text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
 
-                                    <ModalLeft />
+                                    <ModalLeft numero={item.numberw} />
                                 </div>
                             </div>
                             <span className='absolute right-2 bottom-0 text-[12px]'>
