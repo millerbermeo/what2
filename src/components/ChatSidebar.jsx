@@ -81,7 +81,15 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_agente.php');
+
+                const user = JSON.parse(localStorage.getItem('user'));
+                const number_a = user && user.number_a;
+
+                // Create form data and append the number_a value
+                const formData = new FormData();
+                formData.append('number_a', number_a);
+
+                const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_agente.php', formData);
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({
                     ...item,
@@ -128,11 +136,11 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     const handleNoLeidosClick = () => {
         setFiltroNoLeidos(!filtroNoLeidos);
     };
-    
+
     const handleMostrarTodosClick = () => {
         setFiltroNoLeidos(false); // Desactiva el filtro de "NO LEIDOS"
     };
-    
+
     // Filtra los datos según los criterios
     const filteredData = data.filter((item) => {
         return (
@@ -145,17 +153,17 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     return (
         <>
             <div style={divStyle} className="w-full lg:w-[680px] h-screen lg:h-[95vh] lg:z-10 bg-gray-200  border-r flex flex-col items-center border-gray-300 shadow-lg p-3">
-                    <div className='flex justify-start 2xl:justify-center gap-[20px] items-center w-full  md:-z-10'>
-                        <div className='w-[45px]'>
-                            <img className='bg-transparent' src="logologo.png" alt="" />
-                        </div>
-                        <div className='w-[50%]'>
-                            <ModalAgenda />
-                        </div>
-                        <div className='w-[50%]'>
-                            <ModalChat />
-                        </div>
+                <div className='flex justify-start 2xl:justify-center gap-[20px] items-center w-full  md:-z-10'>
+                    <div className='w-[45px]'>
+                        <img className='bg-transparent' src="logologo.png" alt="" />
                     </div>
+                    <div className='w-[50%]'>
+                        <ModalAgenda />
+                    </div>
+                    <div className='w-[50%]'>
+                        <ModalChat />
+                    </div>
+                </div>
 
                 <div className='bg-[#fff] h-8 rounded my-2 md:-z-20 w-full'>
 
@@ -188,51 +196,51 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
 
-                <div  className='w-full h-[65%] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl'>
+                <div className='w-full h-[65%] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl'>
                     {filteredData.map((item, index) => (
                         <div
-            
+
 
                             key={index}
                             className={`flex gap-2 w-full py-2 border-b border-gray-300 relative justify-center items-center hover:bg-gray-300 cursor-pointer p-2 ${elementoSeleccionado === item.numberw ? 'bg-gray-300' : ''}`}
-                           
+
                         >
-                            <div  onClick={() => {
+                            <div onClick={() => {
                                 handleDivClick()
                                 handleClick(item.numberw);
                                 onClicEnDiv(item.numberw);
                                 setElementoSeleccionado(item.numberw); // Corregir aquí
 
                             }} className='flex flex-row w-full'>
-                            <div className='w-[50px]'>
-                                <img src="user.webp" alt="" />
-                            </div>
+                                <div className='w-[50px]'>
+                                    <img src="user.webp" alt="" />
+                                </div>
 
-                            <div className='w-full h-12 overflow-hidden relative pt-6 pl-2'>
-                                <span className='absolute top-1 tex-xs font-semibold h-6 w-44 overflow-hidden text-gray-800'>
-                                    {item.name ? item.name : item.numberw}
-                                </span>
-                                <span className='text-[#5f6368] w-[60%] break-all overflow-hidden text-[13.5px]'>
-                                    {item.men}
-                                </span>
-                            </div>
+                                <div className='w-full h-12 overflow-hidden relative pt-6 pl-2'>
+                                    <span className='absolute top-1 tex-xs font-semibold h-6 w-44 overflow-hidden text-gray-800'>
+                                        {item.name ? item.name : item.numberw}
+                                    </span>
+                                    <span className='text-[#5f6368] w-[60%] break-all overflow-hidden text-[13.5px]'>
+                                        {item.men}
+                                    </span>
+                                </div>
                             </div>
 
                             <div className={`absolute bg-[#005187] text-xs text-white text-center w-5 rounded-full h-5 right-24 top-4 cuadrorojo ${item.b1 === "1" ? 'block' : 'hidden'}`}>
-                            <FontAwesomeIcon icon={faFlag} />
+                                <FontAwesomeIcon icon={faFlag} />
                             </div>
 
 
                             <div className='flex mb-[14px] z-1 gap-1'>
                                 <div className="bg-gray-800 text-xs hover:bg-black text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
-                                <FontAwesomeIcon icon={faRobot} />
+                                    <FontAwesomeIcon icon={faRobot} />
                                 </div>
                                 <div className="bg-green-500 text-xs hover:bg-green-600 text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
-                                    <ModalName/>
+                                    <ModalName />
                                 </div>
                                 <div className="bg-blue-500 text-xs hover:bg-blue-600 text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
-                                    
-                                    <ModalLeft/>
+
+                                    <ModalLeft />
                                 </div>
                             </div>
                             <span className='absolute right-2 bottom-0 text-[12px]'>

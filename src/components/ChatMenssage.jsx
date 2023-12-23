@@ -67,8 +67,12 @@ function ChatMenssage({ numeroSeleccionado }) {
       // Accede al tipo de archivo usando la referencia correcta
       const type_file = selectedFile ? 'document' : 'text';
 
+      const user = JSON.parse(localStorage.getItem('user'));
+      const number_a = user && user.number_a;
+
       const formData2 = new FormData();
       formData2.append('numberw', numeroSeleccionado);
+      formData2.append('number_a', number_a);
 
       // Incluso si el mensaje está vacío, agrégalo al FormData
       const trimmedMessage = mensajeInputRef.current.value.trim();
@@ -170,8 +174,12 @@ function ChatMenssage({ numeroSeleccionado }) {
         if (!numeroSeleccionado) {
           return;
         }
+
+     
+
         const formData = new FormData();
         formData.append('numberw', numeroSeleccionado);
+
 
         const response = await axios.post(
           'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/chats_principal.php',

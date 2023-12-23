@@ -1,10 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
 import ModalPassword from '../components/ModalPassword';
 
 function Perfil() {
+
+    const user = JSON.parse(localStorage.getItem('user'));
+
     return (
         <div>
 
@@ -19,13 +21,16 @@ function Perfil() {
                             <div className='max-w-[500px] bg-white shadow-lg p-6 rounded-md'>
                                 <div className='flex items-center space-x-6 w-full'>
 
-                                    <div className='w-28 h-28 overflow-hidden rounded-full border'>
+                                    <div className='w-28 h-28 relative rounded-full border'>
                                         <img className='object-cover w-full h-full' src="usuario.svg" alt="Usuario" />
+                                        <span className='text-gray-900 absolute font-semibold w-full uppercase flex justify-center'>{user.email}</span>
                                     </div>
 
                                     <div className='flex flex-col'>
-                                        <h2 className='text-xl font-bold mb-2'>AGENTE</h2>
-                                        <span className='text-gray-600'>Miller Rivera</span>
+                                        <h2 className='text-lg font-bold uppercase'>{user.type}</h2>
+                                        <span className='text-gray-600'>{user.name}</span>
+
+                                        <span className='text-gray-600'>{user.number_a}</span>
                                        
                                        <ModalPassword/>
                                     </div>
