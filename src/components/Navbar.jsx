@@ -1,9 +1,11 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import Logout from './logout';
 
 
-function Navbar({navbar}) {
+function Navbar({ navbar }) {
+
+
   return (
 
     <>
@@ -13,30 +15,33 @@ function Navbar({navbar}) {
           <img className='w-52 hidden' src="negociemoss.png" alt="" />
         </div>
 
-      
+
 
         {/* Menu Items */}
         <div className='hidden md:flex items-center space-x-4'>
-          <a href="#" className='text-gray-700 hover:text-gray-900'>
-            Home
-          </a>
-          <a href="#" className='text-gray-700 hover:text-gray-900'>
-            About
-          </a>
-          <a href="#" className='text-gray-700 hover:text-gray-900'>
-            Services
-          </a>
-          <a href="#" className='text-gray-700 hover:text-gray-900'>
-            Contact
-          </a>
+          <Link to="/home">
+            <span className='text-gray-700 hover:text-gray-900'>
+              Chat
+            </span>
+          </Link>
+          <span className='text-gray-700 hover:text-gray-900'>
+            Campañas
+          </span>
+          <span className='text-gray-700 hover:text-gray-900'>
+            Perfil
+          </span>
+          <Link to="/contacto">
+            <span className='text-gray-700 hover:text-gray-900'>
+              Contacto
+            </span>
+          </Link>
+
         </div>
 
         {/* User Icon */}
         <div className='pr-14 lg:pr-0'>
-        <div className='text-2xl'>
-            <FontAwesomeIcon icon={faRightFromBracket} />
-          </div>
-      </div>
+          <Logout />
+        </div>
 
       </nav>
     </>

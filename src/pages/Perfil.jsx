@@ -19,7 +19,7 @@ function Perfil() {
                             <div className='max-w-[500px] bg-white shadow-lg p-6 rounded-md'>
                                 <div className='flex items-center space-x-6 w-full'>
 
-                                    <div className='w-24 h-24 overflow-hidden rounded-full border'>
+                                    <div className='w-28 h-28 overflow-hidden rounded-full border'>
                                         <img className='object-cover w-full h-full' src="usuario.svg" alt="Usuario" />
                                     </div>
 

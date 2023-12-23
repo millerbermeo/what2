@@ -4,6 +4,7 @@ import Login from "./pages/Login"
 import Mensajes from "./pages/Mensajes"
 import Perfil from "./pages/Perfil"
 import Campanas from "./pages/Campanas"
+import Contacto from "./pages/Contacto"
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="perfil" element={<Perfil />}></Route>
       <Route path="/mensajes" element={<Mensajes />}></Route>
       <Route path="/campanas" element={<Campanas />}></Route>
+      <Route path="/contacto" element={<Contacto />}></Route>
     </Routes>
   )
 }

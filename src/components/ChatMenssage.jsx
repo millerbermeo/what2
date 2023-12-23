@@ -4,6 +4,7 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faDownload, faFile, faRightFromBracket, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import Logout from './logout';
 
 function ChatMenssage({ numeroSeleccionado }) {
   const [mensajes, setMensajes] = useState([]);
@@ -176,10 +177,17 @@ function ChatMenssage({ numeroSeleccionado }) {
           'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/chats_principal.php',
           formData
         );
+        ///
+        // PROPUESTA
+        // const reversedMessages = response.data.slice(0, 80).reverse();
+        // setMensajes(reversedMessages);
+        //
 
         // Invertir el orden de los mensajes antes de establecerlos en el estado
         const reversedMessages = response.data.reverse();
         setMensajes(reversedMessages);
+
+
         const prevMessagesLength = mensajes.length;
 
         // Enfocar el último mensaje
@@ -307,9 +315,7 @@ function ChatMenssage({ numeroSeleccionado }) {
               <span>Distribuidora Negociemos</span>
             </div>
           </div>
-          <div className='text-2xl'>
-            <FontAwesomeIcon icon={faRightFromBracket} />
-          </div>
+          <Logout/>
         </div>
         <div className="w-full mt-5 lg:mt-14 pb-[15px] h-[100%] overflow-y-scroll custom-scrollbar3 px-4 md:px-12 bg-gray-100" ref={(ref) => setScrollRef(ref)}>
           <div className='absolute bottom-16 left-[40px] flex items-center flex-col z-50'>

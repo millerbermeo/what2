@@ -50,10 +50,11 @@ function ModalChat() {
 
   return (
     <>
+    
       <div>
         <button
           onClick={toggleModal}
-          className="w-full text-white gap-2 bg-[#84b6f4] hover:bg-[#84b6f4]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40"
+          className="w-full gap-5 bg-gray-800 text-[#ccc] text-sm  hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40"
         >
           Nuevo Chat
           <FontAwesomeIcon icon={faBook} />
@@ -61,14 +62,14 @@ function ModalChat() {
       </div>
 
       <Transition
-        show={isOpen}
-        enter="lg:transition-opacity lg:duration-300 lg:ease-out"
-        enterFrom="lg:opacity-0"
-        enterTo="lg:opacity-100"
-        leave="lg:transition-opacity lg:duration-300 lg:ease-in"
-        leaveFrom="lg:opacity-100"
-        leaveTo="lg:opacity-0"
-      >
+  show={isOpen}
+  enter="lg:transition-opacity lg:duration-300 lg:ease-out"
+  enterFrom="lg:opacity-0"
+  enterTo="lg:opacity-100"
+  leave="lg:transition-opacity lg:duration-300 lg:ease-in"
+  leaveFrom="lg:opacity-100"
+  leaveTo="lg:opacity-0"
+>
         {(ref) => (
           <div ref={ref} className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
             <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div>

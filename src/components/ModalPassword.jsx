@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentMedical } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 function ModalPassword() {
     const [isOpen, setIsOpen] = useState(false);
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [repeatNewPassword, setRepeatNewPassword] = useState('');
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -16,14 +13,6 @@ function ModalPassword() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Realiza la lógica para cambiar la contraseña, por ejemplo, enviar los datos al servidor
-        // y manejar la respuesta.
-
-        // Limpia los campos después de enviar el formulario
-        setCurrentPassword('');
-        setNewPassword('');
-        setRepeatNewPassword('');
     };
 
     return (
@@ -38,57 +27,37 @@ function ModalPassword() {
                 <div className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
                     <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div>
 
-                    <div className="bg-white w-96 p-4 rounded shadow-lg z-50">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Cambiar Password</h2>
+                    <div className="bg-white w-[500px] p-4 rounded shadow-lg z-50">
+                        <h2 className="text-2xl font-semibold mb-4 text-center">Cambiar Contraseña</h2>
 
 
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <label htmlFor="currentPassword" className="block text-gray-700 text-sm font-bold mb-2">
-                                    Contraseña Actual
-                                </label>
-                                <input
-                                    type="password"
-                                    id="currentPassword"
-                                    name="currentPassword"
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded"
-                                    required
-                                />
+                            <div className="mb-5 relative">
+                                <label for="pass" className="mb-2 block  text-gray-500 font-medium">Contraseña Actual</label>
+                                <input type="text" id="pass" name="pass" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
+                                {/* <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">Error, debe ingresar el username</p> */}
+                                <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
+                                <FontAwesomeIcon icon={faLock} />
+                                </span>
                             </div>
 
                             {/* Nueva Contraseña */}
-                            <div className="mb-4">
-                                <label htmlFor="newPassword" className="block text-gray-700 text-sm font-bold mb-2">
-                                    Nueva Contraseña
-                                </label>
-                                <input
-                                    type="password"
-                                    id="newPassword"
-                                    name="newPassword"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded"
-                                    required
-                                />
+                            <div className="mb-5 relative">
+                                <label for="pass2" className="mb-2 block  text-gray-500 font-medium">Nueva Contraseña</label>
+                                <input type="text" id="pass2" name="pass2" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
+                                <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
+                                <FontAwesomeIcon icon={faLock} />
+                                </span>
                             </div>
 
-                            {/* Repetir Nueva Contraseña */}
-                            <div className="mb-6">
-                                <label htmlFor="repeatNewPassword" className="block text-gray-700 text-sm font-bold mb-2">
-                                    Repetir Nueva Contraseña
-                                </label>
-                                <input
-                                    type="password"
-                                    id="repeatNewPassword"
-                                    name="repeatNewPassword"
-                                    value={repeatNewPassword}
-                                    onChange={(e) => setRepeatNewPassword(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded"
-                                    required
-                                />
+                            <div className="mb-5 relative">
+                                <label for="pass3" className="mb-2 block  text-gray-500 font-medium">Repetir Contraseña</label>
+                                <input type="text" id="pass3" name="pass3" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
+                                <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
+                                <FontAwesomeIcon icon={faLock} />
+                                </span>
                             </div>
+
                         </form>
 
                         <div className="flex justify-end gap-3">
@@ -107,7 +76,7 @@ function ModalPassword() {
                             </button>
                         </div>
                     </div>
-                    
+
                 </div>
             )}
         </>

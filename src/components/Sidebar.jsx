@@ -146,14 +146,16 @@ const Sidebar = () => {
                 </div>
                 </Link>
                 
+                <Link to="/contacto">
                 <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
 
-                  <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
-                    <FontAwesomeIcon icon={faCommentDots} />
+<div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
+  <FontAwesomeIcon icon={faCommentDots} />
 
-                  </div>
-                  <li className='text-lg'>Contacto</li>
-                </div>
+</div>
+<li className='text-lg'>Contacto</li>
+</div>
+                </Link>
 
               </ul>
             </div>
