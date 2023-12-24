@@ -153,7 +153,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
     return (
         <>
-            <div style={divStyle} className="w-full lg:w-[680px] h-screen lg:h-[95vh] lg:z-10 bg-gray-200 mb-96  border-r flex flex-col items-center border-gray-300 shadow-lg p-3">
+            <div style={divStyle} className="w-full lg:w-[680px] h-screen lg:h-[95vh] lg:z-10 bg-gray-200 mb-96 md:mb-0  border-r flex flex-col items-center border-gray-300 shadow-lg p-3">
                 <div className='flex justify-start 2xl:justify-center gap-[20px] items-center w-full  md:-z-10'>
                     <div className='w-[45px]'>
                         <img className='bg-transparent' src="logologo.png" alt="" />
@@ -193,7 +193,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
 
-                <div className='w-full h-[80%] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl'>
+                <div className='w-full h-[60vh] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-4 pd:mb-0'>
                     {filteredData.map((item, index) => (
                         <div
 
