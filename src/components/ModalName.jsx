@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
-const ModalName = ({numero}) => {
+const ModalName = ({ numero }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [Campo, setCampo] = useState(false)
 
   const nombre = useRef()
 
@@ -15,6 +17,7 @@ const ModalName = ({numero}) => {
 
   const closeModal = () => {
     setIsOpen(false);
+    setCampo(false);
   };
 
   const guardarNombre = (e) => {
@@ -30,19 +33,20 @@ const ModalName = ({numero}) => {
     if (!nombreValue) {
       // Optionally, you can show an error message or handle it as needed
       console.error('Please enter a name before saving.');
+      setCampo(true);
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('numberw', numero);
     formData.append('nombre', nombreValue);
     formData.append('number_a', number_a);
 
     console.log(formData)
-  
+
     // Make the POST request
     axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_save_name.php', formData)
-    .then(response => {
+      .then(response => {
         // Handle the response
         console.log('Response:', response.data);
         setIsOpen(false);
@@ -55,7 +59,7 @@ const ModalName = ({numero}) => {
 
   }
 
- 
+
 
   return (
     <div>
@@ -83,6 +87,11 @@ const ModalName = ({numero}) => {
                 />
 
               </div>
+              {Campo && (
+                <div className='text-lg font-normal absolute text-black border-b border-black'>
+                  Campo Requerido
+                </div>
+              )}
 
               <div className="flex justify-end gap-3 text-[16px] font-normal">
                 <button

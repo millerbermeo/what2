@@ -131,15 +131,15 @@ function Mensajes() {
     return (
         <>
             <div className="flex">
-            <div className='relative z-0'>
+            <div className='md:relative md:z-0'>
                 <Sidebar />
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
-                    <div className='w-full flex flex-col lg:flex-row overflow-hidden h-[88vh] md:h-auto rounded-lg mt-2 lg:mt-2 border gap-10 md:gap-0'>
-                        {/* Contenido aquí */}
-                    </div>
-                    <div className="flex justify-center items-start mt-10 h-[80vh] gap-6">
+                    {/* <div className='w-full flex flex-col lg:flex-row overflow-hidden h-[88vh] md:h-auto rounded-lg mt-2 lg:mt-2 border gap-10 md:gap-0'>
+              
+                    </div> */}
+                    <div className="flex justify-center flex-col md:flex-row items-start mt-10 h-[80vh] gap-6">
                         <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg">
                             <div>
                                 <label className="label-text font-medium" htmlFor="campana">Nombre Campaña</label>

@@ -7,6 +7,7 @@ const ModalLeft = ({numero}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [agentes, setAgentes] = useState([]);
   const [selectedAgente, setSelectedAgente] = useState('');
+  const [Campo, setCampo] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +34,7 @@ const ModalLeft = ({numero}) => {
 
   const closeModal = () => {
     setIsOpen(false);
+    setCampo(false);
   };
 
   const handleEnviarClick = async () => {
@@ -40,6 +42,7 @@ const ModalLeft = ({numero}) => {
     if (!selectedAgente) {
       // Optionally, you can show an error message or handle it as needed
       console.error('Please select an agent before transferring.');
+      setCampo(true);
       return;
     }
     
@@ -93,6 +96,12 @@ const ModalLeft = ({numero}) => {
                   ))}
                 </select>
               </div>
+
+              {Campo && (
+                <div className='text-lg font-normal absolute text-black border-b border-black'>
+                  Select Requerido
+                </div>
+              )}
 
               <div className="flex justify-end gap-3 text-[16px] font-normal">
                 <button
