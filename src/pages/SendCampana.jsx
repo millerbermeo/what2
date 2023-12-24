@@ -7,7 +7,9 @@ function SendCampana() {
         <div>
 
             <div className="flex">
+            <div className='relative z-0'>
                 <Sidebar />
+                </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
                     <div className='flex justify-center mt-10 px-10'>

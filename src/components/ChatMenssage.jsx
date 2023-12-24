@@ -314,7 +314,7 @@ function ChatMenssage({ numeroSeleccionado }) {
 
   return (
     <>
-      <div className='w-full md:w-[95%] h-[87vh] md:h-[95vh] shadow-lg relative z-auto flex flex-col bg-gray-100 lg:bg-gray-200'>
+      <div className='w-full md:w-[95%] h-[85vh]  md:h-[95vh] shadow-lg relative z-auto flex flex-col bg-gray-100 lg:bg-gray-200'>
         {/* ... (resto del código) */}
         <div className='absolute top-0 w-full hidden lg:flex h-12 justify-between items-center px-5'>
           <div>

@@ -36,6 +36,13 @@ const ModalLeft = ({numero}) => {
   };
 
   const handleEnviarClick = async () => {
+
+    if (!selectedAgente) {
+      // Optionally, you can show an error message or handle it as needed
+      console.error('Please select an agent before transferring.');
+      return;
+    }
+    
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const number_a = user && user.number_a;

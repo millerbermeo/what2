@@ -23,10 +23,19 @@ const ModalName = ({numero}) => {
 
     const user = JSON.parse(localStorage.getItem('user'));
     const number_a = user && user.number_a;
+
+    const nombreValue = nombre.current.value.trim(); // Trim removes leading and trailing whitespaces
+
+    // Check if the user has written something
+    if (!nombreValue) {
+      // Optionally, you can show an error message or handle it as needed
+      console.error('Please enter a name before saving.');
+      return;
+    }
   
     const formData = new FormData();
     formData.append('numberw', numero);
-    formData.append('nombre', nombre.current.value);
+    formData.append('nombre', nombreValue);
     formData.append('number_a', number_a);
 
     console.log(formData)

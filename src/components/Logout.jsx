@@ -15,7 +15,7 @@ function Logout() {
 
   const salir = async () => {
     try {
-     
+
 
       // Realizar la petición POST con Axios
       const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_logout.php');
@@ -40,17 +40,25 @@ function Logout() {
 
   return (
     <>
-      <div className='text-2xl' onClick={log}>
+      <div className='text-2xl cursor-pointer' onClick={log}>
         <FontAwesomeIcon icon={faRightFromBracket} />
       </div>
 
       {/* Modal */}
       {showModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-8 rounded shadow-lg">
-            <p>¿Seguro que quieres salir?</p>
-            <button onClick={() => setShowModal(false)}>Cancelar</button>
-            <button onClick={salir}>Confirmar</button>
+          <div className="bg-white text-black p-12 rounded shadow-lg flex items-center flex-col">
+            <p className='text-xl text-black font-bold'>¿Seguro que quieres salir?</p>
+
+            <div className='flex gap-4 mt-3'>
+              <button className='text-lg' onClick={() => setShowModal(false)}>Cancelar</button>
+
+              <button onClick={salir} className="relative text-lg inline-block px-4 py-2 font-medium group">
+                <span className="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                <span className="absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
+                <span className="relative text-black group-hover:text-white">Confirmar</span>
+              </button>
+            </div>
           </div>
         </div>
       )}

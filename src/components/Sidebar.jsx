@@ -160,12 +160,14 @@ const Sidebar = () => {
               </ul>
             </div>
 
-            <div className="p-4 w-[250px] flex items-end left-0 absolute bottom-0">
-              <h3 className="text-[#5f6368] text-lg flex items-center"><span className='font-bold text-4xl mr-4'>©</span>copyright DevMiller</h3>
+            <div className="p-4 w-[250px] flex flex-col items-start left-0 absolute bottom-0">
+              <h3 className="text-[#000] text-md flex items-start"><span className='font-bold text-4xl mr-4'>©</span>VOZ IP BUSINESS <br /> OF TECHNOLOGY</h3>
             </div>
           </div>
         </div>
       </div>
+
+      {/* 5f6368 */}
 
     </>
   );

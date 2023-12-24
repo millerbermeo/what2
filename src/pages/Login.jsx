@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
@@ -19,46 +18,44 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-  useEffect(() => {
-    // Verificar si hay información de usuario en localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
 
-    // Si hay información de usuario, redirigir a la página '/home'
-    if (user) {
-      navigation('/home');
-    }
-  }, [navigation]);
-
- const handleLogin = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-
+  
     const formData = new FormData();
     formData.append('email', emailRef.current.value);
     formData.append('password', passwordRef.current.value);
-
+  
     try {
       const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_login.php', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
+  
       // Assuming the API returns a token or some indication of a successful login
       console.log(response.data);
-
       if (response.data && response.data.name && response.data.email && response.data.type && response.data.number_a) {
         localStorage.setItem('user', JSON.stringify(response.data));
         console.log('Login successful');
-        navigation('/home');
+        window.location.reload();
       }
-      
 
     } catch (error) {
       // Handle errors (e.g., network issues, server errors)
       console.error('Login error:', error);
     }
   };
-
+  
+  useEffect(() => {
+    // Verificar si hay información de usuario en localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+  
+    // Si hay información de usuario, redirigir a la página '/home'
+    if (user) {
+      navigation('/home');
+    }
+  }, [navigation]);
 
 
   return (
