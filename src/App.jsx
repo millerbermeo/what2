@@ -6,6 +6,7 @@ import Mensajes from './pages/Mensajes';
 import Perfil from './pages/Perfil';
 import Campanas from './pages/Campanas';
 import Contacto from './pages/Contacto';
+import SendCampana from './pages/SendCampana'
 
 function App() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -31,6 +32,8 @@ function App() {
       <Route path="/mensajes" element={<PrivateRoute element={<Mensajes />} />} />
       <Route path="/campanas" element={<PrivateRoute element={<Campanas />} />} />
       <Route path="/contacto" element={<PrivateRoute element={<Contacto />} />} />
+      <Route path="/send" element={<PrivateRoute element={<SendCampana />} />} />
+
     </Routes>
   );
 }

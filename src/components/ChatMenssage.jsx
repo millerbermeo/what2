@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faDownload, faFile, faRightFromBracket, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Logout from './logout';
 
-function ChatMenssage({ numeroSeleccionado }) {
+function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [mensajes, setMensajes] = useState([]);
   const [fullscreenImage, setFullscreenImage] = useState(null);
   const [scrollRef, setScrollRef] = useState(null);
@@ -17,6 +17,10 @@ function ChatMenssage({ numeroSeleccionado }) {
   const [shouldScrollToLast, setShouldScrollToLast] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isFileUploaded, setIsFileUploaded] = useState(false); // Nuevo estado
+
+  // console.log("----------------");
+  // console.log(nameSeleccionado);
+  // console.log("----------------");
 
 
 
@@ -218,7 +222,7 @@ function ChatMenssage({ numeroSeleccionado }) {
     const intervalId = setInterval(fetchData, 1000);
 
     return () => clearInterval(intervalId);
-  }, [numeroSeleccionado, scrollRef, mensajes]);
+  }, [numeroSeleccionado, scrollRef, mensajes, nameSeleccionado]);
 
   const renderMedia = (mensaje) => {
 
@@ -320,7 +324,7 @@ function ChatMenssage({ numeroSeleccionado }) {
           <div>
             <div className='flex gap-2 items-end'>
               <img className='w-[30px] rounded-full' src="negociemos.jpg" alt="" />
-              <span>Distribuidora Negociemos</span>
+              <span className='uppercase font-normal'>{nameSeleccionado? nameSeleccionado : numeroSeleccionado}</span>
             </div>
           </div>
           <Logout/>

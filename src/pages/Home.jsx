@@ -6,10 +6,17 @@ import ChatMenssage from '../components/ChatMenssage';
 
 function Home() {
     const [numeroSeleccionado, setNumeroSeleccionado] = React.useState(null);
+    const [nameSeleccionado, setNameSeleccionado] = React.useState(null);
 
-    const handleClick = (numberw) => {
+    const handleClick = (numberw, name) => {
       setNumeroSeleccionado(numberw);
+      setNameSeleccionado(name);
     };
+
+    
+    console.log("------22222222----------");
+  console.log(nameSeleccionado);
+  console.log("-------222222222---------");
     
   return (
     <>
@@ -19,7 +26,7 @@ function Home() {
           <Navbar navbar="hidden" />
           <div className='w-full flex flex-col lg:flex-row overflow-hidden h-[83vh] md:h-auto rounded-lg mt-2 lg:mt-2 border gap-10 md:gap-0'>
             <ChatSidebar onClicEnDiv={handleClick}/>
-            <ChatMenssage numeroSeleccionado={numeroSeleccionado} />
+            <ChatMenssage numeroSeleccionado={numeroSeleccionado} nameSeleccionado={nameSeleccionado} />
           </div>
         </main>
       </div>

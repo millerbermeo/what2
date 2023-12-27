@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentMedical } from '@fortawesome/free-solid-svg-icons';
 
-
-function ModalAgenda() {
+function ModalAgenda({ onSelectedOption }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [inputText, setInputText] = useState('');
+  const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
+  const [selectedName2, setName2Option] = useState('');
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -15,39 +16,41 @@ function ModalAgenda() {
 
   const submitDatos = (e) => {
     e.preventDefault();
+    console.log('Valor seleccionado:', selectedOption);
 
-    // Verifica si los campos de inputText y selectedOption están llenos
-    if (inputText.trim() !== '' && selectedOption.trim() !== '') {
-      Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Los datos se han procesado con éxito.',
-      });
+    // Llama a la función de devolución de llamada con el valor de selectedOption
+    onSelectedOption(selectedOption);
+    
 
-      toggleModal();
-    } else {
-      // Muestra una alerta o realiza alguna acción en caso de campos vacíos
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Complete los campos requeridos',
-      });
+    // Cierra el modal
+    toggleModal();
+
+   
+  };
+
+  useEffect(() => {
+    // Obtener el valor de number_a del localStorage
+    const number_a = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).number_a : null;
+
+    const formData = new FormData();
+    formData.append('number_a', number_a);
+
+    // Realizar la solicitud POST con Axios
+    if (number_a) {
+      axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agenda.php', formData)
+        .then(response => {
+          // Actualizar el estado con los datos recibidos
+          setOptions(response.data);
+        })
+        .catch(error => {
+          console.error('Error al realizar la solicitud POST:', error);
+        });
     }
-  };
-
-  const handleTextChange = (e) => {
-    setInputText(e.target.value);
-  };
+  }, []);
 
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
   };
-
-  const options = [
-    { value: 'option1', label: 'Opción 1' },
-    { value: 'option2', label: 'Opción 2' },
-    { value: 'option3', label: 'Opción 3' },
-  ];
 
   return (
     <>
@@ -72,24 +75,14 @@ function ModalAgenda() {
         leaveFrom="lg:opacity-100"
         leaveTo="lg:opacity-0"
       >
-        {(ref) => (
-          <div ref={ref} className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
+        {() => (
+          <div className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
             <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div>
 
             <div className="bg-white w-96 p-4 rounded shadow-lg z-50">
-              <h2 className="text-2xl font-semibold mb-4 text-center">Añadir Agenda</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center">Agenda</h2>
 
-              <div className="mb-4">
-                <input
-                  className="w-full p-2 border border-gray-300 rounded"
-                  type="text"
-                  placeholder="Ingresa texto"
-                  value={inputText}
-                  onChange={handleTextChange}
-                />
-              </div>
-
-              <div className="mb-4">
+              <div>
                 <select
                   className="w-full p-2 border border-gray-300 rounded"
                   value={selectedOption}
@@ -98,15 +91,15 @@ function ModalAgenda() {
                   <option value="" disabled>
                     Selecciona una opción
                   </option>
-                  {options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
+                  {options.map((option, index) => (
+                    <option key={index} value={option.numberw}>
+                      {option.name}
                     </option>
                   ))}
                 </select>
               </div>
 
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-end mt-4 gap-3">
                 <button
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                   onClick={toggleModal}

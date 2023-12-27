@@ -14,9 +14,8 @@ function SendCampana() {
                     <Navbar navbar="flex" />
                     <div className='flex justify-center mt-10 px-10'>
 
-
                         <div className='w-full flex justify-start'>
-
+                                        <h1>ENVIAR CAMPANA</h1>
                         </div>
                     </div>
                 </main>

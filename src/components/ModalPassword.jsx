@@ -24,16 +24,17 @@ function ModalPassword() {
             </div>
 
             {isOpen && (
-                <div className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
+                <div className="fixed inset-0 flex items-center justify-end w-full z-50 p-4 lg:p-0">
+                                {/* <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div> */}
                     <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div>
 
-                    <div className="bg-white w-[500px] p-4 rounded shadow-lg z-50">
+                    <div className="bg-white w-[500px] p-4 rounded shadow-lg z-50 mr-28">
                         <h2 className="text-2xl font-semibold mb-4 text-center">Cambiar Contraseña</h2>
 
 
                         <form onSubmit={handleSubmit}>
                             <div className="mb-5 relative">
-                                <label for="pass" className="mb-2 block  text-gray-500 font-medium">Contraseña Actual</label>
+                                <label htmlFor="pass" className="mb-2 block  text-gray-500 font-medium">Contraseña Actual</label>
                                 <input type="text" id="pass" name="pass" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
                                 {/* <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">Error, debe ingresar el username</p> */}
                                 <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
@@ -43,7 +44,7 @@ function ModalPassword() {
 
                             {/* Nueva Contraseña */}
                             <div className="mb-5 relative">
-                                <label for="pass2" className="mb-2 block  text-gray-500 font-medium">Nueva Contraseña</label>
+                                <label htmlFor="pass2" className="mb-2 block  text-gray-500 font-medium">Nueva Contraseña</label>
                                 <input type="text" id="pass2" name="pass2" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
                                 <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
                                 <FontAwesomeIcon icon={faLock} />
@@ -51,7 +52,7 @@ function ModalPassword() {
                             </div>
 
                             <div className="mb-5 relative">
-                                <label for="pass3" className="mb-2 block  text-gray-500 font-medium">Repetir Contraseña</label>
+                                <label htmlFor="pass3" className="mb-2 block  text-gray-500 font-medium">Repetir Contraseña</label>
                                 <input type="text" id="pass3" name="pass3" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
                                 <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
                                 <FontAwesomeIcon icon={faLock} />

@@ -130,7 +130,9 @@ const Sidebar = () => {
                     <Link to="/campanas">
                       <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
                     </Link>
+                    <Link to="/send">
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Enviar Campaña</li>
+                    </Link>
                   </ul>
                 </div>
                 <Link to="/perfil">

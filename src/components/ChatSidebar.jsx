@@ -36,18 +36,32 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     };
 
 
+    const [selectedOptionFromModal, setSelectedOptionFromModal] = useState(null);
+    
 
-
-
-    const [numeroSeleccionado, setNumeroSeleccionado] = useState(null);
-
-    const handleClick = (numberw) => {
-        // Aquí puedes hacer lo que necesites con el número seleccionado
-        // console.log('Número seleccionado:', numberw);
-        // Puedes guardar el número en el estado si es necesario
+    const handleSelectedOption = (selectedOption) => {
+        // Realiza la lógica con el valor de selectedOption aquí
+        console.log('Valor seleccionado en el componente principal:', selectedOption);
+      
+        // Actualiza el estado o realiza otras operaciones según tus necesidades
+        setSelectedOptionFromModal(selectedOption);
+      
+        // Utiliza el valor directamente en handleClick
+        handleClick(selectedOption);
+        onClicEnDiv(selectedOption)
+        setElementoSeleccionado(selectedOption)
+      }
+      
+      const [numeroSeleccionado, setNumeroSeleccionado] = useState(null);
+      const [nameSeleccionado, setNameSeleccionado] = useState('');
+      
+      const handleClick = (numberw, name) => {
         setNumeroSeleccionado(numberw);
-        // También puedes pasarlo a otro componente aquí o realizar otras acciones
-    };
+        setNameSeleccionado(String(name));
+        console.log(numberw)
+        console.log(name)
+      };
+      
 
     const formatFecha = (fechaCompleta) => {
         const fecha = new Date(fechaCompleta);
@@ -71,13 +85,6 @@ const ChatSidebar = ({ onClicEnDiv }) => {
         }
     };
 
-    // const MostrarTodos = () => {
-    //     alert("Filtrar Mostrar Todos")
-    // }
-
-    // const MostrarNoLeidos = () => {
-    //     alert("Filtrar Mostrar No Leidos")
-    // }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -159,7 +166,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                         <img className='bg-transparent' src="logologo.png" alt="" />
                     </div>
                     <div className='w-[50%]'>
-                        <ModalAgenda />
+                    <ModalAgenda onSelectedOption={handleSelectedOption} />
                     </div>
                     <div className='w-[50%]'>
                         <ModalChat />
@@ -199,16 +206,16 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
                             key={index}
-                            className={`flex gap-2 w-full py-2 border-b border-gray-300 relative justify-center items-center hover:bg-gray-300 cursor-pointer p-2 ${elementoSeleccionado === item.numberw ? 'bg-gray-300' : ''}`}
+                            className={`flex gap-2 w-full px-2 border-b border-gray-300 relative justify-center items-center hover:bg-gray-300 cursor-pointer ${elementoSeleccionado === item.numberw ? 'bg-gray-300' : ''}`}
 
                         >
                             <div onClick={() => {
                                 handleDivClick()
-                                handleClick(item.numberw);
-                                onClicEnDiv(item.numberw);
-                                setElementoSeleccionado(item.numberw); // Corregir aquí
+                                handleClick(item.numberw, item.name);
+                                onClicEnDiv(item.numberw, item.name);
+                                setElementoSeleccionado(item.numberw);
 
-                            }} className='flex flex-row w-full'>
+                            }} className='flex items-center flex-row w-full h-[65px]'>
                                 <div className='w-[50px]'>
                                     <img src="user.webp" alt="" />
                                 </div>

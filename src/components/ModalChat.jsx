@@ -50,7 +50,7 @@ function ModalChat() {
 
   return (
     <>
-    
+
       <div>
         <button
           onClick={toggleModal}
@@ -62,16 +62,16 @@ function ModalChat() {
       </div>
 
       <Transition
-  show={isOpen}
-  enter="lg:transition-opacity lg:duration-300 lg:ease-out"
-  enterFrom="lg:opacity-0"
-  enterTo="lg:opacity-100"
-  leave="lg:transition-opacity lg:duration-300 lg:ease-in"
-  leaveFrom="lg:opacity-100"
-  leaveTo="lg:opacity-0"
->
-        {(ref) => (
-          <div ref={ref} className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
+        show={isOpen}
+        enter="lg:transition-opacity lg:duration-300 lg:ease-out"
+        enterFrom="lg:opacity-0"
+        enterTo="lg:opacity-100"
+        leave="lg:transition-opacity lg:duration-300 lg:ease-in"
+        leaveFrom="lg:opacity-100"
+        leaveTo="lg:opacity-0"
+      >
+        {() => (
+          <div className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
             <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div>
 
             <div className="bg-white w-96 p-4 rounded shadow-lg z-50">
