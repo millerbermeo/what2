@@ -324,7 +324,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
           <div>
             <div className='flex gap-2 items-end'>
               <img className='w-[30px] rounded-full' src="negociemos.jpg" alt="" />
-              <span className='uppercase font-normal'>{nameSeleccionado? nameSeleccionado : numeroSeleccionado}</span>
+              <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
             </div>
           </div>
           <Logout/>

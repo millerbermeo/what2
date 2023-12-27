@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentMedical } from '@fortawesome/free-solid-svg-icons';
 
-function ModalAgenda({ onSelectedOption }) {
+function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedName2, setName2Option] = useState('');
+  const nombreUser = useRef(null)
+
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -16,17 +17,20 @@ function ModalAgenda({ onSelectedOption }) {
 
   const submitDatos = (e) => {
     e.preventDefault();
+  
+    // Mueve la declaración antes de usarla
+    let name1 = nombreUser.current;
+  
     console.log('Valor seleccionado:', selectedOption);
-
+  
     // Llama a la función de devolución de llamada con el valor de selectedOption
-    onSelectedOption(selectedOption);
-    
-
+    onSelectedOption(selectedOption, name1);
+    console.log(name1, "hoplals");
+  
     // Cierra el modal
     toggleModal();
-
-   
   };
+  
 
   useEffect(() => {
     // Obtener el valor de number_a del localStorage
@@ -49,8 +53,15 @@ function ModalAgenda({ onSelectedOption }) {
   }, []);
 
   const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
+    const selectedValue = e.target.value;
+    const selectedObject = options.find(option => option.numberw === selectedValue);
+  
+    // Cambia para que nombreUser.current contenga el objeto completo
+    nombreUser.current = selectedObject;
+  
+    setSelectedOption(selectedValue);
   };
+  
 
   return (
     <>
@@ -87,6 +98,7 @@ function ModalAgenda({ onSelectedOption }) {
                   className="w-full p-2 border border-gray-300 rounded"
                   value={selectedOption}
                   onChange={handleSelectChange}
+                  ref={nombreUser}
                 >
                   <option value="" disabled>
                     Selecciona una opción
