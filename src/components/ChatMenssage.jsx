@@ -11,12 +11,15 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [fullscreenImage, setFullscreenImage] = useState(null);
   const [scrollRef, setScrollRef] = useState(null);
   const [mostrarDiv, setMostrarDiv] = useState(false);
+  const [mostrarPlantilla, setMostrarPlantilla] = useState(false);
   const [emojiSelected, setEmojiSelected] = useState(false);
   const tipoArchivoRef = useRef(null);
   const lastMessageRef = useRef(null);
   const [shouldScrollToLast, setShouldScrollToLast] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isFileUploaded, setIsFileUploaded] = useState(false); // Nuevo estado
+  const [textoPorDefecto, setTextoPorDefecto] = useState('Texto por defecto');
+
 
   // console.log("----------------");
   // console.log(nameSeleccionado);
@@ -57,78 +60,97 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
   const mensajeInputRef = useRef(null);
   const archivoInputRef = useRef(null);
+  const mensajePlantilla = useRef(null);
+  
 
 
 
-  const enviarMensaje = async () => {
-    try {
+const enviarMensaje = async () => {
+  try {
+    setLoading(true);
+    setMostrarDiv(false);
+
+    const menPlant = mensajePlantilla.current?.value;
+
+    // Validación para permitir continuar con el código
+    if (menPlant === null || menPlant === undefined) {
+      console.warn('menPlant es null o undefined. El mensaje se enviará sin menPlant.');
+    }
+
+    const selectedFile = archivoInputRef.current.files[0];
+    const type_file = selectedFile ? 'document' : 'text';
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    const number_a = user && user.number_a;
+
+    if (numeroSeleccionado === null || numeroSeleccionado === undefined) {
+      console.error('El número seleccionado no puede ser null');
+      setLoading(false);
+      return;
+    }
+
+    const formData2 = new FormData();
+    formData2.append('numberw', numeroSeleccionado);
+    formData2.append('number_a', number_a);
+
+    const trimmedMessage = mensajeInputRef.current.value.trim();
+
+    // Solo agrega el mensaje al FormData si menPlant está vacío
+    if (!menPlant) {
+      formData2.append('message', trimmedMessage);
+    }
+
+    formData2.append('type_m', type_file);
+
+    // Agrega el archivo al FormData solo si se selecciona uno
+    if (selectedFile && type_file === 'document') {
+      formData2.append('document_w', selectedFile);
       setLoading(true);
-      setMostrarDiv(false);
+      setIsFileUploaded(true);
+    } else {
+      setLoading(false);
+    }
 
-      // Accede al valor del input de archivo utilizando la referencia correcta
-      const selectedFile = archivoInputRef.current.files[0];
+    mensajeInputRef.current.value = '';
+    archivoInputRef.current.value = '';
 
-      // Accede al tipo de archivo usando la referencia correcta
-      const type_file = selectedFile ? 'document' : 'text';
+    const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php', formData2);
+    console.log(response);
 
-      const user = JSON.parse(localStorage.getItem('user'));
-      const number_a = user && user.number_a;
+    console.log('Datos de la respuesta:', response.data);
 
-      const formData2 = new FormData();
-      formData2.append('numberw', numeroSeleccionado);
-      formData2.append('number_a', number_a);
-
-      // Incluso si el mensaje está vacío, agrégalo al FormData
-      const trimmedMessage = mensajeInputRef.current.value.trim();
-      if (trimmedMessage || selectedFile) {
-        formData2.append('message', trimmedMessage);
-      } else {
-        // Both message and file input are empty, do not send the message
-        setLoading(false);
-        return;
-      }
-
-      formData2.append('type_m', type_file);
-
-      // Agrega el archivo al FormData solo si se selecciona uno
-      if (selectedFile && type_file === 'document') {
-        formData2.append('document_w', selectedFile);
-
-        // Update loading state while uploading the document
-        setLoading(true);
-        setIsFileUploaded(true);
-      } else {
-        // If it's not a document, reset the loading state
-        setLoading(false);
-
-      }
-
-      mensajeInputRef.current.value = '';
-      archivoInputRef.current.value = '';
-      // Enviar el mensaje y cargar el archivo en paralelo
+    if (response.data.trim() === 'Mensaje') {
+      setMostrarPlantilla(false);
       await Promise.all([
         enviarMensajeEnSegundoPlano(formData2),
         cargarArchivo(selectedFile),
       ]);
-
-      // Limpiar y permitir enviar más mensajes
-      setShouldScrollToLast(true);
-    } catch (error) {
-      console.error('Error al enviar el mensaje:', error);
-    } finally {
-      // Clear loading state after the upload is complete or in case of an error
-      setLoading(false);
-      setIsFileUploaded(false);
-
-      // Restablecer valores
-      // También puedes restablecer el estado de otros elementos si es necesario
-      setEmojiSelected(false);
     }
-  };
+
+    
+
+    if (response.data.trim() === 'Plantilla') {
+      setMostrarPlantilla(!mostrarPlantilla);
+      if (menPlant !== undefined && menPlant !== null) {
+        formData2.append('message', menPlant);
+        enviarMensajeEnSegundoPlano(formData2);
+      } else {
+        console.warn('menPlant es undefined o null. No se agregará al formData2.');
+      }
+
+    }
 
 
+    setShouldScrollToLast(true);
+  } catch (error) {
+    console.error('Error al enviar el mensaje:', error);
+  } finally {
+    setLoading(false);
+    setIsFileUploaded(false);
+    setEmojiSelected(false);
 
-
+  }
+};
 
 
   // Función para cargar el archivo
@@ -148,7 +170,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const enviarMensajeEnSegundoPlano = async (formData) => {
     try {
       // Realizar la operación asíncrona
-      await axios.post(
+       await axios.post(
         'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
         formData
       );
@@ -171,7 +193,6 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     }
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -179,7 +200,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
           return;
         }
 
-     
+
 
         const formData = new FormData();
         formData.append('numberw', numeroSeleccionado);
@@ -202,6 +223,14 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
         const prevMessagesLength = mensajes.length;
 
+        // Obtener el último mensaje
+        // const ultimoMensaje = reversedMessages[0];
+
+
+        // if (ultimoMensaje.b1 === "1") {
+        //   console.log("hola", ultimoMensaje.men)
+        // }
+
         // Enfocar el último mensaje
         if (lastMessageRef.current && shouldScrollToLast) {
           lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -211,6 +240,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
         if (reversedMessages.length > prevMessagesLength) {
           setShouldScrollToLast(true);
         }
+
 
       } catch (error) {
         console.error('Error al realizar la petición:', error);
@@ -327,13 +357,43 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
             </div>
           </div>
-          <Logout/>
+          <Logout />
         </div>
         <div className="w-full mt-5 lg:mt-14 pb-[15px] h-[100%] overflow-y-scroll custom-scrollbar3 px-4 md:px-12 bg-gray-100" ref={(ref) => setScrollRef(ref)}>
+          {mostrarPlantilla ?
+            <div className='fixed w-[100%] h-screen left-0 top-0 z-10 bg-black/50'>
+              <div>
+                <div className="max-w-md mx-auto p-4 bg-white rounded-md shadow-md mb-4">
+                  {/* Otros elementos del formulario */}
+                  <label htmlFor="inputTexto" className="block text-sm font-medium text-gray-600">
+                    Input con Texto por Defecto:
+                  </label>
+                  <input
+                    type="text"
+                    id="inputTexto"
+                    name="inputTexto"
+                    ref={mensajePlantilla}
+                    onKeyDown={handleKeyDown}
+                    className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+                  />
+
+                  {/* Botón de envío */}
+                  <button onClick={enviarMensaje}
+                    type="submit"
+                    className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+                  >
+                    Enviar
+                  </button>
+                </div>
+              </div>
+            </div> : ''
+          }
+
           <div className='absolute bottom-16 left-[40px] flex items-center flex-col z-50'>
             {mostrarDiv ?
               <Picker data={data} onEmojiSelect={handleEmojiClick} /> : ''}
           </div>
+
           <ul className="">
             {mensajes.map((mensaje, index) => (
               <li
@@ -404,7 +464,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <input
                 ref={mensajeInputRef}
                 onKeyDown={handleKeyDown}
-                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-14 pr-16 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-14 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                 type="text"
                 placeholder="Escribe algo..."
               />
