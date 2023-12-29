@@ -28,7 +28,7 @@ function ModalPassword() {
                                 {/* <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div> */}
                     <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div>
 
-                    <div className="bg-white w-[500px] p-4 rounded shadow-lg z-50 mr-28">
+                    <div className="bg-white w-[500px] p-4 rounded shadow-lg z-50 lg:mr-28">
                         <h2 className="text-2xl font-semibold mb-4 text-center">Cambiar Contraseña</h2>
 
 
