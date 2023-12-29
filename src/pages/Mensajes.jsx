@@ -142,7 +142,7 @@ function Mensajes() {
                     <div className="flex justify-center flex-col md:flex-row items-start mt-10 h-[80vh] gap-6">
                         <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg">
                             <div>
-                                <label className="label-text font-medium" htmlFor="campana">Nombre Campaña</label>
+                                <label className="label-text font-medium" htmlFor="campana">Nombre Plantilla</label>
                                 <input type="text" id="campana" className="text-input w-full p-2 border rounded" placeholder="Ingrese la Campaña" required />
                             </div>
 

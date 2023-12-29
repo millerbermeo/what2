@@ -9,7 +9,7 @@ function Navbar({ navbar }) {
   return (
 
     <>
-      <nav className={`w-full lg:z-0 relative mt-2 md:mt-0 flex px-2 lg:${navbar} top-0 h-16 bg-gray-200 rounded-lg justify-between items-center pr-3`}>
+      <nav className={`w-full lg:z-0 overflow-hidden relative mt-2 md:mt-0 flex px-0 lg:${navbar} top-0 h-16 bg-gray-200 rounded-lg justify-between items-center pr-3`}>
         {/* Logo */}
         <div className='ml-3 md:hidden text-xl font-bold text-gray-800'>
           <img className='w-52 ' src="negociemoss.png" alt="" />
@@ -20,18 +20,25 @@ function Navbar({ navbar }) {
         {/* Menu Items */}
         <div className='hidden md:flex items-center space-x-0 font-semibold'>
           <Link to="/home">
-            <span className='text-gray-700 hover:bg-red-500 py-5 px-2 hover:text-gray-900'>
+            <span className='text-gray-700 hover:bg-blue-600 hover:text-white py-5 px-2'>
               Chat
             </span>
           </Link>
-          <span className='text-gray-700 hover:bg-red-500 py-5 px-2 hover:text-gray-900'>
+         <Link to="/send">
+         <span className='text-gray-700 hover:bg-blue-600 hover:text-white py-5 px-2'>
             Campañas
           </span>
-          <span className='text-gray-700 hover:bg-red-500 py-5 px-2 hover:text-gray-900'>
+         </Link>
+         <Link to="/perfil">
+         
+         <span className='text-gray-700 hover:bg-blue-600 hover:text-white py-5 px-2 '>
             Perfil
           </span>
+         </Link>
+
+
           <Link to="/contacto">
-            <span className='text-gray-700 hover:bg-red-500 py-5 px-2 hover:text-gray-900'>
+            <span className='text-gray-700 hover:bg-blue-500 py-5 px-2 hover:text-white'>
               Contacto
             </span>
           </Link>

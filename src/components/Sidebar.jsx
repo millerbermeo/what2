@@ -94,14 +94,14 @@ const Sidebar = () => {
                 </div>
                 <div
                   className="sub-menu overflow-hidden duration-300"
-                  style={{ height: isChatOpen ? '90px' : '0' }}
+                  style={{ height: isChatOpen ? '40px' : '0' }}
                 >
                   <ul className="p-2 pl-14">
                     <Link to="/home">
                       <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Panel Chat</li>
                     </Link>
-                    <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Masivos</li>
-                    <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Reportes</li>
+                    {/* <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Masivos</li>
+                    <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Reportes</li> */}
                   </ul>
                 </div>
                 <div
@@ -125,7 +125,7 @@ const Sidebar = () => {
                 >
                   <ul className="p-2 pl-12">
                     <Link to="/mensajes">
-                      <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Crear Campaña</li>
+                      <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla</li>
                     </Link>
                     <Link to="/campanas">
                       <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>

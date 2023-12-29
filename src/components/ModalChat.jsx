@@ -1,52 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState,useRef, useEffect  } from 'react';
 import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
-function ModalChat() {
-  const [isOpen, setIsOpen] = useState(false);
+function ModalChat({numeroSeleccionado}) {
+  const [isOpen, setIsOpen] = useState(true);
   const [inputText, setInputText] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
+  const [mostrarPlantilla, setMostrarPlantilla] = useState(false);
+  const mensajePlantilla = useRef(null);
+  const [options, setOptions] = useState([]);
 
   const toggleModal = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(true); // Cambiar isOpen
+    setMostrarPlantilla(true);
   };
 
-  const submitDatos = (e) => {
-    e.preventDefault();
-
-    // Verifica si los campos de inputText y selectedOption están llenos
-    if (inputText.trim() !== '' && selectedOption.trim() !== '') {
-      Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Los datos se han procesado con éxito.',
+  useEffect(() => {
+    // Realiza la solicitud utilizando Axios
+    axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php')
+      .then(response => {
+        // Actualiza el estado con las opciones del select
+        setOptions(response.data);
+      })
+      .catch(error => {
+        // Maneja errores aquí
+        console.error('Error al realizar la solicitud:', error);
       });
+  }, []);
 
-      toggleModal();
-    } else {
-      // Muestra una alerta o realiza alguna acción en caso de campos vacíos
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Complete los campos requeridos',
-      });
+  const enviarMensajePlantilla = async () => {
+    const menPlant = mensajePlantilla.current?.value;
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    const number_a = user && user.number_a;
+
+    // Validación para permitir continuar con el código
+    // if (menPlant === null || menPlant === undefined) {
+    //   console.warn('menPlant es null o undefined. El mensaje se enviará sin menPlant.');
+    // }
+
+    if (numeroSeleccionado === null || numeroSeleccionado === undefined) {
+      console.warn('numeroSeleccionado es null o undefined. El mensaje no se enviará.');
+      return;
     }
-  };
 
-  const handleTextChange = (e) => {
-    setInputText(e.target.value);
-  };
+    const formData = new FormData();
+    formData.append('numberw', numeroSeleccionado);
+    formData.append('nombre_p', menPlant);
+    formData.append('number_a', number_a);
 
-  const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
+    // Realiza la solicitud POST utilizando Axios
+    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php', formData)
+      .then(response => {
+        // Maneja la respuesta del servidor aquí
+        console.log(response.data);
+      })
+      .catch(error => {
+        // Maneja errores aquí
+        console.error('Error al realizar la solicitud:', error);
+      });
 
-  const options = [
-    { value: 'option1', label: 'Opción 1' },
-    { value: 'option2', label: 'Opción 2' },
-    { value: 'option3', label: 'Opción 3' },
-  ];
+      setIsOpen(false)
+      setMostrarPlantilla(false)
+  }
+
 
   return (
     <>
@@ -70,62 +89,54 @@ function ModalChat() {
         leaveFrom="lg:opacity-100"
         leaveTo="lg:opacity-0"
       >
-        {() => (
-          <div className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
-            <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div>
+  {mostrarPlantilla ?
+      <div className='fixed w-full h-screen flex items-center justify-center left-0 top-0 z-10 bg-black/50'>
 
-            <div className="bg-white w-96 p-4 rounded shadow-lg z-50">
-              <h2 className="text-2xl font-semibold mb-4 text-center">Nuevo Chat</h2>
-
-              <form action="" method="post">
-                <div className="mb-4">
-                  <input
-                    required
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="text"
-                    placeholder="Ingresa texto"
-                    value={inputText}
-                    onChange={handleTextChange}
-                  />
-                </div>
-
-                <div className="mb-4">
+              <div>
+                <div className="max-w-md mx-auto w-96 p-4 bg-white rounded-md shadow-md mb-4">
+                  {/* Otros elementos del formulario */}
+                  <label htmlFor="inputTexto" className="block text-sm font-medium text-gray-600">
+                    select Plantilla
+                  </label>
+                  {/* Cambia el input a un select */}
                   <select
-                    required
-                    className="w-full p-2 border border-gray-300 rounded"
-                    value={selectedOption}
-                    onChange={handleSelectChange}
+                    id="inputTexto"
+                    name="inputTexto"
+                    ref={mensajePlantilla}
+                    className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
                   >
-                    <option value="" disabled>
-                      Selecciona una opción
-                    </option>
-                    {options.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
+                    {/* Mapea las opciones del estado para llenar el select */}
+                    {options.map(option => (
+                      <option key={option.id} value={option.nombre}>
+                        {option.nombre}
                       </option>
                     ))}
                   </select>
-                </div>
 
-                <div className="flex justify-end gap-3">
+                  {/* Botón de envío */}
+                  <div className='flex gap-2'>
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                    onClick={toggleModal}
-                  >
-                    Cerrar
-                  </button>
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    onClick={enviarMensajePlantilla}
                     type="submit"
-                    onClick={submitDatos}
+                    className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
                   >
                     Enviar
                   </button>
+
+                  <button
+                   onClick={() => {
+                    setIsOpen(false);
+                    setMostrarPlantilla(false);
+                  }}
+                    className="mt-4 bg-red-500 text-white p-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring focus:border-red-300"
+                  >
+                    Cerrar
+                  </button>
+                  </div>
                 </div>
-              </form>
-            </div>
-          </div>
-        )}
+              </div>
+            </div> : ''
+          }
       </Transition>
     </>
   );

@@ -168,7 +168,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                     <ModalAgenda onSelectedOption={handleSelectedOption} />
                     </div>
                     <div className='w-[50%]'>
-                        <ModalChat />
+                        <ModalChat numeroSeleccionado={numeroSeleccionado} />
                     </div>
                 </div>
 

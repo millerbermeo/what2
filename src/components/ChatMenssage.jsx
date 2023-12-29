@@ -19,6 +19,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [loading, setLoading] = useState(false);
   const [isFileUploaded, setIsFileUploaded] = useState(false); // Nuevo estado
   const [textoPorDefecto, setTextoPorDefecto] = useState('Texto por defecto');
+  const [options, setOptions] = useState([]);
 
 
   // console.log("----------------");
@@ -61,96 +62,130 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const mensajeInputRef = useRef(null);
   const archivoInputRef = useRef(null);
   const mensajePlantilla = useRef(null);
-  
+
+  useEffect(() => {
+    // Realiza la solicitud utilizando Axios
+    axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php')
+      .then(response => {
+        // Actualiza el estado con las opciones del select
+        setOptions(response.data);
+      })
+      .catch(error => {
+        // Maneja errores aquí
+        console.error('Error al realizar la solicitud:', error);
+      });
+  }, []);
 
 
-
-const enviarMensaje = async () => {
-  try {
-    setLoading(true);
-    setMostrarDiv(false);
-
+  const enviarMensajePlantilla = async () => {
     const menPlant = mensajePlantilla.current?.value;
-
-    // Validación para permitir continuar con el código
-    if (menPlant === null || menPlant === undefined) {
-      console.warn('menPlant es null o undefined. El mensaje se enviará sin menPlant.');
-    }
-
-    const selectedFile = archivoInputRef.current.files[0];
-    const type_file = selectedFile ? 'document' : 'text';
 
     const user = JSON.parse(localStorage.getItem('user'));
     const number_a = user && user.number_a;
 
-    if (numeroSeleccionado === null || numeroSeleccionado === undefined) {
-      console.error('El número seleccionado no puede ser null');
-      setLoading(false);
-      return;
-    }
+    // Validación para permitir continuar con el código
+    // if (menPlant === null || menPlant === undefined) {
+    //   console.warn('menPlant es null o undefined. El mensaje se enviará sin menPlant.');
+    // }
 
-    const formData2 = new FormData();
-    formData2.append('numberw', numeroSeleccionado);
-    formData2.append('number_a', number_a);
+    const formData = new FormData();
+    formData.append('numberw', numeroSeleccionado);
+    formData.append('nombre_p', menPlant);
+    formData.append('number_a', number_a);
 
-    const trimmedMessage = mensajeInputRef.current.value.trim();
+    // Realiza la solicitud POST utilizando Axios
+    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php', formData)
+      .then(response => {
+        // Maneja la respuesta del servidor aquí
+        console.log(response.data);
+      })
+      .catch(error => {
+        // Maneja errores aquí
+        console.error('Error al realizar la solicitud:', error);
+      });
 
-    // Solo agrega el mensaje al FormData si menPlant está vacío
-    if (!menPlant) {
-      formData2.append('message', trimmedMessage);
-    }
-
-    formData2.append('type_m', type_file);
-
-    // Agrega el archivo al FormData solo si se selecciona uno
-    if (selectedFile && type_file === 'document') {
-      formData2.append('document_w', selectedFile);
-      setLoading(true);
-      setIsFileUploaded(true);
-    } else {
-      setLoading(false);
-    }
-
-    mensajeInputRef.current.value = '';
-    archivoInputRef.current.value = '';
-
-    const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php', formData2);
-    console.log(response);
-
-    console.log('Datos de la respuesta:', response.data);
-
-    if (response.data.trim() === 'Mensaje') {
-      setMostrarPlantilla(false);
-      await Promise.all([
-        enviarMensajeEnSegundoPlano(formData2),
-        cargarArchivo(selectedFile),
-      ]);
-    }
-
-    
-
-    if (response.data.trim() === 'Plantilla') {
       setMostrarPlantilla(!mostrarPlantilla);
-      if (menPlant !== undefined && menPlant !== null) {
-        formData2.append('message', menPlant);
-        enviarMensajeEnSegundoPlano(formData2);
-      } else {
-        console.warn('menPlant es undefined o null. No se agregará al formData2.');
-      }
-
-    }
-
-
-    setShouldScrollToLast(true);
-  } catch (error) {
-    console.error('Error al enviar el mensaje:', error);
-  } finally {
-    setLoading(false);
-    setIsFileUploaded(false);
-    setEmojiSelected(false);
 
   }
-};
+
+
+  const enviarMensaje = async () => {
+    try {
+      setLoading(true);
+      setMostrarDiv(false);
+
+
+
+      const selectedFile = archivoInputRef.current.files[0];
+      const type_file = selectedFile ? 'document' : 'text';
+
+      const user = JSON.parse(localStorage.getItem('user'));
+      const number_a = user && user.number_a;
+
+      if (numeroSeleccionado === null || numeroSeleccionado === undefined) {
+        console.error('El número seleccionado no puede ser null');
+        setLoading(false);
+        return;
+      }
+
+      const formData2 = new FormData();
+      formData2.append('numberw', numeroSeleccionado);
+      formData2.append('number_a', number_a);
+
+      const trimmedMessage = mensajeInputRef.current.value.trim();
+      if (trimmedMessage || selectedFile) {
+        formData2.append('message', trimmedMessage);
+      } else {
+        // Both message and file input are empty, do not send the message
+        setLoading(false);
+        return;
+      }
+
+
+      formData2.append('type_m', type_file);
+
+      // Agrega el archivo al FormData solo si se selecciona uno
+      if (selectedFile && type_file === 'document') {
+        formData2.append('document_w', selectedFile);
+        setLoading(true);
+        setIsFileUploaded(true);
+      } else {
+        setLoading(false);
+      }
+
+      mensajeInputRef.current.value = '';
+      archivoInputRef.current.value = '';
+
+      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php', formData2);
+      console.log(response);
+
+      console.log('Datos de la respuesta:', response.data);
+
+      if (response.data.trim() === 'Mensaje') {
+        setMostrarPlantilla(false);
+        await Promise.all([
+          enviarMensajeEnSegundoPlano(formData2),
+          cargarArchivo(selectedFile),
+        ]);
+      }
+
+
+
+      if (response.data.trim() === 'Plantilla') {
+        setMostrarPlantilla(!mostrarPlantilla);
+      }
+
+
+      setShouldScrollToLast(true);
+    } catch (error) {
+      console.error('Error al enviar el mensaje:', error);
+    } finally {
+      setLoading(false);
+      setIsFileUploaded(false);
+      setEmojiSelected(false);
+
+    }
+  };
 
 
   // Función para cargar el archivo
@@ -170,7 +205,7 @@ const enviarMensaje = async () => {
   const enviarMensajeEnSegundoPlano = async (formData) => {
     try {
       // Realizar la operación asíncrona
-       await axios.post(
+      await axios.post(
         'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
         formData
       );
@@ -361,24 +396,31 @@ const enviarMensaje = async () => {
         </div>
         <div className="w-full mt-5 lg:mt-14 pb-[15px] h-[100%] overflow-y-scroll custom-scrollbar3 px-4 md:px-12 bg-gray-100" ref={(ref) => setScrollRef(ref)}>
           {mostrarPlantilla ?
-            <div className='fixed w-[100%] h-screen left-0 top-0 z-10 bg-black/50'>
+      <div className='fixed w-full h-screen flex items-center justify-center left-0 top-0 z-10 bg-black/50'>
               <div>
-                <div className="max-w-md mx-auto p-4 bg-white rounded-md shadow-md mb-4">
+                <div className="max-w-md w-96 mx-auto p-4 bg-white rounded-md shadow-md mb-4">
                   {/* Otros elementos del formulario */}
                   <label htmlFor="inputTexto" className="block text-sm font-medium text-gray-600">
-                    Input con Texto por Defecto:
+                    select Plantilla
                   </label>
-                  <input
-                    type="text"
+                  {/* Cambia el input a un select */}
+                  <select
                     id="inputTexto"
                     name="inputTexto"
                     ref={mensajePlantilla}
-                    onKeyDown={handleKeyDown}
                     className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
-                  />
+                  >
+                    {/* Mapea las opciones del estado para llenar el select */}
+                    {options.map(option => (
+                      <option key={option.id} value={option.nombre}>
+                        {option.nombre}
+                      </option>
+                    ))}
+                  </select>
 
                   {/* Botón de envío */}
-                  <button onClick={enviarMensaje}
+                  <button
+                    onClick={enviarMensajePlantilla}
                     type="submit"
                     className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
                   >
