@@ -24,59 +24,66 @@ function ModalPassword() {
             </div>
 
             {isOpen && (
-                <div className="fixed inset-0 flex items-center justify-end w-full z-50 p-4 lg:p-0">
-                                {/* <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div> */}
+                <div className="fixed inset-0 flex items-center justify-center w-full z-50 p-4 lg:p-0">
+                    {/* <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div> */}
                     <div className="absolute inset-0 bg-black opacity-50" onClick={toggleModal}></div>
 
-                    <div className="bg-white w-[500px] p-4 rounded shadow-lg z-50 lg:mr-28">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Cambiar Contraseña</h2>
-
+                    <div className="bg-white w-[500px] p-6 rounded shadow-lg z-50">
+                        <h2 className="text-3xl font-thin mb-6 text-center">Cambiar Contraseña</h2>
 
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-5 relative">
-                                <label htmlFor="pass" className="mb-2 block  text-gray-500 font-medium">Contraseña Actual</label>
-                                <input type="text" id="pass" name="pass" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
-                                {/* <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">Error, debe ingresar el username</p> */}
-                                <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
-                                <FontAwesomeIcon icon={faLock} />
-                                </span>
+                            {/* Contraseña Actual */}
+                            <div className="mb-6 relative">
+                                <label htmlFor="pass" className="mb-2 block text-gray-600 font-medium">Contraseña Actual</label>
+                                <div className="relative">
+                                    <input type="password" id="pass" name="pass" placeholder="Ingrese su contraseña actual" className="border p-3 pl-10 w-full rounded-lg" />
+                                    <span className='absolute left-3 top-1 text-[20px] text-gray-500'>
+                                        <FontAwesomeIcon icon={faLock} />
+                                    </span>
+                                </div>
                             </div>
 
                             {/* Nueva Contraseña */}
-                            <div className="mb-5 relative">
-                                <label htmlFor="pass2" className="mb-2 block  text-gray-500 font-medium">Nueva Contraseña</label>
-                                <input type="text" id="pass2" name="pass2" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
-                                <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
-                                <FontAwesomeIcon icon={faLock} />
-                                </span>
+                            <div className="mb-6 relative">
+                                <label htmlFor="pass2" className="mb-2 block text-gray-600 font-medium">Nueva Contraseña</label>
+                                <div className="relative">
+                                    <input type="password" id="pass2" name="pass2" placeholder="Ingrese su nueva contraseña" className="border p-3 pl-10 w-full rounded-lg" />
+                                    <span className='absolute left-3 top-1 text-[20px] text-gray-500'>
+                                        <FontAwesomeIcon icon={faLock} />
+                                    </span>
+                                </div>
                             </div>
 
-                            <div className="mb-5 relative">
-                                <label htmlFor="pass3" className="mb-2 block  text-gray-500 font-medium">Repetir Contraseña</label>
-                                <input type="text" id="pass3" name="pass3" placeholder="password" className="border p-3 pl-9 w-full rounded-lg" />
-                                <span className='absolute left-2 top-10 text-[20px] text-gray-500'>
-                                <FontAwesomeIcon icon={faLock} />
-                                </span>
+                            {/* Repetir Contraseña */}
+                            <div className="mb-6 relative">
+                                <label htmlFor="pass3" className="mb-2 block text-gray-600 font-medium">Repetir Contraseña</label>
+                                <div className="relative">
+                                    <input type="password" id="pass3" name="pass3" placeholder="Repita su nueva contraseña" className="border p-3 pl-10 w-full rounded-lg" />
+                                    <span className='absolute left-3 top-1 text-[20px] text-gray-500'>
+                                        <FontAwesomeIcon icon={faLock} />
+                                    </span>
+                                </div>
                             </div>
 
+                            <div className="flex justify-end gap-4">
+                                <button
+                                    type="button"
+                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                    onClick={toggleModal}
+                                >
+                                    Cerrar
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                                >
+                                    Enviar
+                                </button>
+                            </div>
                         </form>
-
-                        <div className="flex justify-end gap-3">
-                            <button
-                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                                onClick={toggleModal}
-                            >
-                                Cerrar
-                            </button>
-
-                            <button
-                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                                type="submit"
-                            >
-                                Enviar
-                            </button>
-                        </div>
                     </div>
+
 
                 </div>
             )}

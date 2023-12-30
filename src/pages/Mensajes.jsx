@@ -1,12 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile, faImage } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 
 function Mensajes() {
+    const campanaRef = useRef(null);
+    const textoRef = useRef(null);
+
+    const imagen = useRef(null);
+    const docu = useRef(null);
+    const [loading, setLoading] = useState(false);
+    const [loading2, setLoading2] = useState(false);
+    const [loading3, setLoading3] = useState(false);
+
+
     useEffect(() => {
-        const endpoint = "";
 
         function previewImage(input, previewId) {
             const preview = document.getElementById(previewId);
@@ -46,49 +56,15 @@ function Mensajes() {
 
         function updateTextPreview(input, previewId) {
             const preview = document.getElementById(previewId);
-            console.log('Texto actualizado:', input.value);
             preview.textContent = input.value;
         }
 
-        function sendData() {
-            const campana = document.getElementById('campana').value;
-            const texto = document.getElementById('texto').value;
+        // ... (código anterior)
 
-            if (campana.trim() === '' || texto.trim() === '') {
-                console.log('Por favor, complete todos los campos antes de enviar.');
-                return;
-            }
 
-            let contenido;
-            if (document.getElementById('mostrar-imagen-doc').innerHTML !== '') {
-                contenido = document.getElementById('mostrar-imagen-doc').innerHTML;
-            } else if (document.getElementById('mostrar-documento').textContent !== 'No se ha seleccionado ningún documento') {
-                contenido = document.getElementById('mostrar-documento').textContent;
-            } else {
-                contenido = 'No se ha seleccionado contenido';
-            }
 
-            const data = {
-                campana,
-                texto,
-                contenido,
-            };
+        // ... (resto del código)
 
-            fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .then(result => {
-                    console.log('Solicitud exitosa:', result);
-                })
-                .catch(error => {
-                    console.error('Error al enviar la solicitud:', error);
-                });
-        }
 
         const handleImageChange = function () {
             console.log('Cambio en el input de imagen.');
@@ -103,82 +79,166 @@ function Mensajes() {
         };
 
         const handleTextChange = function () {
-            console.log('Cambio en el input de texto.');
             updateTextPreview(this, 'mostrar-texto');
         };
 
-        const handleButtonClick = function () {
-            console.log('Enviando datos al servidor...');
-            sendData();
-        };
+
 
         document.getElementById('imagenInput').addEventListener('change', handleImageChange);
         document.getElementById('documentoInput').addEventListener('change', handleDocumentChange);
         document.getElementById('texto').addEventListener('input', handleTextChange);
-        document.getElementById('submit-button').addEventListener('click', handleButtonClick);
 
-        // Cleanup event listeners when component unmounts
         // return () => {
         //     document.getElementById('imagenInput').removeEventListener('change', handleImageChange);
         //     document.getElementById('documentoInput').removeEventListener('change', handleDocumentChange);
         //     document.getElementById('texto').removeEventListener('input', handleTextChange);
-        //     document.getElementById('submit-button').removeEventListener('click', handleButtonClick);
         // };
-
-
     }, []);
+
+
+
+
+    const sendData = async () => {
+        const number_a = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).number_a : null;
+
+        const campanaValue = campanaRef.current.value.trim();
+
+
+        const textoValue = textoRef.current.value;
+
+        if (!campanaValue || !textoValue) {
+            console.error('Campos obligatorios vacíos');
+            setLoading3(true); 
+            // Puedes mostrar un mensaje al usuario indicando que los campos son obligatorios
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('nombre_p', campanaRef.current.value);
+        formData.append('contenido', textoRef.current.value);
+        formData.append('number_a', number_a);
+
+
+        const imagenInput = imagen.current.files[0];  // Cambio aquí
+        const documentoInput = docu.current.files[0];  // Cambio aquí
+
+        if (imagenInput) {
+            formData.append('type_m', 'image');
+            formData.append('document_w', imagenInput);
+        } else if (documentoInput) {
+            formData.append('type_m', 'document');
+            formData.append('document_w', documentoInput);
+        } else {
+            formData.append('type_m', 'text');
+            formData.append('document_w', ''); // Ajusta esto según tus necesidades o déjalo vacío si no necesitas un valor para contenido de texto
+        }
+
+        console.log("holamenudo-----------------------------------------------------")
+
+        for (let pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
+        }
+        console.log("holamenudo-----------------------------------------------------")
+        setLoading(true);
+        await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_crear_p_masiva.php', formData)
+            .then(response => {
+                console.log('Solicitud exitosa:', response.data);
+
+                // Limpiar los campos después de enviar el formulario
+                imagen.current.value = "";
+                docu.current.value = "";
+                textoRef.current.value = "";
+                campanaRef.current.value = "";
+
+                // También puedes limpiar las vistas previas de imagen y documento si es necesario
+                document.getElementById('mostrar-imagen-doc').innerHTML = '';
+                document.getElementById('mostrar-documento').textContent = '';
+            })
+            .catch(error => {
+                setLoading2(true); 
+                console.error('Error al enviar la solicitud:', error);
+        
+            })
+            .finally(() => {
+                setLoading(false);
+                // Ocultar loader al finalizar la solicitud, ya sea éxito o error
+            });
+    }
+
+
 
     return (
         <>
             <div className="flex">
-            <div className='md:relative md:z-0'>
-                <Sidebar />
+                <div className='md:relative md:z-0'>
+                    <Sidebar />
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
-                    {/* <div className='w-full flex flex-col lg:flex-row overflow-hidden h-[88vh] md:h-auto rounded-lg mt-2 lg:mt-2 border gap-10 md:gap-0'>
-              
-                    </div> */}
                     <div className="flex justify-center flex-col md:flex-row items-start mt-10 h-[80vh] gap-6">
-                        <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg">
+                        <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg border">
                             <div>
-                                <label className="label-text font-medium" htmlFor="campana">Nombre Plantilla</label>
-                                <input type="text" id="campana" className="text-input w-full p-2 border rounded" placeholder="Ingrese la Campaña" required />
+                                <label className="label-text font-medium text-xl" htmlFor="campana">Nombre Plantilla:</label>
+                                <input type="text" id="campana" ref={campanaRef} className="text-input w-full p-2 mt-2 border rounded" placeholder="Ingrese la plantilla" required />
+                                {loading2 && (
+                                    <div className="loader-container text-blue-500 mt-2">
+                                        {/* Agrega aquí el código para tu loader (puedes usar bibliotecas como react-loader-spinner, etc.) */}
+                                        La Plantilla ya existe o Contiene espacios
+                                    </div>
+                                )}
+
+
                             </div>
 
                             <div className="mt-4">
-                                <label htmlFor="texto" className="label-text font-medium">Nuevo Mensaje:</label>
-                                <textarea id="texto" name="texto" placeholder="Escriba su mensaje aquí..." className="w-full p-2 border rounded"></textarea>
+                                <label htmlFor="texto" className="label-text font-medium text-xl">Nuevo Mensaje:</label>
+                                <textarea id="texto" name="texto" ref={textoRef} placeholder="Escriba su mensaje aquí..." className="w-full p-2 mt-2 border rounded"></textarea>
+                                {loading3 && (
+                                    <div className="loader-container text-blue-500 mt-2">
+                                        {/* Agrega aquí el código para tu loader (puedes usar bibliotecas como react-loader-spinner, etc.) */}
+                                        Campo Requerido
+                                    </div>
+                                )}
                             </div>
 
                             <div className="card-container flex mt-4 space-x-4 justify-center">
-                                <label htmlFor="imagenInput" className='bg-gray-700 p-2 rounded w-44'>
+                                <label htmlFor="imagenInput" className='bg-gray-700 p-2 rounded w-full cursor-pointer'>
                                     <div className="card flex flex-col items-center justify-center text-white">
                                         <FontAwesomeIcon icon={faImage} className="text-2xl text-white" />
                                         <div>Imagen</div>
-                                        <input type="file" id="imagenInput" accept="image/*" />
-                                        <div className="placeholder">No Selecionada</div>
+                                        <input type="file" id="imagenInput" ref={imagen} accept="image/*" />
+                                        <div className="placeholder">No Seleccionada</div>
                                     </div>
                                 </label>
 
-                                <label htmlFor="documentoInput" className='bg-gray-700 p-2 rounded w-44'>
+                                <label htmlFor="documentoInput" className='bg-gray-700 p-2 rounded w-full cursor-pointer'>
                                     <div className="card flex flex-col items-center justify-center text-white">
                                         <FontAwesomeIcon icon={faFile} className="text-2xl text-white" />
                                         <div>Documento</div>
-                                        <input type="file" id="documentoInput" accept=".pdf, .doc, .docx" />
-                                        <div className="placeholder">No Seleccinado</div>
+                                        <input type="file" id="documentoInput" ref={docu} accept=".pdf, .doc, .docx" />
+                                        <div className="placeholder">No Seleccionado</div>
                                     </div>
                                 </label>
                             </div>
                         </div>
 
-                        <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg mt-0">
-                            <div id="mostrar-imagen-doc" className='w-64 overflow-hidden max-h-44 m-auto'></div>
-                            <div id="mostrar-documento" className='bg-blue-300 rounded w-auto break-all'></div>
-                            <span className="block mt-4 text-lg font-semibold">Mensaje:</span>
-                            <div id="mostrar-texto" className="break-all p-2 rounded shadow mt-2 max-h-20 overflow-y-auto"></div>
 
-                            <button id="submit-button" type="submit" className="mt-4 bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">Enviar</button>
+
+                        <div className="w-full max-w-2xl relative p-8 bg-white rounded-lg mt-0 border border-gray-300 shadow-lg">
+                            <div id="mostrar-imagen-doc" className='w-64 bg-white overflow-hidden max-h-44 m-auto'></div>
+                            <div id="mostrar-documento" className='bg-blue-300 rounded w-auto break-all'></div>
+                            <span className="block mt-4 text-xl font-semibold text-black">Mensaje:</span>
+                            <div id="mostrar-texto" className="break-all bg-gray-200 p-4 rounded shadow mt-2 max-h-20 overflow-y-auto"></div>
+
+                            <button id="submit-button" onClick={sendData} type="submit" className="mt-4 bg-gray-700 text-white px-4 py-2 rounded cursor-pointer">Enviar</button>
+                            {loading && (
+                                <div className="loader-container absolute left-32 bottom-10">
+                                    {/* Agrega aquí el código para tu loader (puedes usar bibliotecas como react-loader-spinner, etc.) */}
+                                    Cargando...
+                                </div>
+                            )}
+
+
                         </div>
                     </div>
                 </main>

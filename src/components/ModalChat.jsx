@@ -115,13 +115,7 @@ function ModalChat({numeroSeleccionado}) {
 
                   {/* Botón de envío */}
                   <div className='flex gap-2'>
-                  <button
-                    onClick={enviarMensajePlantilla}
-                    type="submit"
-                    className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
-                  >
-                    Enviar
-                  </button>
+               
 
                   <button
                    onClick={() => {
@@ -131,6 +125,14 @@ function ModalChat({numeroSeleccionado}) {
                     className="mt-4 bg-red-500 text-white p-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring focus:border-red-300"
                   >
                     Cerrar
+                  </button>
+
+                  <button
+                    onClick={enviarMensajePlantilla}
+                    type="submit"
+                    className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+                  >
+                    Enviar
                   </button>
                   </div>
                 </div>

@@ -20,25 +20,25 @@ function Navbar({ navbar }) {
         {/* Menu Items */}
         <div className='hidden md:flex items-center space-x-0 font-semibold'>
           <Link to="/home">
-            <span className='text-gray-700 hover:bg-blue-600 hover:text-white py-5 px-2'>
+            <span className='text-white bg-blue-600 hover:text-white py-[22px] px-5'>
               Chat
             </span>
           </Link>
          <Link to="/send">
-         <span className='text-gray-700 hover:bg-blue-600 hover:text-white py-5 px-2'>
+         <span className='text-gray-700 hover:bg-blue-500 hover:text-white py-[22px] px-5'>
             Campañas
           </span>
          </Link>
          <Link to="/perfil">
          
-         <span className='text-gray-700 hover:bg-blue-600 hover:text-white py-5 px-2 '>
+         <span className='text-gray-700 hover:bg-blue-500 hover:text-white py-[22px] px-5'>
             Perfil
           </span>
          </Link>
 
 
           <Link to="/contacto">
-            <span className='text-gray-700 hover:bg-blue-500 py-5 px-2 hover:text-white'>
+            <span className='text-gray-700 hover:bg-blue-500 py-[22px] px-5 hover:text-white'>
               Contacto
             </span>
           </Link>

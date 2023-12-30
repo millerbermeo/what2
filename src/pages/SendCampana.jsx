@@ -219,12 +219,8 @@ function SendCampana() {
 
       // Convertir la lista de numbers a una cadena y agregarla a FormData
       const lista = selectedNumbers.join(','); // Puedes ajustar el delimitador según tus necesidades
-      formData.append('nombre_m', lista);
+      formData.append('number_m', lista);
 
-      console.log('number_a:', number_a);
-      console.log('nombre_p:', selectedItem);
-      console.log('nombre_m:', lista);
-      console.log('Datos a enviar:', formData);
 
       // Realizar la solicitud POST con Axios
       axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_crear_c_masiva.php', formData)
