@@ -4,7 +4,7 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faDownload, faFile, faRightFromBracket, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Logout from './logout';
+import Logout from './Logout';
 
 function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [mensajes, setMensajes] = useState([]);

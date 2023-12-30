@@ -168,7 +168,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                     <ModalAgenda onSelectedOption={handleSelectedOption} />
                     </div>
                     <div className='w-[50%]'>
-                        <ModalChat numeroSeleccionado={numeroSeleccionado} />
+                        <ModalChat />
                     </div>
                 </div>
 
@@ -192,7 +192,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                         <span>TODOS</span>
                     </div>
                     <div className='w-[50%] bg-slate-500 hover:bg-slate-800 grid place-content-center font-bold text-white rounded cursor-pointer' onClick={handleNoLeidosClick}>
-                        <span className='uppercase'>NO LEIíDOS</span>
+                        <span className='uppercase'>NO LEíDOS</span>
                     </div>
 
                 </div>

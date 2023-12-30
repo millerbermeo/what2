@@ -61,7 +61,7 @@ function Campanas() {
                                                 <td className="py-3 px-4">{campana.nombre_p}</td>
                                                 <td className="py-3 px-4">
                                                     <div>
-                                                        <div className="w-52 flex max-h-40 overflow-auto break-all">
+                                                        <div className="w-52 flex max-h-30 overflow-auto break-all">
                                                             {expandedNumbers[index] ? campana.number_m : campana.number_m.slice(0, 40) + "..."}
                                                         </div>
                                                         <button

@@ -1,16 +1,18 @@
-import React, { useState,useRef, useEffect  } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
-function ModalChat({numeroSeleccionado}) {
+function ModalChat() {
   const [isOpen, setIsOpen] = useState(true);
   const [inputText, setInputText] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
   const [mostrarPlantilla, setMostrarPlantilla] = useState(false);
   const mensajePlantilla = useRef(null);
   const [options, setOptions] = useState([]);
+
+  let numbero_enviar = useRef()
 
   const toggleModal = () => {
     setIsOpen(true); // Cambiar isOpen
@@ -41,13 +43,13 @@ function ModalChat({numeroSeleccionado}) {
     //   console.warn('menPlant es null o undefined. El mensaje se enviará sin menPlant.');
     // }
 
-    if (numeroSeleccionado === null || numeroSeleccionado === undefined) {
+    if (numbero_enviar.current.value === null || numbero_enviar.current.value === undefined) {
       console.warn('numeroSeleccionado es null o undefined. El mensaje no se enviará.');
       return;
     }
 
     const formData = new FormData();
-    formData.append('numberw', numeroSeleccionado);
+    formData.append('numberw', numbero_enviar.current.value);
     formData.append('nombre_p', menPlant);
     formData.append('number_a', number_a);
 
@@ -62,8 +64,8 @@ function ModalChat({numeroSeleccionado}) {
         console.error('Error al realizar la solicitud:', error);
       });
 
-      setIsOpen(false)
-      setMostrarPlantilla(false)
+    setIsOpen(false)
+    setMostrarPlantilla(false)
   }
 
 
@@ -89,39 +91,46 @@ function ModalChat({numeroSeleccionado}) {
         leaveFrom="lg:opacity-100"
         leaveTo="lg:opacity-0"
       >
-  {mostrarPlantilla ?
-      <div className='fixed w-full h-screen flex items-center justify-center left-0 top-0 z-10 bg-black/50'>
+        {mostrarPlantilla ?
+          <div className='fixed w-full h-screen flex items-center justify-center left-0 top-0 z-10 bg-black/50'>
 
-              <div>
-                <div className="max-w-md mx-auto w-96 p-4 bg-white rounded-md shadow-md mb-4">
-                  {/* Otros elementos del formulario */}
-                  <label htmlFor="inputTexto" className="block text-sm font-medium text-gray-600">
-                    select Plantilla
-                  </label>
-                  {/* Cambia el input a un select */}
-                  <select
-                    id="inputTexto"
-                    name="inputTexto"
-                    ref={mensajePlantilla}
-                    className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
-                  >
-                    {/* Mapea las opciones del estado para llenar el select */}
-                    {options.map(option => (
-                      <option key={option.id} value={option.nombre}>
-                        {option.nombre}
-                      </option>
-                    ))}
-                  </select>
+            <div>
+              <div className="max-w-md mx-auto w-96 p-4 bg-white rounded-md shadow-md mb-4">
 
-                  {/* Botón de envío */}
-                  <div className='flex gap-2'>
-               
+
+                <label htmlFor="" className='font-semibold text-gray-600'>Ingresa un Numero</label>
+                <input className="p-2 border mt-2 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300" type="text" ref={numbero_enviar} placeholder='ingresa un numero' />
+
+
+
+                {/* Otros elementos del formulario */}
+                <label htmlFor="inputTexto" className="block mt-2 font-medium text-gray-600">
+                  Selecciona Plantilla
+                </label>
+                {/* Cambia el input a un select */}
+                <select
+                  id="inputTexto"
+                  name="inputTexto"
+                  ref={mensajePlantilla}
+                  className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+                >
+                  {/* Mapea las opciones del estado para llenar el select */}
+                  {options.map(option => (
+                    <option key={option.id} value={option.nombre}>
+                      {option.nombre}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Botón de envío */}
+                <div className='flex gap-2'>
+
 
                   <button
-                   onClick={() => {
-                    setIsOpen(false);
-                    setMostrarPlantilla(false);
-                  }}
+                    onClick={() => {
+                      setIsOpen(false);
+                      setMostrarPlantilla(false);
+                    }}
                     className="mt-4 bg-red-500 text-white p-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring focus:border-red-300"
                   >
                     Cerrar
@@ -134,11 +143,11 @@ function ModalChat({numeroSeleccionado}) {
                   >
                     Enviar
                   </button>
-                  </div>
                 </div>
               </div>
-            </div> : ''
-          }
+            </div>
+          </div> : ''
+        }
       </Transition>
     </>
   );
