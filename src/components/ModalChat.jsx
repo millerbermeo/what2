@@ -11,6 +11,8 @@ function ModalChat() {
   const [mostrarPlantilla, setMostrarPlantilla] = useState(false);
   const mensajePlantilla = useRef(null);
   const [options, setOptions] = useState([]);
+  const [Campo, setCampo] = useState(false)
+  const [Campo2, setCampo2] = useState(false)
 
   let numbero_enviar = useRef()
 
@@ -43,13 +45,26 @@ function ModalChat() {
     //   console.warn('menPlant es null o undefined. El mensaje se enviará sin menPlant.');
     // }
 
-    if (numbero_enviar.current.value === null || numbero_enviar.current.value === undefined) {
-      console.warn('numeroSeleccionado es null o undefined. El mensaje no se enviará.');
+    const numeroEnviar = numbero_enviar.current.value;
+
+    if (!numeroEnviar) {
+      console.warn('El número de envío es obligatorio. El mensaje no se enviará.');
+      setCampo(true)
+      setCampo2(false)
       return;
     }
 
+    if (numeroEnviar.length < 8) {
+      console.warn('El número de envío es obligatorio. El mensaje no se enviará.');
+      setCampo2(true)
+      setCampo(false)
+      return;
+    }
+
+
+
     const formData = new FormData();
-    formData.append('numberw', numbero_enviar.current.value);
+    formData.append('numberw', numeroEnviar);
     formData.append('nombre_p', menPlant);
     formData.append('number_a', number_a);
 
@@ -97,30 +112,44 @@ function ModalChat() {
             <div>
               <div className="max-w-md mx-auto w-96 p-4 bg-white rounded-md shadow-md mb-4">
 
+                <div>
 
-                <label htmlFor="" className='font-semibold text-gray-600'>Ingresa un Numero</label>
-                <input className="p-2 border mt-2 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300" type="text" ref={numbero_enviar} placeholder='ingresa un numero' />
+                  <label htmlFor="" className='text-lg text-gray-600'>Ingresa un Número</label>
+                  <input className="p-2 border mt-2 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300" type="number" ref={numbero_enviar} placeholder='ingresa un Número' />
+                </div>
 
+                {Campo && (
+                  <div className='text-lg font-normal pl-2 text-red-500'>
+                    Número Requerido
+                  </div>
+                )}
 
+                {Campo2 && (
+                  <div className='text-lg font-normal pl-2 text-red-500'>
+                    Número Invalido
+                  </div>
+                )}
 
                 {/* Otros elementos del formulario */}
-                <label htmlFor="inputTexto" className="block mt-2 font-medium text-gray-600">
-                  Selecciona Plantilla
-                </label>
-                {/* Cambia el input a un select */}
-                <select
-                  id="inputTexto"
-                  name="inputTexto"
-                  ref={mensajePlantilla}
-                  className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
-                >
-                  {/* Mapea las opciones del estado para llenar el select */}
-                  {options.map(option => (
-                    <option key={option.id} value={option.nombre}>
-                      {option.nombre}
-                    </option>
-                  ))}
-                </select>
+                <div>
+                  <label htmlFor="inputTexto" className="block text-lg mt-2 text-gray-600">
+                    Selecciona Plantilla
+                  </label>
+                  {/* Cambia el input a un select */}
+                  <select
+                    id="inputTexto"
+                    name="inputTexto"
+                    ref={mensajePlantilla}
+                    className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+                  >
+                    {/* Mapea las opciones del estado para llenar el select */}
+                    {options.map(option => (
+                      <option key={option.id} value={option.nombre}>
+                        {option.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
                 {/* Botón de envío */}
                 <div className='flex gap-2'>
@@ -130,8 +159,10 @@ function ModalChat() {
                     onClick={() => {
                       setIsOpen(false);
                       setMostrarPlantilla(false);
+                      setCampo(false)
+                      setCampo2(false)
                     }}
-                    className="mt-4 bg-red-500 text-white p-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring focus:border-red-300"
+                    className="mt-4 bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-gray-300"
                   >
                     Cerrar
                   </button>
