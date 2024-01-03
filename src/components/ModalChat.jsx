@@ -110,7 +110,7 @@ function ModalChat() {
           <div className='fixed w-full h-screen flex items-center justify-center left-0 top-0 z-10 bg-black/50'>
 
             <div>
-              <div className="max-w-md mx-auto w-96 p-4 bg-white rounded-md shadow-md mb-4">
+              <div className="max-w-md mx-auto w-[370px] m-2 p-4 bg-white rounded-md shadow-md mb-4">
 
                 <div>
 

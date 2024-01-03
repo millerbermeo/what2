@@ -42,8 +42,8 @@ function ModalBot({ numero }) {
       {/* Modal */}
       {showModal && (
          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-         <div className="bg-white p-12 rounded shadow-lg flex items-center flex-col">
-            <p className='text-black text-xl'>¿Seguro que quieres mandar el bot?</p>
+         <div className="bg-white p-12 m-5 rounded shadow-lg flex items-center flex-col">
+            <p className='text-black text-xl text-center'>¿Seguro que quieres mandar el bot?</p>
 
             <div className='flex gap-4 mt-3'>
               <button className='text-black text-lg font-semibold' onClick={() => setShowModal(false)}>Cancelar</button>

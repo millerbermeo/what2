@@ -421,7 +421,13 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const getTextoFecha = (fechaCompleta) => {
     const fechaMensaje = new Date(fechaCompleta);
     const fechaActual = new Date();
+    
+    // Establecer ambas fechas a medianoche para ignorar las horas
+    fechaMensaje.setHours(0, 0, 0, 0);
+    fechaActual.setHours(0, 0, 0, 0);
+  
     const diffDias = Math.floor(Math.abs((fechaActual - fechaMensaje) / 864e5)); // Redondear hacia abajo para obtener días enteros
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   
     if (diffDias === 0) {
       // Si la diferencia es cero, devuelve "Hoy"
@@ -430,13 +436,14 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       // Si la diferencia es uno, devuelve "Ayer"
       return 'Ayer';
     } else if (diffDias > 1 && diffDias <= 7) {
-      // Si han pasado más de 1 día y menos de 7 días, devuelve el día de la semana
-      return fechaMensaje.toLocaleDateString('es-ES', { weekday: 'long' });
+      // Si han pasado más de 1 día y menos de 7 días, devuelve el día de la semana en formato local
+      return fechaMensaje.toLocaleDateString('es-ES', { weekday: 'long', timeZone: timeZone });
     } else {
-      // Si han pasado más de 7 días, devuelve la fecha completa
+      // Si han pasado más de 7 días, devuelve la fecha completa en formato local
       return formatFecha2(fechaCompleta);
     }
   };
+  
   
   
   
@@ -504,7 +511,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <Picker data={data} onEmojiSelect={handleEmojiClick} /> : ''}
           </div>
 
-          <ul className="">
+          <ul className="mb-16 md:mb-0">
             {mensajes.map((mensaje, index) => (
               <>
                 {index === 0 || !esMismoDia(mensaje.fecha, mensajes[index - 1].fecha) ? (

@@ -334,7 +334,7 @@ function SendCampana() {
           <div className='px-5 md:px-0'>
             <button
               onClick={log}
-              className="bg-green-500 text-white px-4 py-2 rounded cursor-pointer"
+              className="bg-green-500 w-full md:w-auto text-white px-4 py-2 rounded cursor-pointer"
             >
               Enviar Campaña
             </button>

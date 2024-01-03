@@ -62,27 +62,35 @@ const ChatSidebar = ({ onClicEnDiv }) => {
       };
       
 
-    const formatFecha = (fechaCompleta) => {
+      const formatFecha = (fechaCompleta) => {
         const fecha = new Date(fechaCompleta);
         const hora = fecha.getHours().toString().padStart(2, '0');
         const minutos = fecha.getMinutes().toString().padStart(2, '0');
         const ahora = new Date();
-
+      
+        // Establecer ambas fechas a medianoche para ignorar las horas
+        fecha.setHours(0, 0, 0, 0);
+        ahora.setHours(0, 0, 0, 0);
+      
         const tiempoTranscurrido = ahora - fecha;
-
+      
         if (tiempoTranscurrido < 24 * 60 * 60 * 1000) {
-            // Menos de 24 horas, mostrar hora
-            return `${hora}:${minutos}`;
+          // Menos de 24 horas, mostrar solo la hora
+          return `${hora}:${minutos}`;
         } else if (tiempoTranscurrido < 48 * 60 * 60 * 1000) {
-            // Entre 24 y 48 horas, mostrar "Ayer"
-            return 'Ayer';
-        } else {
-            // Más de 48 horas, mostrar el nombre del día
+          // Entre 24 y 48 horas, mostrar "Ayer" sin la hora
+          return 'Ayer';
+        } else if (tiempoTranscurrido < 7 * 24 * 60 * 60 * 1000) {
+            // Menos de una semana, mostrar el nombre del día
             const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
             const nombreDia = diasSemana[fecha.getDay()];
             return nombreDia;
-        }
-    };
+          } else {
+            // Más de una semana, mostrar la fecha completa
+            return fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+          }
+      };
+      
 
 
     useEffect(() => {
@@ -199,7 +207,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
 
-                <div className='w-full h-[60vh] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-4 pd:mb-0'>
+                <div className='w-full h-[60vh] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-10 pd:mb-0'>
                     {filteredData.map((item, index) => (
                         <div
 
@@ -229,19 +237,19 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                 </div>
                             </div>
 
-                            <div className={`absolute bg-[#005187] text-xs text-white text-center w-5 rounded-full h-5 right-24 top-4 cuadrorojo ${item.b1 === "1" ? 'block' : 'hidden'}`}>
+                            <div className={`absolute bg-[#005187] text-xs text-white text-center w-5 flex justify-center items-center rounded-full h-5 right-28 md:right-24 top-4 cuadrorojo ${item.b1 === "1" ? 'block' : 'hidden'}`}>
                                 <FontAwesomeIcon icon={faFlag} />
                             </div>
 
 
                             <div className='flex mb-[14px] z-1 gap-1'>
-                                <div className="bg-gray-800 text-xs hover:bg-black text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
+                                <div className="bg-gray-800 text-lg md:text-[15px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
                                     <ModalBot numero={item.numberw} />
                                 </div>
-                                <div className="bg-green-500 text-xs hover:bg-green-600 text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
+                                <div className="bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
                                     <ModalName numero={item.numberw} />
                                 </div>
-                                <div className="bg-blue-500 text-xs hover:bg-blue-600 text-white font-bold w-5 h-5 flex justify-center items-center rounded-full">
+                                <div className="bg-blue-500 text-lg md:text-[15px] hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
 
                                     <ModalLeft numero={item.numberw} />
                                 </div>
