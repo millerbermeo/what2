@@ -22,19 +22,30 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [options, setOptions] = useState([]);
 
 
+
   // console.log("----------------");
   // console.log(nameSeleccionado);
   // console.log("----------------");
 
 
 
-
   const formatFecha = (fechaCompleta) => {
     const fecha = new Date(fechaCompleta);
-    const hora = fecha.getHours().toString().padStart(2, '0');
+    let hora = fecha.getHours();
     const minutos = fecha.getMinutes().toString().padStart(2, '0');
-    return `${hora}:${minutos}`;
-  };
+    
+    // Determinar si es AM o PM
+    const ampm = hora >= 12 ? 'p. m.' : 'a. m.';
+    
+    // Convertir a formato de 12 horas
+    hora = hora % 12 || 12;
+
+    return `${hora}:${minutos} ${ampm}`;
+};
+
+
+
+
 
 
   const handleEmojiClick = (emoji) => {
@@ -104,7 +115,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
         console.error('Error al realizar la solicitud:', error);
       });
 
-      setMostrarPlantilla(!mostrarPlantilla);
+    setMostrarPlantilla(!mostrarPlantilla);
 
   }
 
@@ -368,12 +379,69 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     } else {
 
       return (
-        <div className='relative flex break-words'>
-          {mensaje.men} <span style={mensaje.b1 === '1' ? { ...horaStyle, right: '-32px' } : { ...horaStyle, left: '-32px' }}>{formatFecha(mensaje.fecha)}</span>
+        <div className='relative flex pb-1 break-words'>
+          {mensaje.men} <span className='translate-y-[4px]' style={mensaje.b1 === '1' ? { ...horaStyle, right: '-32px' } : { ...horaStyle, left: '-32px' }}>{formatFecha(mensaje.fecha)}</span>
         </div>
       );
     }
   };
+
+  const esMismoDia = (fecha1, fecha2) => {
+    const date1 = new Date(fecha1);
+    const date2 = new Date(fecha2);
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+  
+  const formatFecha2 = (fechaCompleta) => {
+    const fechaMensaje = new Date(fechaCompleta);
+    const fechaActual = new Date();
+  
+    if (esMismoDia(fechaActual, fechaMensaje)) {
+      // Si es el mismo día, devuelve "Hoy"
+      return 'Hoy';
+    }
+  
+    // Crear una copia de la fecha actual para evitar modificaciones no deseadas
+    const fechaAyer = new Date(fechaActual);
+    fechaAyer.setDate(fechaAyer.getDate() - 1);
+  
+    if (esMismoDia(fechaAyer, fechaMensaje)) {
+      // Si es el día anterior, devuelve "Ayer"
+      return 'Ayer';
+    }
+  
+    // Para días anteriores, devuelve la fecha completa
+    return fechaMensaje.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  };
+  
+  const getTextoFecha = (fechaCompleta) => {
+    const fechaMensaje = new Date(fechaCompleta);
+    const fechaActual = new Date();
+    const diffDias = Math.floor(Math.abs((fechaActual - fechaMensaje) / 864e5)); // Redondear hacia abajo para obtener días enteros
+  
+    if (diffDias === 0) {
+      // Si la diferencia es cero, devuelve "Hoy"
+      return 'Hoy';
+    } else if (diffDias === 1) {
+      // Si la diferencia es uno, devuelve "Ayer"
+      return 'Ayer';
+    } else if (diffDias > 1 && diffDias <= 7) {
+      // Si han pasado más de 1 día y menos de 7 días, devuelve el día de la semana
+      return fechaMensaje.toLocaleDateString('es-ES', { weekday: 'long' });
+    } else {
+      // Si han pasado más de 7 días, devuelve la fecha completa
+      return formatFecha2(fechaCompleta);
+    }
+  };
+  
+  
+  
+  
+
 
   const handleReloadPage = () => {
     window.location.reload();
@@ -396,7 +464,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
         </div>
         <div className="w-full mt-5 lg:mt-14 pb-[15px] h-[100%] overflow-y-scroll custom-scrollbar3 px-4 md:px-12 bg-gray-100" ref={(ref) => setScrollRef(ref)}>
           {mostrarPlantilla ?
-      <div className='fixed w-full h-screen flex items-center justify-center left-0 top-0 z-10 bg-black/50'>
+            <div className='fixed w-full h-screen flex items-center justify-center left-0 top-0 z-10 bg-black/50'>
               <div>
                 <div className="max-w-md w-96 mx-auto p-4 bg-white rounded-md shadow-md mb-4">
                   {/* Otros elementos del formulario */}
@@ -438,30 +506,40 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
           <ul className="">
             {mensajes.map((mensaje, index) => (
-              <li
-                key={index}
-                className={`flex items-end justify-${mensaje.b1 === '2' ? 'end' : 'start'} py-2 gap-2`}
-                ref={index === mensajes.length - 1 ? lastMessageRef : null}
-              >
-                {mensaje.b1 === '2' ? (
-                  <>
-                    <div className="text-black break-all text-[15px] shadow bg-[#84b6f4] flex-wrap flex max-w-[65%] rounded-lg p-[7px] pl-10 text-left">
-                      {renderMedia(mensaje)}
-                    </div>
-                    <div className='border border-[#84b6f4] text-2xl w-10 h-10 grid place-items-center text-[#84b6f4] bg-gray-200 rounded-full'>
-                      <FontAwesomeIcon icon={faUserTie} className="" />
-                    </div>
+              <>
+                {index === 0 || !esMismoDia(mensaje.fecha, mensajes[index - 1].fecha) ? (
+                  <div className="text-center mb-2 rounded w-full flex justify-center text-gray-600">
+                    <span className='bg-gray-200 font-medium px-1 rounded'> 
+                    {getTextoFecha(mensaje.fecha)}
+                    </span>
+                  </div>
+                ) : null}
 
-                  </>
-                ) : (
-                  <>
-                    <div className='border border-gray-300 text-2xl w-10 h-10 grid place-items-center text-gray-400 bg-gray-200 rounded-full'>
-                      <FontAwesomeIcon icon={faUser} className="" />
-                    </div>
-                    <div className="text-black text-[15px] rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
-                  </>
-                )}
-              </li>
+                <li
+                  key={index}
+                  className={`flex items-end justify-${mensaje.b1 === '2' ? 'end' : 'start'} py-2 gap-2`}
+                  ref={index === mensajes.length - 1 ? lastMessageRef : null}
+                >
+                  {mensaje.b1 === '2' ? (
+                    <>
+                      <div className="text-black break-all text-[15px] shadow bg-[#84b6f4] flex-wrap flex max-w-[65%] rounded-lg p-[7px] pl-10 text-left">
+                        {renderMedia(mensaje)}
+                      </div>
+                      <div className='border border-[#84b6f4] text-2xl w-10 h-10 grid place-items-center text-[#84b6f4] bg-gray-200 rounded-full'>
+                        <FontAwesomeIcon icon={faUserTie} className="" />
+                      </div>
+
+                    </>
+                  ) : (
+                    <>
+                      <div className='border border-gray-300 text-2xl w-10 h-10 grid place-items-center text-gray-400 bg-gray-200 rounded-full'>
+                        <FontAwesomeIcon icon={faUser} className="" />
+                      </div>
+                      <div className="text-black text-[15px] rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
+                    </>
+                  )}
+                </li>
+              </>
             ))}
             {fullscreenImage && (
               <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90  z-50 flex items-center justify-center" onClick={() => setFullscreenImage(null)}>
@@ -474,7 +552,10 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
             )}
           </ul>
           {loading && (
-            <div className="text-red-600 absolute bottom-14 lg:bottom-20 right-20 lg:right-72">Cargando...</div>
+            <div className="text-blue-600 absolute bottom-14 lg:bottom-20 right-20 lg:right-72 gap-2 items-center flex"><span className='text-lg'>
+              Enviando... </span> {loading && (
+                <div className="animate-spin text-4xl text-blue-500">&#9696;</div>
+              )}</div>
           )}
         </div>
         <div className='w-full flex items-center justify-center fixed md:static h-14 bg-gray-200 bottom-0'>

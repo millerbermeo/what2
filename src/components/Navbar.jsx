@@ -18,7 +18,7 @@ function Navbar({ navbar }) {
 
 
         {/* Menu Items */}
-        <div className='hidden md:flex items-center space-x-0 font-semibold'>
+        <div className='hidden md:flex items-center space-x-0 font-normal text-xl'>
           <Link to="/home">
             <span className='text-white bg-blue-600 hover:text-white py-[22px] px-5'>
               Chat

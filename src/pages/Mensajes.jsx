@@ -106,13 +106,24 @@ function Mensajes() {
 
         const textoValue = textoRef.current.value;
 
-        if (!campanaValue || !textoValue) {
+    
+        
+
+        if (!campanaValue) {
             console.error('Campos obligatorios vacíos');
-            setLoading3(true); 
-            // Puedes mostrar un mensaje al usuario indicando que los campos son obligatorios
-            return;
+            setLoading2(true); 
+
         }
 
+
+        if (!campanaValue) {
+            console.error('Campos obligatorios vacíos');
+            setLoading3(true); 
+            return
+        }
+
+
+        
         const formData = new FormData();
         formData.append('nombre_p', campanaRef.current.value);
         formData.append('contenido', textoRef.current.value);
@@ -181,12 +192,11 @@ function Mensajes() {
                                 <label className="label-text font-medium text-xl" htmlFor="campana">Nombre Plantilla:</label>
                                 <input type="text" id="campana" ref={campanaRef} className="text-input w-full p-2 mt-2 border rounded" placeholder="Ingrese la plantilla" required />
                                 {loading2 && (
-                                    <div className="loader-container text-blue-500 mt-2">
+                                    <div className="loader-container text-blue-500 mt-2 pl-1">
                                         {/* Agrega aquí el código para tu loader (puedes usar bibliotecas como react-loader-spinner, etc.) */}
                                         La Plantilla ya existe o Contiene espacios
                                     </div>
                                 )}
-
 
                             </div>
 
@@ -194,7 +204,7 @@ function Mensajes() {
                                 <label htmlFor="texto" className="label-text font-medium text-xl">Nuevo Mensaje:</label>
                                 <textarea id="texto" name="texto" ref={textoRef} placeholder="Escriba su mensaje aquí..." className="w-full p-2 mt-2 border rounded"></textarea>
                                 {loading3 && (
-                                    <div className="loader-container text-blue-500 mt-2">
+                                    <div className="loader-container text-blue-500 mt-1 pl-1">
                                         {/* Agrega aquí el código para tu loader (puedes usar bibliotecas como react-loader-spinner, etc.) */}
                                         Campo Requerido
                                     </div>

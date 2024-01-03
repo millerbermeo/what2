@@ -21,6 +21,14 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
+  const handleFormSubmit = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleLogin(event);
+    }
+  };
+
+
   const handleEmailFocus = () => {
     setEmailFocused(true);
   };
@@ -71,12 +79,12 @@ function Login() {
 
       }
 
- 
+
 
     } catch (error) {
       // Handle errors (e.g., network issues, server errors)
       console.error('Login error:', error);
-     
+
     }
   };
 
@@ -95,75 +103,79 @@ function Login() {
     <div className='w-[100%] h-screen grid place-items-center' style={{ backgroundImage: "url('background2.png')", backgroundSize: "cover" }}>
       <div>
         <div className="m-auto bg-white w-[350px]  lg:w-96">
-          <div className="border-t-4 border-blue-600 overflow-hidden rounded shadow-lg">
-            <h3 className="text-xl text-center mt-8 mb-2">Bienvenido a</h3>
-            <img className='w-56 mb-5 mx-auto' src="negociemoss.png" alt="" />
 
-            <div className="px-4 mb-4">
-              <div className={`relative ${emailFocused ? 'focus' : ''}`}>
-                <FontAwesomeIcon icon={faEnvelope} className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${emailFocused ? 'text-blue-500' : 'text-gray-400'}`} />
-                <input
-                  type="text"
-                  className={`border border-gray rounded w-full p-3 pl-10 outline-none focus:border-blue-500`}
-                  onFocus={() => setEmailFocused(true)}
-                  onBlur={() => setEmailFocused(false)}
-                  ref={emailRef}
-                />
-                <label
-                  className={`absolute left-10 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.8rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out ${emailFocused || (emailRef.current && emailRef.current.value.trim()) ? 'transform -translate-y-[0.9rem] scale-[0.8] text-blue-500' : ''
-                    }`}
+          <form onSubmit={handleFormSubmit}>
+            <div className="border-t-4 border-blue-600 overflow-hidden rounded shadow-lg">
+              <h3 className="text-xl text-center mt-8 mb-2">Bienvenido a</h3>
+              <img className='w-56 mb-5 mx-auto' src="negociemoss.png" alt="" />
+
+              <div className="px-4 mb-4">
+                <div className={`relative ${emailFocused ? 'focus' : ''}`}>
+                  <FontAwesomeIcon icon={faEnvelope} className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${emailFocused ? 'text-blue-500' : 'text-gray-400'}`} />
+                  <input
+                    type="text"
+                    className={`border border-gray rounded w-full p-3 pl-10 outline-none focus:border-blue-500`}
+                    onFocus={() => setEmailFocused(true)}
+                    onBlur={() => setEmailFocused(false)}
+                    ref={emailRef}
+                  />
+                  <label
+                    className={`absolute left-10 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.8rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out ${emailFocused || (emailRef.current && emailRef.current.value.trim()) ? 'transform -translate-y-[0.9rem] scale-[0.8] text-blue-500' : ''
+                      }`}
                     onClick={() => emailRef.current.focus()}
-                >
-                  Email
-                </label>
+                  >
+                    Email
+                  </label>
 
-              </div>
-            </div>
-
-            <div className="px-4 mb-4">
-              <div className={`relative ${passwordFocused ? 'focus' : ''}`}>
-                <FontAwesomeIcon icon={faLock} className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${passwordFocused ? 'text-blue-500' : 'text-gray-400'}`} />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className={`border border-gray rounded w-full p-3 pl-10 outline-none focus:border-blue-500`}
-                  onFocus={() => setPasswordFocused(true)}
-                  onBlur={() => setPasswordFocused(false)}
-                  ref={passwordRef}
-                />
-                <FontAwesomeIcon
-                  icon={showPassword ? faEyeSlash : faEye}
-                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer ${passwordFocused ? 'text-blue-500' : ''}`}
-                  onClick={togglePasswordVisibility}
-                />
-                <label
-                  className={`absolute left-10 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.8rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out ${passwordFocused || (passwordRef.current && passwordRef.current.value.trim()) ? 'transform -translate-y-[0.9rem] scale-[0.8] text-blue-500' : ''
-                    }`}
-                    onClick={() => passwordRef.current.focus()}
-                >
-                  Contraseña
-                </label>
-
-              </div>
-
-              {Campo && (
-                <div className='text-md text-center absolute left-0 right-0 font-normal '>
-                  {errorMsg}
                 </div>
-              )}
-            </div>
-      
+              </div>
+
+              <div className="px-4 mb-4">
+                <div className={`relative ${passwordFocused ? 'focus' : ''}`}>
+                  <FontAwesomeIcon icon={faLock} className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${passwordFocused ? 'text-blue-500' : 'text-gray-400'}`} />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className={`border border-gray rounded w-full p-3 pl-10 outline-none focus:border-blue-500`}
+                    onFocus={() => setPasswordFocused(true)}
+                    onBlur={() => setPasswordFocused(false)}
+                    ref={passwordRef}
+                  />
+                  <FontAwesomeIcon
+                    icon={showPassword ? faEyeSlash : faEye}
+                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer ${passwordFocused ? 'text-blue-500' : ''}`}
+                    onClick={togglePasswordVisibility}
+                  />
+                  <label
+                    className={`absolute left-10 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.8rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out ${passwordFocused || (passwordRef.current && passwordRef.current.value.trim()) ? 'transform -translate-y-[0.9rem] scale-[0.8] text-blue-500' : ''
+                      }`}
+                    onClick={() => passwordRef.current.focus()}
+                  >
+                    Contraseña
+                  </label>
+
+                </div>
+
+                {Campo && (
+                  <div className='text-md text-center absolute left-0 right-0 font-normal '>
+                    {errorMsg}
+                  </div>
+                )}
+              </div>
 
 
-            <div className="px-4 mb-6 mt-8">
-              <button
-                className="border border-blue-500 bg-blue-600 rounded w-full px-4 py-3 text-white font-semibold"
-                onClick={handleLogin}
-                type='submit'
-              >
-                Ingresar
-              </button>
+
+              <div className="px-4 mb-6 mt-8">
+                <button
+                  className="border border-blue-500 bg-blue-600 rounded w-full px-4 py-3 text-white font-semibold"
+                  onClick={handleLogin}
+                  type='submit'
+                >
+                  Ingresar
+                </button>
+              </div>
             </div>
-          </div>
+
+          </form>
         </div>
       </div>
     </div>

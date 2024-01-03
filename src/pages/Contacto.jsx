@@ -1,8 +1,14 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
+import { useState, useEffect } from 'react';
 
 function Contacto() {
+
+  
+
+    
+
     return (
         <div>
 

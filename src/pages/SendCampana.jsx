@@ -94,8 +94,10 @@ function SendCampana() {
     <div className='w-full flex flex-col p-5 md:p-0 mt-5 lg:-z-0 relative'>
       {Object.keys(groupedData).map(agente => (
         <div key={agente} className='mb-10 m-auto relative flex flex-col justify-start w-full'>
-          <h3 className='font-bold'>
+          <h3 className='font-bold flex'>
+            <span className='w-36 break-all text-lg'>
             {agente}
+            </span>
             <button
               onClick={() => toggleShowDiv(agente)}
               className="ml-3 bg-blue-500 text-white px-2 rounded cursor-pointer"
