@@ -33,15 +33,15 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     const fecha = new Date(fechaCompleta);
     let hora = fecha.getHours();
     const minutos = fecha.getMinutes().toString().padStart(2, '0');
-    
+
     // Determinar si es AM o PM
     const ampm = hora >= 12 ? 'p. m.' : 'a. m.';
-    
+
     // Convertir a formato de 12 horas
     hora = hora % 12 || 12;
 
     return `${hora}:${minutos} ${ampm}`;
-};
+  };
 
 
 
@@ -395,40 +395,40 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       date1.getDate() === date2.getDate()
     );
   };
-  
+
   const formatFecha2 = (fechaCompleta) => {
     const fechaMensaje = new Date(fechaCompleta);
     const fechaActual = new Date();
-  
+
     if (esMismoDia(fechaActual, fechaMensaje)) {
       // Si es el mismo día, devuelve "Hoy"
       return 'Hoy';
     }
-  
+
     // Crear una copia de la fecha actual para evitar modificaciones no deseadas
     const fechaAyer = new Date(fechaActual);
     fechaAyer.setDate(fechaAyer.getDate() - 1);
-  
+
     if (esMismoDia(fechaAyer, fechaMensaje)) {
       // Si es el día anterior, devuelve "Ayer"
       return 'Ayer';
     }
-  
+
     // Para días anteriores, devuelve la fecha completa
     return fechaMensaje.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
   };
-  
+
   const getTextoFecha = (fechaCompleta) => {
     const fechaMensaje = new Date(fechaCompleta);
     const fechaActual = new Date();
-    
+
     // Establecer ambas fechas a medianoche para ignorar las horas
     fechaMensaje.setHours(0, 0, 0, 0);
     fechaActual.setHours(0, 0, 0, 0);
-  
+
     const diffDias = Math.floor(Math.abs((fechaActual - fechaMensaje) / 864e5)); // Redondear hacia abajo para obtener días enteros
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
+
     if (diffDias === 0) {
       // Si la diferencia es cero, devuelve "Hoy"
       return 'Hoy';
@@ -443,11 +443,11 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       return formatFecha2(fechaCompleta);
     }
   };
-  
-  
-  
-  
-  
+
+
+
+
+
 
 
   const handleReloadPage = () => {
@@ -513,47 +513,47 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
           <ul className="mb-16 md:mb-0">
             {mensajes.map((mensaje, index) => (
-              <>
+              <React.Fragment key={index}>
                 {index === 0 || !esMismoDia(mensaje.fecha, mensajes[index - 1].fecha) ? (
-                  <div className="text-center mb-2 rounded w-full flex justify-center text-gray-600">
-                    <span className='bg-gray-200 font-medium px-1 rounded'> 
-                    {getTextoFecha(mensaje.fecha)}
+                  <div key={`fecha-${index}`} className="text-center mb-2 rounded w-full flex justify-center text-gray-600">
+                    <span className='bg-gray-200 font-medium px-1 rounded'>
+                      {getTextoFecha(mensaje.fecha)}
                     </span>
                   </div>
                 ) : null}
 
                 <li
-                  key={index}
+                  key={`mensaje-${index}`}
                   className={`flex items-end justify-${mensaje.b1 === '2' ? 'end' : 'start'} py-2 gap-2`}
                   ref={index === mensajes.length - 1 ? lastMessageRef : null}
                 >
                   {mensaje.b1 === '2' ? (
                     <>
-                      <div className="text-black break-all text-[15px] shadow bg-[#84b6f4] flex-wrap flex max-w-[65%] rounded-lg p-[7px] pl-10 text-left">
+                      <div key={`media-${index}`} className="text-black break-all text-[15px] shadow bg-[#84b6f4] flex-wrap flex max-w-[65%] rounded-lg p-[7px] pl-10 text-left">
                         {renderMedia(mensaje)}
                       </div>
-                      <div className='border border-[#84b6f4] text-2xl w-10 h-10 grid place-items-center text-[#84b6f4] bg-gray-200 rounded-full'>
+                      <div key={`icono-usuario-${index}`} className='border border-[#84b6f4] text-2xl w-10 h-10 grid place-items-center text-[#84b6f4] bg-gray-200 rounded-full'>
                         <FontAwesomeIcon icon={faUserTie} className="" />
                       </div>
-
                     </>
                   ) : (
                     <>
-                      <div className='border border-gray-300 text-2xl w-10 h-10 grid place-items-center text-gray-400 bg-gray-200 rounded-full'>
+                      <div key={`icono-usuario-${index}`} className='border border-gray-300 text-2xl w-10 h-10 grid place-items-center text-gray-400 bg-gray-200 rounded-full'>
                         <FontAwesomeIcon icon={faUser} className="" />
                       </div>
-                      <div className="text-black text-[15px] rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
+                      <div key={`media-${index}`} className="text-black text-[15px] rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
                     </>
                   )}
                 </li>
-              </>
+              </React.Fragment>
             ))}
+
             {fullscreenImage && (
               <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90  z-50 flex items-center justify-center" onClick={() => setFullscreenImage(null)}>
                 <img
                   src={fullscreenImage}
                   alt="Imagen a pantalla completa"
-                  className="w-[40%] h-auto max-h-[90%]"
+                  className="w-auto max-w-[70%] h-auto max-h-[90%]"
                 />
               </div>
             )}

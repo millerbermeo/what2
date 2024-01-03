@@ -247,8 +247,13 @@ function SendCampana() {
   //  
 
   const log = () => {
-    setShowModal(true);
-  }
+    if (validateFields()) {
+      setShowModal(true);
+      setCampo(false);
+    }
+    setCampo(true);
+  };
+  
 
 
   return (
@@ -277,6 +282,7 @@ function SendCampana() {
                 value={selectedItem}
                 onChange={(e) => setSelectedItem(e.target.value)}
                 className="p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                required 
               >
                 <option value="">Selecciona...</option>
                 {agendaItems.map((item) => (
@@ -319,11 +325,7 @@ function SendCampana() {
                 </div>
 
                 <div className='w-full h-5'>
-                {Campo && (
-                <div className='text-lg font-normal mt-2 text-center text-black border-b border-black'>
-                  Campos Requeridos
-                </div>
-              )}
+                
                 </div>
 
               </div>
@@ -338,6 +340,11 @@ function SendCampana() {
             >
               Enviar Campaña
             </button>
+            {Campo && (
+                <div className='text-lg font-normal mt-2 text-center text-black border-b border-black'>
+                  Campos Requeridos
+                </div>
+              )}
           </div>
 
         </main>

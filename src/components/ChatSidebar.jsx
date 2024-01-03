@@ -207,7 +207,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
 
-                <div className='w-full h-[60vh] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-10 pd:mb-0'>
+                <div className='w-full h-[60vh] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-10 md:pb-2'>
                     {filteredData.map((item, index) => (
                         <div
 
@@ -232,7 +232,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                         {item.name ? item.name : item.numberw}
                                     </span>
                                     <span className='text-[#5f6368] w-[60%] break-all overflow-hidden text-[13.5px]'>
-                                        {item.men}
+                                    {item.men ? item.name : "Archivo Adjunto"}
                                     </span>
                                 </div>
                             </div>
