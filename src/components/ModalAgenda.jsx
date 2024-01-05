@@ -8,8 +8,7 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
-  const nombreUser = useRef(null)
-
+  const nombreUser = useRef(null);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -17,51 +16,46 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
 
   const submitDatos = (e) => {
     e.preventDefault();
-  
-    // Mueve la declaración antes de usarla
     let name1 = nombreUser.current;
-  
-    console.log('Valor seleccionado:', selectedOption);
-  
-    // Llama a la función de devolución de llamada con el valor de selectedOption
     onSelectedOption(selectedOption, name1);
     console.log(name1, "hoplals");
-  
-    // Cierra el modal
     toggleModal();
   };
-  
 
   useEffect(() => {
     // Obtener el valor de number_a del localStorage
     const number_a = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).number_a : null;
 
-    const formData = new FormData();
-    formData.append('number_a', number_a);
+    const fetchData = async () => {
+      const formData = new FormData();
+      formData.append('number_a', number_a);
 
-    // Realizar la solicitud POST con Axios
-    if (number_a) {
-      axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agenda.php', formData)
-        .then(response => {
-          // Actualizar el estado con los datos recibidos
-          setOptions(response.data);
-        })
-        .catch(error => {
-          console.error('Error al realizar la solicitud POST:', error);
-        });
-    }
-  }, []);
+      try {
+        const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agenda.php', formData);
+        setOptions(response.data);
+      } catch (error) {
+        console.error('Error al realizar la solicitud POST:', error);
+      }
+    };
+
+    // Realiza la primera carga de datos
+    fetchData();
+
+    // Establece la repetición cada 3 segundos
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 3000);
+
+    // Limpieza del intervalo cuando el componente se desmonta
+    return () => clearInterval(intervalId);
+  }, [isOpen]); // Dependencia isOpen para reiniciar el intervalo cuando se abre/cierra el modal
 
   const handleSelectChange = (e) => {
     const selectedValue = e.target.value;
     const selectedObject = options.find(option => option.numberw === selectedValue);
-  
-    // Cambia para que nombreUser.current contenga el objeto completo
     nombreUser.current = selectedObject;
-  
     setSelectedOption(selectedValue);
   };
-  
 
   return (
     <>
