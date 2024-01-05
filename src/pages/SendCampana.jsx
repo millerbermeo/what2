@@ -95,7 +95,7 @@ function SendCampana() {
       {Object.keys(groupedData).map(agente => (
         <div key={agente} className='mb-10 m-auto relative flex flex-col justify-start w-full'>
           <h3 className='font-bold flex'>
-            <span className='w-36 break-all text-lg'>
+            <span className='w-56 overflow-hidden text-sm font-normal'>
             {agente}
             </span>
             <button
@@ -231,6 +231,7 @@ function SendCampana() {
           console.log('Respuesta del servidor:', response.data);
 
           setSelectedItem(''); // Restablecer el valor del select
+          
         })
         .catch(error => {
           // Manejar errores
@@ -341,7 +342,7 @@ function SendCampana() {
               Enviar Campaña
             </button>
             {Campo && (
-                <div className='text-lg font-normal mt-2 text-center text-black border-b border-black'>
+                <div className='text-lg font-normal mt-2 text-center w-full bg-red-600 text-white h-10 flex items-center justify-center'>
                   Campos Requeridos
                 </div>
               )}

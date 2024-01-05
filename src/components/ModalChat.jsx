@@ -83,6 +83,18 @@ function ModalChat() {
     setMostrarPlantilla(false)
   }
 
+  const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
+
+  // ... (resto del código)
+
+  const handleTemplateSelect = (event) => {
+    const selectedTemplateName = event.target.value;
+    const selectedTemplate = options.find((option) => option.nombre === selectedTemplateName);
+
+    // Actualiza el estado con el contenido de la plantilla seleccionada
+    setSelectedTemplateContent(selectedTemplate ? selectedTemplate.contenido : null);
+  };
+
 
   return (
     <>
@@ -115,17 +127,17 @@ function ModalChat() {
                 <div>
 
                   <label htmlFor="" className='text-lg text-gray-600'>Ingresa un Número</label>
-                  <input className="p-2 border mt-2 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300" type="number" ref={numbero_enviar} placeholder='ingresa un Número' />
+                  <input className="p-2 border mt-2 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300" type="number" ref={numbero_enviar} placeholder='Ingresar número' />
                 </div>
 
                 {Campo && (
-                  <div className='text-lg font-normal pl-2 text-red-500'>
+                  <div className='text-lg font-normal pl-2 w-full bg-red-500 py-1 my-2 rounded text-white'>
                     Número Requerido
                   </div>
                 )}
 
                 {Campo2 && (
-                  <div className='text-lg font-normal pl-2 text-red-500'>
+                  <div className='text-lg font-normal pl-2 bg-red-500 py-1 my-2 rounded text-white'>
                     Número Invalido
                   </div>
                 )}
@@ -133,15 +145,20 @@ function ModalChat() {
                 {/* Otros elementos del formulario */}
                 <div>
                   <label htmlFor="inputTexto" className="block text-lg mt-2 text-gray-600">
-                    Selecciona Plantilla
+                    Selecciona una Plantilla
                   </label>
                   {/* Cambia el input a un select */}
                   <select
                     id="inputTexto"
                     name="inputTexto"
                     ref={mensajePlantilla}
+                    onChange={handleTemplateSelect}
                     className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
                   >
+                     <option value="">
+                    Selecciona una opción
+                  </option>
+
                     {/* Mapea las opciones del estado para llenar el select */}
                     {options.map(option => (
                       <option key={option.id} value={option.nombre}>
@@ -151,8 +168,12 @@ function ModalChat() {
                   </select>
                 </div>
 
+                <div className='my-3 shadow p-2 bg-gray-100'>
+                {selectedTemplateContent}
+              </div>
+
                 {/* Botón de envío */}
-                <div className='flex gap-2'>
+                <div className='flex gap-2 justify-end'>
 
 
                   <button
@@ -162,7 +183,7 @@ function ModalChat() {
                       setCampo(false)
                       setCampo2(false)
                     }}
-                    className="mt-4 bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-gray-300"
+                    className="mt-4 bg-gray-500 w-[90px] text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-gray-300"
                   >
                     Cerrar
                   </button>
@@ -170,7 +191,7 @@ function ModalChat() {
                   <button
                     onClick={enviarMensajePlantilla}
                     type="submit"
-                    className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+                    className="mt-4 bg-blue-500 w-[90px] text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
                   >
                     Enviar
                   </button>

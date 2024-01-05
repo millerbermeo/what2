@@ -128,14 +128,14 @@ function Campanas() {
                                 <button
                                     onClick={() => handlePageChange(currentPage - 1)}
                                     disabled={currentPage === 1}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded"
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
                                 >
                                     Anterior
                                 </button>
                                 <button
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage === totalPages}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded"
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
                                 >
                                     Siguiente
                                 </button>

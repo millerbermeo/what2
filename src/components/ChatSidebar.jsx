@@ -232,7 +232,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                         {item.name ? item.name : item.numberw}
                                     </span>
                                     <span className='text-[#5f6368] w-[60%] break-all overflow-hidden text-[13.5px]'>
-                                    {item.men ? item.name : "Archivo Adjunto"}
+                                    {item.men ? item.men : "Archivo Adjunto"}
                                     </span>
                                 </div>
                             </div>

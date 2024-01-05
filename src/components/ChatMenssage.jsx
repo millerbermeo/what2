@@ -120,6 +120,11 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   }
 
 
+  const cerarPlantilla = ()=> {
+    setMostrarPlantilla(false);
+  }
+
+
   const enviarMensaje = async () => {
     try {
       setLoading(true);
@@ -445,9 +450,22 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   };
 
 
+  const userAgente = JSON.parse(localStorage.getItem('user'));
+
+const primerNombre = userAgente && userAgente.name ? userAgente.name.split(' ')[0] : '';
 
 
+const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
 
+  // ... (resto del código)
+
+  const handleTemplateSelect = (event) => {
+    const selectedTemplateName = event.target.value;
+    const selectedTemplate = options.find((option) => option.nombre === selectedTemplateName);
+
+    // Actualiza el estado con el contenido de la plantilla seleccionada
+    setSelectedTemplateContent(selectedTemplate ? selectedTemplate.contenido : null);
+  };
 
 
   const handleReloadPage = () => {
@@ -467,7 +485,11 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
             </div>
           </div>
+          
+          <div className='flex gap-5 mt-2 items-center text-sm'>
+          <span>{primerNombre}</span>
           <Logout />
+          </div>
         </div>
         <div className="w-full mt-5 lg:mt-14 pb-[15px] h-[100%] overflow-y-scroll custom-scrollbar3 px-4 md:px-12 bg-gray-100" ref={(ref) => setScrollRef(ref)}>
           {mostrarPlantilla ?
@@ -475,16 +497,21 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <div>
                 <div className="max-w-md w-96 mx-auto p-4 bg-white rounded-md shadow-md mb-4">
                   {/* Otros elementos del formulario */}
-                  <label htmlFor="inputTexto" className="block text-sm font-medium text-gray-600">
-                    select Plantilla
+                  <label htmlFor="inputTexto" className="block my-2 text-base font-normal text-gray-600">
+                    Seleccionar Plantilla
                   </label>
                   {/* Cambia el input a un select */}
                   <select
                     id="inputTexto"
                     name="inputTexto"
                     ref={mensajePlantilla}
+                    onChange={handleTemplateSelect}
+
                     className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
                   >
+                    <option value="">
+                    Selecciona una opción
+                  </option>
                     {/* Mapea las opciones del estado para llenar el select */}
                     {options.map(option => (
                       <option key={option.id} value={option.nombre}>
@@ -493,14 +520,27 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                     ))}
                   </select>
 
+                  <div className='my-3 shadow p-2 bg-gray-100'>
+                {selectedTemplateContent}
+              </div>
+
+                  <div className='flex gap-2 justify-end'>
+                  <button
+                    onClick={cerarPlantilla}
+                    className="mt-4 bg-gray-500 w-[90px] text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-blue-300"
+                  >
+                    Cerrar
+                  </button>
+
                   {/* Botón de envío */}
                   <button
                     onClick={enviarMensajePlantilla}
                     type="submit"
-                    className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+                    className="mt-4 bg-blue-500 w-[90px] text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
                   >
                     Enviar
                   </button>
+                  </div>
                 </div>
               </div>
             </div> : ''
@@ -515,7 +555,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
             {mensajes.map((mensaje, index) => (
               <React.Fragment key={index}>
                 {index === 0 || !esMismoDia(mensaje.fecha, mensajes[index - 1].fecha) ? (
-                  <div key={`fecha-${index}`} className="text-center mb-2 rounded w-full flex justify-center text-gray-600">
+                  <div key={`fecha-${index}`} className="text-center mt-5 mb-2 rounded w-full flex justify-center text-gray-600">
                     <span className='bg-gray-200 font-medium px-1 rounded'>
                       {getTextoFecha(mensaje.fecha)}
                     </span>
