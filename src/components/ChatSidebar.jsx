@@ -8,6 +8,7 @@ import { faRobot, faFlag } from '@fortawesome/free-solid-svg-icons';
 import ModalLeft from './ModalLeft';
 import ModalName from './ModalName';
 import ModalBot from './ModalBot';
+import ModalContact from './ModalContact';
 
 
 
@@ -37,60 +38,60 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
     const [selectedOptionFromModal, setSelectedOptionFromModal] = useState(null);
-    
 
-    const handleSelectedOption = (selectedOption,name1) => {
+
+    const handleSelectedOption = (selectedOption, name1) => {
         // Realiza la lógica con el valor de selectedOption aquí
         // console.log('Valor seleccionado en el componente principal:', name1.name);
         // Actualiza el estado o realiza otras operaciones según tus necesidades
         setSelectedOptionFromModal(selectedOption);
-      
+
         // Utiliza el valor directamente en handleClick
         handleClick(selectedOption, name1.name);
         onClicEnDiv(selectedOption, name1.name)
         setElementoSeleccionado(selectedOption)
-      }
-      
-      const [numeroSeleccionado, setNumeroSeleccionado] = useState(null);
-      const [nameSeleccionado, setNameSeleccionado] = useState('');
-      
-      const handleClick = (numberw, name) => {
+    }
+
+    const [numeroSeleccionado, setNumeroSeleccionado] = useState(null);
+    const [nameSeleccionado, setNameSeleccionado] = useState('');
+
+    const handleClick = (numberw, name) => {
         setNumeroSeleccionado(numberw);
         setNameSeleccionado(String(name));
         // console.log(numberw)
         // console.log(name)
-      };
-      
+    };
 
-      const formatFecha = (fechaCompleta) => {
+
+    const formatFecha = (fechaCompleta) => {
         const fecha = new Date(fechaCompleta);
         const hora = fecha.getHours().toString().padStart(2, '0');
         const minutos = fecha.getMinutes().toString().padStart(2, '0');
         const ahora = new Date();
-      
+
         // Establecer ambas fechas a medianoche para ignorar las horas
         fecha.setHours(0, 0, 0, 0);
         ahora.setHours(0, 0, 0, 0);
-      
+
         const tiempoTranscurrido = ahora - fecha;
-      
+
         if (tiempoTranscurrido < 24 * 60 * 60 * 1000) {
-          // Menos de 24 horas, mostrar solo la hora
-          return `${hora}:${minutos}`;
+            // Menos de 24 horas, mostrar solo la hora
+            return `${hora}:${minutos}`;
         } else if (tiempoTranscurrido < 48 * 60 * 60 * 1000) {
-          // Entre 24 y 48 horas, mostrar "Ayer" sin la hora
-          return 'Ayer';
+            // Entre 24 y 48 horas, mostrar "Ayer" sin la hora
+            return 'Ayer';
         } else if (tiempoTranscurrido < 7 * 24 * 60 * 60 * 1000) {
             // Menos de una semana, mostrar el nombre del día
             const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
             const nombreDia = diasSemana[fecha.getDay()];
             return nombreDia;
-          } else {
+        } else {
             // Más de una semana, mostrar la fecha completa
             return fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-          }
-      };
-      
+        }
+    };
+
 
 
     useEffect(() => {
@@ -173,8 +174,12 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                         <img className='bg-transparent' src="logologo.png" alt="" />
                     </div>
                     <div className='w-[50%]'>
-                    <ModalAgenda onSelectedOption={handleSelectedOption} />
+                        <ModalAgenda onSelectedOption={handleSelectedOption} />
                     </div>
+                    <div className='w-[50%]'>
+                        <ModalContact/>
+                    </div>
+
                     <div className='w-[50%]'>
                         <ModalChat />
                     </div>
@@ -232,7 +237,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                         {item.name ? item.name : item.numberw}
                                     </span>
                                     <span className='text-[#5f6368] w-[60%] break-all overflow-hidden text-[13.5px]'>
-                                    {item.men ? item.men : "Archivo Adjunto"}
+                                        {item.men ? item.men : "Archivo Adjunto"}
                                     </span>
                                 </div>
                             </div>

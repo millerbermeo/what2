@@ -106,7 +106,7 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
 
               <div className="flex justify-end mt-4 gap-3">
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                   onClick={toggleModal}
                 >
                   Cerrar
