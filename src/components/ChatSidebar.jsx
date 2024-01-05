@@ -41,7 +41,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
     const handleSelectedOption = (selectedOption,name1) => {
         // Realiza la lógica con el valor de selectedOption aquí
-        console.log('Valor seleccionado en el componente principal:', name1.name);
+        // console.log('Valor seleccionado en el componente principal:', name1.name);
         // Actualiza el estado o realiza otras operaciones según tus necesidades
         setSelectedOptionFromModal(selectedOption);
       

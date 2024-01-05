@@ -18,7 +18,6 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
     e.preventDefault();
     let name1 = nombreUser.current;
     onSelectedOption(selectedOption, name1);
-    console.log(name1, "hoplals");
     toggleModal();
   };
 
