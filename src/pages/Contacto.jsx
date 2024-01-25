@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react';
 
 function Contacto() {
 
-  
 
-    
+
+
 
     return (
         <div>
@@ -29,6 +29,7 @@ function Contacto() {
                         <p className='text-lg text-center'>
                             <span className='font-bold'>Teléfono:</span> (+57) 350-608-6936
                         </p>
+
                     </div>
 
                 </main>

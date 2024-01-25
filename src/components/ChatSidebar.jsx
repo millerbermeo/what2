@@ -9,6 +9,7 @@ import ModalLeft from './ModalLeft';
 import ModalName from './ModalName';
 import ModalBot from './ModalBot';
 import ModalContact from './ModalContact';
+import ModalGroup from './ModalGroup';
 
 
 
@@ -166,6 +167,10 @@ const ChatSidebar = ({ onClicEnDiv }) => {
         );
     });
 
+    const handleCambiarEndopoint = ()=> {
+        alert()
+    }
+
     return (
         <>
             <div style={divStyle} className="w-full lg:w-[680px] h-screen lg:h-[95vh] lg:z-10 bg-gray-200 mb-96 md:mb-0  border-r flex flex-col items-center border-gray-300 shadow-lg p-3">
@@ -208,11 +213,15 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                         <span className='uppercase'>NO LEíDOS</span>
                     </div>
 
+                    <div className='w-[50%] bg-gray-800 hover:bg-gray-900 grid place-content-center font-bold text-white rounded cursor-pointer' onClick={handleCambiarEndopoint}>
+                        <span className='uppercase'>Grupos</span>
+                    </div>
+
                 </div>
 
 
 
-                <div className='w-full h-[60vh] md:h-[75%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-10 md:pb-2'>
+                <div className='w-full h-[60vh] md:h-[75%] 2xl:h-[90%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-10 md:pb-2'>
                     {filteredData.map((item, index) => (
                         <div
 
@@ -227,7 +236,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                 onClicEnDiv(item.numberw, item.name);
                                 setElementoSeleccionado(item.numberw);
 
-                            }} className='flex items-center flex-row w-full h-[65px]'>
+                            }} className='flex items-center flex-row w-full h-[75px]'>
                                 <div className='w-[50px]'>
                                     <img src="user.webp" alt="" />
                                 </div>
@@ -242,14 +251,17 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                 </div>
                             </div>
 
-                            <div className={`absolute bg-[#005187] text-xs text-white text-center w-5 flex justify-center items-center rounded-full h-5 right-28 md:right-24 top-4 cuadrorojo ${item.b1 === "1" ? 'block' : 'hidden'}`}>
+                            <div className={`absolute bg-[#005187] text-xs text-white text-center w-5 flex justify-center items-center rounded-full h-5 right-20 top-[7px] cuadrorojo ${item.b1 === "1" ? 'block' : 'hidden'}`}>
                                 <FontAwesomeIcon icon={faFlag} />
                             </div>
 
 
-                            <div className='flex mb-[14px] z-1 gap-1'>
+                            <div className='grid grid-cols-2 mr-2 md:mr-0 md:mb-[14px] z-1 gap-x-3 gap-y-[6px]'>
                                 <div className="bg-gray-800 text-lg md:text-[15px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
                                     <ModalBot numero={item.numberw} />
+                                </div>
+                                <div className="bg-gray-800 text-lg md:text-[14.5px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                    <ModalGroup numero={item.numberw}/>
                                 </div>
                                 <div className="bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
                                     <ModalName numero={item.numberw} />
@@ -259,7 +271,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                     <ModalLeft numero={item.numberw} />
                                 </div>
                             </div>
-                            <span className='absolute right-2 bottom-0 text-[12px]'>
+                            <span className='absolute right-2 bottom-0 text-[12px] hidden md:flex'>
                                 {item.fecha}
                             </span>
                         </div>

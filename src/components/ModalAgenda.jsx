@@ -61,7 +61,7 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
       <div>
         <button
           onClick={toggleModal}
-          className="w-full gap-5 bg-[#005187] text-sm text-[#ccc] hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40"
+          className="w-full gap-2 md:gap-5 bg-[#005187] text-sm text-[#ccc] hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40"
         >
           <span>
             Agenda

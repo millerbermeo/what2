@@ -240,7 +240,7 @@ function Mensajes() {
 
 
 
-                        <div className='flex-col flex w-full'>
+                        <div className='flex-col flex w-full max-w-2xl relative'>
                         <div className="w-full max-w-2xl -z-10 relative p-8 bg-white rounded-lg mt-0 border border-gray-300 shadow-lg">
                             <div id="mostrar-imagen-doc" className='w-64 bg-white overflow-hidden max-h-44 m-auto'></div>
                             <div id="mostrar-documento" className='bg-blue-300 rounded w-auto break-all'></div>

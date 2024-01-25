@@ -5,6 +5,7 @@ import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faDownload, faFile, faRightFromBracket, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Logout from './Logout';
+import AudioRecorder from './AudioRecorder';
 
 function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [mensajes, setMensajes] = useState([]);
@@ -605,7 +606,7 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
               )}</div>
           )}
         </div>
-        <div className='w-full flex items-center justify-center fixed md:static h-14 bg-gray-200 bottom-0'>
+        <div className='w-full flex items-center justify-center fixed md:static h-14 bg-gray-200 bottom-0 scale-[1.1]'>
           <div className="w-[90%] mx-auto p-2 gap-2 flex">
             <button onClick={handleReloadPage} className='flex md:hidden' type='submit'>
               <div className='w-[40px] h-[40px] bg-[#000] rounded-[25px] text-white flex justify-center items-center text-2xl'>
@@ -631,10 +632,16 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                   <FontAwesomeIcon icon={faIcons} />
                 </button>
               </div>
+
+              <div className='ml-10 absolute left-[15px] top-2'>
+                <button>
+                <AudioRecorder/>
+                </button>
+              </div>
               <input
                 ref={mensajeInputRef}
                 onKeyDown={handleKeyDown}
-                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-14 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-24 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                 type="text"
                 placeholder="Escribe algo..."
               />

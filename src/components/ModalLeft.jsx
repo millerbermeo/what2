@@ -105,7 +105,7 @@ const ModalLeft = ({numero}) => {
 
               <div className="flex justify-end gap-3 text-[16px] font-normal">
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                   onClick={closeModal}
                 >
                   Cerrar
