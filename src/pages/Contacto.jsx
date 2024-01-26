@@ -1,9 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
-import { useState, useEffect } from 'react';
-import RecorderSound from '../components/RecorderSound';
-import AudioRecorder from '../components/AudioRecorder';
 
 function Contacto() {
 
@@ -31,8 +28,6 @@ function Contacto() {
                         <p className='text-lg text-center'>
                             <span className='font-bold'>Teléfono:</span> (+57) 350-608-6936
                         </p>
-
-                       <AudioRecorder/>
 
                     </div>
 
