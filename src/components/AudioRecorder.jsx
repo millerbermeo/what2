@@ -68,12 +68,12 @@ function AudioRecorder() {
     };
 
     const downloadAudio = () => {
-        const url = URL.createObjectURL(audioBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'grabacion_audio.mp3'); // Nombre del archivo a descargar
-        document.body.appendChild(link);
-        link.click();
+        // const url = URL.createObjectURL(audioBlob);
+        // const link = document.createElement('a');
+        // link.href = url;
+        // link.setAttribute('download', 'grabacion_audio.mp3'); // Nombre del archivo a descargar
+        // document.body.appendChild(link);
+        // link.click();
     };
 
     return (
