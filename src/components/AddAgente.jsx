@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRobot } from '@fortawesome/free-solid-svg-icons';
+import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-function ModalBot({ numero }) {
+function AddAgente({ numero }) {
   const [showModal, setShowModal] = useState(false);
 
   //  
@@ -12,7 +12,6 @@ function ModalBot({ numero }) {
   const log = () => {
     setShowModal(true);
   }
-  
 
   const mandarBot = async () => {
     try {
@@ -20,7 +19,7 @@ function ModalBot({ numero }) {
       const formData = new FormData();
       formData.append('numberw', numero);
       // Realizar la petición POST con Axios
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_mandar_bot.php', formData);
+      const response = await axios.post('', formData);
 
       console.log('Respuesta del servidor:', response.data);
 
@@ -37,14 +36,14 @@ function ModalBot({ numero }) {
   return (
     <>
       <div className='' onClick={log}>
-        <FontAwesomeIcon icon={faRobot} />
+      <FontAwesomeIcon icon={faSquarePlus} />
       </div>
 
       {/* Modal */}
       {showModal && (
          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
          <div className="bg-white p-12 m-5 rounded shadow-lg flex items-center flex-col">
-            <p className='text-black text-xl text-center'>¿Seguro que quieres mandar el bot?</p>
+            <p className='text-black text-xl text-center'>Agregar Agentes al Grupo</p>
 
             <div className='flex gap-4 mt-3'>
               <button className='text-black text-lg font-semibold' onClick={() => setShowModal(false)}>Cancelar</button>
@@ -63,5 +62,4 @@ function ModalBot({ numero }) {
 }
 
 
-
-export default ModalBot
+export default AddAgente

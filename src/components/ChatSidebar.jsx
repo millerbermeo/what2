@@ -10,6 +10,7 @@ import ModalName from './ModalName';
 import ModalBot from './ModalBot';
 import ModalContact from './ModalContact';
 import ModalGroup from './ModalGroup';
+import AddAgente from './AddAgente';
 
 
 
@@ -18,11 +19,24 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     const isSmallScreen = useMediaQuery({ minWidth: 769 });
     const newMessageSoundRef = useRef(new Audio('sonido1.mp3'));
     const [elementoSeleccionado, setElementoSeleccionado] = useState(null);
-
-
     const [data, setData] = useState([]);
     const [divStyle, setDivStyle] = useState({});
     const [searchTerm, setSearchTerm] = useState('');
+    const [mostrar, setMostrar] = useState(true)
+
+    let endpoint;
+
+    if (mostrar === true) {
+
+        endpoint = 'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_agente.php';
+    
+      } else if (mostrar === false) {
+        endpoint = 'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_grupo.php';
+      }
+      
+
+
+
 
     const handleDivClick = () => {
         // Actualiza el estilo del div al hacer clic
@@ -106,7 +120,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                 const formData = new FormData();
                 formData.append('number_a', number_a);
 
-                const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_agente.php', formData);
+                const response = await axios.post(endpoint, formData);
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({
                     ...item,
@@ -152,10 +166,12 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     // Función para manejar el clic en "NO LEIDOS"
     const handleNoLeidosClick = () => {
         setFiltroNoLeidos(!filtroNoLeidos);
+        setMostrar(true)
     };
 
     const handleMostrarTodosClick = () => {
         setFiltroNoLeidos(false); // Desactiva el filtro de "NO LEIDOS"
+        setMostrar(true)
     };
 
     // Filtra los datos según los criterios
@@ -167,8 +183,8 @@ const ChatSidebar = ({ onClicEnDiv }) => {
         );
     });
 
-    const handleCambiarEndopoint = ()=> {
-        alert()
+    const handleCambiarEndopoint = () => {
+        setMostrar(false)
     }
 
     return (
@@ -182,7 +198,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                         <ModalAgenda onSelectedOption={handleSelectedOption} />
                     </div>
                     <div className='w-[50%]'>
-                        <ModalContact/>
+                        <ModalContact />
                     </div>
 
                     <div className='w-[50%]'>
@@ -256,21 +272,35 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                             </div>
 
 
-                            <div className='grid grid-cols-2 mr-2 md:mr-0 md:mb-[14px] z-1 gap-x-3 gap-y-[6px]'>
-                                <div className="bg-gray-800 text-lg md:text-[15px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
-                                    <ModalBot numero={item.numberw} />
+                            {mostrar ? (
+                                <div className={`grid grid-cols-2 mr-2 md:mr-0 md:mb-[14px] z-1 gap-x-3 gap-y-[6px]`}>
+                                    <div className="bg-gray-800 text-lg md:text-[15px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                        <ModalBot numero={item.numberw} />
+                                    </div>
+                                    <div className="bg-gray-800 text-lg md:text-[14.5px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                        <ModalGroup numero={item.numberw} />
+                                    </div>
+                                    <div className="bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                        <ModalName numero={item.numberw} />
+                                    </div>
+                                    <div className="bg-blue-500 text-lg md:text-[15px] hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                        <ModalLeft numero={item.numberw} />
+                                    </div>
                                 </div>
-                                <div className="bg-gray-800 text-lg md:text-[14.5px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
-                                    <ModalGroup numero={item.numberw}/>
+                            ) : (
+                                <div className={`grid grid-cols-2 mr-2 md:mr-0 md:mb-[40px] z-1 gap-x-3 gap-y-[6px]`}>
+                                    <div className="bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                        <ModalName numero={item.numberw} />
+                                    </div>
+                                    <div className="bg-gray-800 text-lg md:text-[14.5px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                        <AddAgente/>
+                                    </div>
                                 </div>
-                                <div className="bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
-                                    <ModalName numero={item.numberw} />
-                                </div>
-                                <div className="bg-blue-500 text-lg md:text-[15px] hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                            )}
 
-                                    <ModalLeft numero={item.numberw} />
-                                </div>
-                            </div>
+
+
+
                             <span className='absolute right-2 bottom-0 text-[12px] hidden md:flex'>
                                 {item.fecha}
                             </span>

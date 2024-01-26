@@ -4,6 +4,8 @@ import { faFile, faImage } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 function Mensajes() {
     const campanaRef = useRef(null);
@@ -14,6 +16,16 @@ function Mensajes() {
     const [loading, setLoading] = useState(false);
     const [loading2, setLoading2] = useState(false);
     const [loading3, setLoading3] = useState(false);
+
+
+    const showAlert = (icon, text) => {
+        Swal.fire({
+            title: '¡Hola!',
+            text: text,
+            icon: icon,
+            confirmButtonText: 'Aceptar'
+        });
+    };
 
 
     useEffect(() => {
@@ -106,24 +118,24 @@ function Mensajes() {
 
         const textoValue = textoRef.current.value;
 
-    
-        
+
+
 
         if (!campanaValue) {
             console.error('Campos obligatorios vacíos');
-            setLoading2(true); 
+            setLoading2(true);
 
         }
 
 
         if (!campanaValue) {
             console.error('Campos obligatorios vacíos');
-            setLoading3(true); 
+            setLoading3(true);
             return
         }
 
 
-        
+
         const formData = new FormData();
         formData.append('nombre_p', campanaRef.current.value);
         formData.append('contenido', textoRef.current.value);
@@ -154,6 +166,7 @@ function Mensajes() {
         await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_crear_p_masiva.php', formData)
             .then(response => {
                 console.log('Solicitud exitosa:', response.data);
+                
 
                 // Limpiar los campos después de enviar el formulario
                 imagen.current.value = "";
@@ -165,16 +178,18 @@ function Mensajes() {
                 document.getElementById('mostrar-imagen-doc').innerHTML = '';
                 document.getElementById('mostrar-documento').textContent = '';
                 setLoading(false);
+                showAlert('success', 'Plantilla Creada');
             })
             .catch(error => {
-                setLoading2(true); 
+                setLoading2(true);
                 console.error('Error al enviar la solicitud:', error);
                 imagen.current.value = "";
                 docu.current.value = "";
                 textoRef.current.value = "";
                 campanaRef.current.value = "";
                 setLoading(false);
-        
+                showAlert('error', 'La plantilla no fue Creada');
+
             })
             .finally(() => {
                 setLoading(false);
@@ -192,7 +207,7 @@ function Mensajes() {
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
-                    <div className="flex justify-center flex-col md:flex-row items-start mt-1 md:mt-10 h-[80vh] gap-6">
+                    <div className="flex justify-center flex-col md:flex-row items-start mt-1 md:mt-10 gap-6 mb-14">
                         <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg border">
                             <div>
                                 <label className="label-text font-medium text-xl" htmlFor="campana">Nombre Plantilla:</label>
@@ -241,14 +256,14 @@ function Mensajes() {
 
 
                         <div className='flex-col flex w-full max-w-2xl relative'>
-                        <div className="w-full max-w-2xl -z-10 relative p-8 bg-white rounded-lg mt-0 border border-gray-300 shadow-lg">
-                            <div id="mostrar-imagen-doc" className='w-64 bg-white overflow-hidden max-h-44 m-auto'></div>
-                            <div id="mostrar-documento" className='bg-blue-300 rounded w-auto break-all'></div>
-                            <span className="block mt-4 text-xl font-semibold text-black">Mensaje:</span>
-                            <div id="mostrar-texto" className="break-all bg-gray-200 p-4 rounded shadow mt-2 max-h-20 overflow-y-auto"></div>
+                            <div className="w-full max-w-2xl -z-10 relative p-8 bg-white rounded-lg mt-0 border border-gray-300 shadow-lg">
+                                <div id="mostrar-imagen-doc" className='w-64 bg-white overflow-hidden max-h-44 m-auto'></div>
+                                <div id="mostrar-documento" className='bg-blue-300 rounded w-auto break-all'></div>
+                                <span className="block mt-4 text-xl font-semibold text-black">Mensaje:</span>
+                                <div id="mostrar-texto" className="break-all bg-gray-200 p-4 rounded shadow mt-2 max-h-20 overflow-y-auto"></div>
 
-                        </div>
-                        <button id="submit-button" onClick={sendData} type="submit" className="mt-4 bg-gray-700 w-[85%] md:w-full mx-auto text-white px-4 py-2 rounded cursor-pointer">Enviar</button>
+                            </div>
+                            <button id="submit-button" onClick={sendData} type="submit" className="mt-4 bg-gray-700 w-[85%] md:w-full mx-auto text-white px-4 py-2 rounded cursor-pointer">Enviar</button>
                             {loading && (
                                 <div className="loader-container left-32 bottom-10">
                                     {/* Agrega aquí el código para tu loader (puedes usar bibliotecas como react-loader-spinner, etc.) */}
@@ -258,6 +273,8 @@ function Mensajes() {
                         </div>
                     </div>
                 </main>
+
+
             </div>
         </>
     );

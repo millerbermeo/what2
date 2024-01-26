@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 function SendCampana() {
   const [agendaItems, setAgendaItems] = useState([]);
@@ -10,10 +12,18 @@ function SendCampana() {
   const [selectAll, setSelectAll] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [Campo, setCampo] = useState(false)
-
-
-
   const [groupedData, setGroupedData] = useState({});
+
+
+  const showAlert = (icon, text) => {
+    Swal.fire({
+      title: '¡Hola!',
+      text: text,
+      icon: icon,
+      confirmButtonText: 'Aceptar'
+    });
+  };
+
 
   useEffect(() => {
     function groupByAgent(data) {
@@ -96,7 +106,7 @@ function SendCampana() {
         <div key={agente} className='mb-10 m-auto relative flex flex-col justify-start w-full'>
           <h3 className='font-bold flex'>
             <span className='w-56 overflow-hidden text-sm font-normal'>
-            {agente}
+              {agente}
             </span>
             <button
               onClick={() => toggleShowDiv(agente)}
@@ -168,6 +178,39 @@ function SendCampana() {
   }, [agendaItems, selectedItem]);
 
 
+  const renderContent = () => {
+    if (!selectedTemplate) return null;
+
+    const { tipo, nombre, contenido, url } = selectedTemplate;
+
+    if (tipo === 'text') {
+      return (
+        <div>
+          <h2 className="uppercase font-bold">{nombre}</h2>
+          <p className="mb-2">{contenido}</p>
+        </div>
+      );
+    } else if (tipo === 'image') {
+      return (
+        <div>
+          <h2 className="uppercase font-bold">{nombre}</h2>
+          <p className="mb-2">{contenido}</p>
+          <img src={url} alt="Plantilla" className="w-40 h-auto object-cover" />
+        </div>
+      );
+    } else if (tipo === 'document') {
+      return (
+        <div>
+          <h2 className="uppercase font-bold">{nombre}</h2>
+          <p className="mb-2">{contenido}</p>
+          <a href={url} target="_blank" rel="noopener noreferrer" className="block mt-2 px-2 py-3 rounded-sm bg-slate-400 text-white">Ver documento</a>
+        </div>
+      );
+    } else {
+      return null; // Otra opción: manejar un caso de tipo desconocido o inválido
+    }
+  };
+
 
   const validateFields = () => {
     // Validar que se haya seleccionado un elemento de la agenda
@@ -231,11 +274,14 @@ function SendCampana() {
           console.log('Respuesta del servidor:', response.data);
 
           setSelectedItem(''); // Restablecer el valor del select
-          
+
+          showAlert('success', 'Plantilla masiva enviada');
+
         })
         .catch(error => {
           // Manejar errores
           console.error('Error al hacer la solicitud:', error);
+          showAlert('error', 'Error al enviar plantillas Masivas');
         });
       setShowModal(false);
       setCampo(false);
@@ -254,7 +300,7 @@ function SendCampana() {
     }
     setCampo(true);
   };
-  
+
 
 
   return (
@@ -283,7 +329,7 @@ function SendCampana() {
                 value={selectedItem}
                 onChange={(e) => setSelectedItem(e.target.value)}
                 className="p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                required 
+                required
               >
                 <option value="">Selecciona...</option>
                 {agendaItems.map((item) => (
@@ -294,22 +340,16 @@ function SendCampana() {
               </select>
             </div>
 
-            <div className='w-full lg:w-96 flex justify-center bg-white text-black shadow-lg p-2'>
-              {selectedTemplate && (
-                <div>
-                  <h2 className="uppercase font-bold">{selectedTemplate.nombre}</h2>
-                  <p className="mb-2">{selectedTemplate.contenido}</p>
-                  <img src={selectedTemplate.url} alt="Plantilla" className="w-40 h-40 object-cover" />
-                </div>
-              )}
+            <div className='w-full h-auto lg:w-96 flex justify-center bg-white text-black shadow-lg p-2'>
+              {renderContent()}
             </div>
 
-           
+
           </section>
 
           <div className='w-full'>
-              {resultHTML}
-            </div>
+            {resultHTML}
+          </div>
 
           {showModal && (
             <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -326,11 +366,11 @@ function SendCampana() {
                 </div>
 
                 <div className='w-full h-5'>
-                
+
                 </div>
 
               </div>
-              
+
             </div>
           )}
 
@@ -342,10 +382,10 @@ function SendCampana() {
               Enviar Campaña
             </button>
             {Campo && (
-                <div className='text-lg font-normal mt-2 text-center w-full bg-red-600 text-white h-10 flex items-center justify-center'>
-                  Campos Requeridos
-                </div>
-              )}
+              <div className='text-lg font-normal mt-2 text-center w-full bg-red-600 text-white h-10 flex items-center justify-center'>
+                Campos Requeridos
+              </div>
+            )}
           </div>
 
         </main>
