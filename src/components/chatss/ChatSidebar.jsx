@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 import React, { useEffect, useState, useRef } from 'react';
-import ModalChat from './ModalChat';
-import ModalAgenda from './ModalAgenda';
+import ModalChat from '../modals/ModalChat';
+import ModalAgenda from '../modals/ModalAgenda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot, faFlag } from '@fortawesome/free-solid-svg-icons';
-import ModalLeft from './ModalLeft';
-import ModalName from './ModalName';
-import ModalBot from './ModalBot';
-import ModalContact from './ModalContact';
-import ModalGroup from './ModalGroup';
-import AddAgente from './AddAgente';
+import ModalLeft from '../modals/ModalLeft';
+import ModalName from '../modals/ModalName';
+import ModalBot from '../modals/ModalBot';
+import ModalContact from '../modals/ModalContact';
+import ModalGroup from '../modals/ModalGroup';
+import AddAgente from '../modals/AddAgente';
 
 
 
@@ -147,7 +147,14 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
                 }
 
-                setData((prevData) => [...prevData, ...uniqueNewMessages]);
+                setData((prevData) => {
+                    // Filtra los nuevos mensajes para eliminar duplicados
+                    const uniqueNewMessages = formattedData.filter(item => !prevData.some(existingItem => existingItem.id === item.id));
+                
+                    // Actualiza el estado agregando los nuevos mensajes únicos
+                    return [...prevData, ...uniqueNewMessages];
+                });
+                
             } catch (error) {
                 console.error('Error al obtener datos de la API:', error);
             }
@@ -240,8 +247,6 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                 <div className='w-full h-[60vh] md:h-[75%] 2xl:h-[90%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-10 md:pb-2'>
                     {filteredData.map((item, index) => (
                         <div
-
-
                             key={index}
                             className={`flex gap-2 w-full px-2 border-b border-gray-300 relative justify-center items-center hover:bg-gray-300 cursor-pointer ${elementoSeleccionado === item.numberw ? 'bg-gray-300' : ''}`}
 

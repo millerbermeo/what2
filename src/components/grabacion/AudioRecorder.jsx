@@ -5,10 +5,16 @@ import { faMicrophone, faPlay, faPause } from '@fortawesome/free-solid-svg-icons
 import LineSound from './LineSound';
 import RecorderSound from './RecorderSound';
 
-function AudioRecorder() {
+function AudioRecorder({enviarRef}) {
     const [isRecording, setRecording] = useState(false);
     const [audioBlob, setAudioBlob] = useState(null);
     const audioRef = useRef(null);
+
+    React.useEffect(() => {
+        enviarRef(audioRef);
+      }, [audioRef, enviarRef]);
+
+
     const [reproduciendo, setReproduciendo] = useState(false);
     const [showRecorder, setShowRecorder] = useState(false); // Nuevo estado para controlar la visibilidad de RecorderSound
 
@@ -77,7 +83,7 @@ function AudioRecorder() {
     };
 
     return (
-        <div className='relative'>
+        <div className='relative flex'>
             <ReactMic
                 record={isRecording}
                 onStop={onStop}
@@ -88,9 +94,9 @@ function AudioRecorder() {
             />
             {showRecorder && <RecorderSound />} {/* Mostrar RecorderSound cuando se está grabando */}
 
-            <button className={`mr-2 ${isRecording ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} onClick={toggleRecording} type="button">
+            <div className={`mr-2 ${isRecording ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} onClick={toggleRecording}>
                 <FontAwesomeIcon icon={faMicrophone} />
-            </button>
+            </div>
 
             {reproduciendo && <LineSound />} {/* Muestra la animación de línea de sonido si se está reproduciendo */}
 
@@ -107,9 +113,9 @@ function AudioRecorder() {
                     </audio>
                 </>
             )}
-            <button onClick={reproducirAudio}>
+            <div onClick={reproducirAudio}>
                 <FontAwesomeIcon icon={reproduciendo ? faPause : faPlay} className={`${audioBlob ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} />
-            </button>
+            </div>
         </div>
     );
 }

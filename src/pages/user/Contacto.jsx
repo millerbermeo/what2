@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Sidebar from '../components/Sidebar'
+import Navbar from '../../components/Navbar'
+import Sidebar from '../../components/Sidebar'
 
 function Contacto() {
 
@@ -13,7 +13,7 @@ function Contacto() {
 
             <div className="flex">
                 <div className='md:relative md:z-0'>
-                    <Sidebar />
+                    <Sidebar ocultar="hidden"/>
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />

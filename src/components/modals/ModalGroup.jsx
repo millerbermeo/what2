@@ -12,7 +12,7 @@ function ModalGroup({ numero }) {
   
 
   const log = () => {
-    setShowModal(true);
+    setShowModal(!showModal);
   };
 
   
@@ -106,7 +106,8 @@ function ModalGroup({ numero }) {
       {/* Modal */}
       {showModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <form className="bg-white p-12 m-5 rounded shadow-lg flex items-center flex-col">
+          <form className="bg-white p-12 m-5 rounded shadow-lg flex items-center flex-col relative">
+            <div onClick={log} className='text-black absolute top-1 right-5 text-3xl'>x</div>
             <div className='grid grid-cols-3 place-items-start gap-2'>
               {renderCheckboxes()}
             </div>

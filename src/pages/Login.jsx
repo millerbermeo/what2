@@ -91,12 +91,18 @@ function Login() {
   useEffect(() => {
     // Verificar si hay información de usuario en localStorage
     const user = JSON.parse(localStorage.getItem('user'));
-
-    // Si hay información de usuario, redirigir a la página '/home'
-    if (user) {
+  
+    // Si hay información de usuario y el tipo es 'agente', redirigir a la página '/home'
+    if (user && user.type === 'agente') {
       navigation('/home');
     }
+
+    if (user && user.type === 'admin') {
+      navigation('/dashboard');
+    }
   }, [navigation]);
+  
+
 
 
   return (

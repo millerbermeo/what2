@@ -4,8 +4,8 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faDownload, faFile, faRightFromBracket, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Logout from './Logout';
-import AudioRecorder from './AudioRecorder';
+import Logout from '../modals/Logout';
+import AudioRecorder from '../grabacion/AudioRecorder';
 
 function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [mensajes, setMensajes] = useState([]);
@@ -21,6 +21,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [isFileUploaded, setIsFileUploaded] = useState(false); // Nuevo estado
   const [textoPorDefecto, setTextoPorDefecto] = useState('Texto por defecto');
   const [options, setOptions] = useState([]);
+  const [audioRef, setAudioRef] = useState(null);
 
 
 
@@ -293,6 +294,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
           setShouldScrollToLast(true);
         }
 
+        
+
 
       } catch (error) {
         console.error('Error al realizar la petición:', error);
@@ -305,6 +308,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
     return () => clearInterval(intervalId);
   }, [numeroSeleccionado, scrollRef, mensajes, nameSeleccionado]);
+
+  
 
   const renderMedia = (mensaje) => {
 
@@ -322,7 +327,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
           <img
             src={mensaje.url}
             alt="Imagen"
-            className="max-w-[200px] relative  h-auto object-contain cursor-pointer"
+            className="max-w-[200px] h-[200px] relative  object-contain cursor-pointer"
             onClick={() => setFullscreenImage(mensaje.url)}
             style={mensaje.b1 === '1' ? { right: '-16px' } : { left: '-16px' }}
           />
@@ -385,7 +390,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     } else {
 
       return (
-        <div className='relative flex pb-1 break-words'>
+        <div className='relative pb-1 break-words'>
           {mensaje.men} <span className='translate-y-[4px]' style={mensaje.b1 === '1' ? { ...horaStyle, right: '-32px' } : { ...horaStyle, left: '-32px' }}>{formatFecha(mensaje.fecha)}</span>
         </div>
       );
@@ -472,6 +477,12 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
   const handleReloadPage = () => {
     window.location.reload();
   };
+
+  const handleAudioRef = (ref) => {
+    // Guarda el ref en el estado del componente padre
+    setAudioRef(ref);
+};
+
 
   // style={{ backgroundImage: "url('background2.png')", backgroundSize: "cover" }}
 
@@ -582,7 +593,7 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                       <div key={`icono-usuario-${index}`} className='border border-gray-300 text-2xl w-10 h-10 grid place-items-center text-gray-400 bg-gray-200 rounded-full'>
                         <FontAwesomeIcon icon={faUser} className="" />
                       </div>
-                      <div key={`media-${index}`} className="text-black text-[15px] rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
+                      <div key={`media-${index}`} className="text-black text-[15px]  rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
                     </>
                   )}
                 </li>
@@ -635,7 +646,7 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
 
               <div className='ml-10 absolute left-[15px] top-2'>
                 <button>
-                <AudioRecorder/>
+                <AudioRecorder enviarRef={handleAudioRef} />
                 </button>
               </div>
               <input

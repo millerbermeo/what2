@@ -4,7 +4,7 @@ import { faBars, faChevronDown, faChevronRight, faHouse, faGear, faCommentDots, 
 import { Link } from 'react-router-dom';
 
 
-const Sidebar = () => {
+const Sidebar = ({mostrar, ocultar}) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -73,7 +73,7 @@ const Sidebar = () => {
 
 
             <div className='h-[75%] overflow-auto custom-scrollbar'>
-              <ul className="text-[#5f6368] p-3 overflow-hidden w-[250px] flex flex-col gap-2 h-auto">
+              <ul className={`text-[#5f6368] p-3 overflow-hidden w-[250px] flex flex-col gap-2 h-auto ${mostrar}`}>
                 <div
                   className="flex justify-start items-center gap-5 cursor-pointer hover:text-black"
                   onClick={toggleChatMenu}
@@ -159,6 +159,32 @@ const Sidebar = () => {
                   </div>
                 </Link>
 
+              </ul>
+
+              <ul className={`text-[#5f6368] p-3 overflow-hidden  w-[250px]  flex-col gap-2 h-auto ${ocultar}`}>
+              <Link to="/dashboard">
+                  <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
+
+                    <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
+                      <FontAwesomeIcon icon={faAddressCard} />
+
+                    </div>
+
+                    <li className='text-lg'>Monitoreo</li>
+
+                  </div>
+                </Link>
+
+                <Link to="/acceso">
+                  <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
+
+                    <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
+                      <FontAwesomeIcon icon={faCommentDots} />
+
+                    </div>
+                    <li className='text-lg'>Acceso Agente</li>
+                  </div>
+                </Link>
               </ul>
             </div>
 

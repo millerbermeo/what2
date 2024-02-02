@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile, faImage } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
+import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
@@ -203,7 +203,7 @@ function Mensajes() {
         <>
             <div className="flex">
                 <div className='md:relative md:z-0'>
-                    <Sidebar />
+                    <Sidebar ocultar="hidden"/>
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />

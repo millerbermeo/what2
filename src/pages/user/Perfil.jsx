@@ -1,7 +1,7 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
-import Navbar from '../components/Navbar'
-import ModalPassword from '../components/ModalPassword';
+import Sidebar from '../../components/Sidebar'
+import Navbar from '../../components/Navbar'
+import ModalPassword from '../../components/modals/ModalPassword';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,7 +14,7 @@ function Perfil() {
 
             <div className="flex">
                 <div className='md:relative md:z-0'>
-                    <Sidebar />
+                    <Sidebar ocultar="hidden"/>
                 </div>
                 <main className="flex-1 w-full h-screen pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0 bg-[#fffdfd]">
                     <Navbar navbar="flex" />
