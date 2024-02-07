@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
 
 
+
+
 function Dashboard() {
 
 
@@ -21,9 +23,9 @@ function Dashboard() {
         <div className='md:relative md:z-0'>
           <Sidebar mostrar="hidden" ocultar="flex" />
         </div>
-        <main className="flex-1 w-full pl-0 md:ml-3 lg:p-2 pt-0 lg:pt-0 pb-0 2xl:px-0">
+        <main className="flex-1 w-full pl-0 lg:pl-5 lg:p-2 pt-0 lg:pt-1 pb-0">
           {/* <Navbar/> */}
-          <div className='w-full h-16 bg-gray-300 flex justify-between items-center px-5'>
+          <div className='w-full h-16 bg-gray-300 flex justify-between items-center rounded-lg px-5'>
             <div className='flex gap-4 justify-center items-start'>
             <span className='text-3xl p-1 text-blue-900 bg-white w-10 h-10 flex justify-center items-center rounded-full'>
               <FontAwesomeIcon icon={faUserSecret} />
@@ -40,7 +42,7 @@ function Dashboard() {
 
             <Logout/>
           </div>
-          <div className='flex 2xl:items-center items-start 2xl:h-[100%] justify-center gap-3 2xl:gap-10 mt-5 2xl:px-10'>
+          <div className='flex 2xl:items-center items-start 2xl:h-[100%] justify-center gap-8 flex-wrap lg:flex-nowrap 2xl:gap-10 mt-5 2xl:px-10'>
 
             <ChatsBot />
             <ChatsNoRespondidos />

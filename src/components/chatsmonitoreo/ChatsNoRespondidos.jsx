@@ -24,24 +24,24 @@ function ChatsNoRespondidos() {
 
 
     return (
-        <div className='w-full 2xl:w-[450px] h-[500px] 2xl:h-[700px] border rounded-lg overflow-hidden shadow-2xl shadow-gray-200'>
+        <div className='w-[90%]  2xl:w-[480px] h-[500px] 2xl:h-[700px] border rounded-lg overflow-hidden shadow-2xl shadow-gray-200'>
             <div className='w-full h-10 flex justify-center items-center bg-blue-900 text-white'>
                 <h3 className='text-xl font-medium'>Chats No Respondidos</h3>
             </div>
 
-            <div className='w-full px-2 2xl:px-5 pt-2 h-[100%] overflow-y-auto'>
+            <div className='w-full px-2 2xl:px-5 pt-2 h-[100%] overflow-y-auto custom-scrollbar3 pb-14'>
                 {data.map((chat) => (
-                    <div key={chat.id} className='flex relative items-center justify-between h-20'>
+                    <div key={chat.id} className='flex relative items-center justify-between h-20 pt-2'>
                         <div className='flex items-start gap-3'>
-                            <span className='text-4xl text-gray-900'>
+                            <span className='text-4xl text-gray-900 hidden 2xl:flex'>
                                 <FontAwesomeIcon icon={faCircleUser} />
                             </span>
-                            <div className='-z-10'>
+                            <div className=''>
                                 <h4 className='font-semibold'>{chat.numberw}</h4>
-                                <p className='text-sm h-10 overflow-hidden text-gray-500 break-all mb-1'>{chat.men ? chat.men : 'No hay mensaje'}</p>
+                                <p className='text-sm 2xl:text-base h-10 2xl:h-12  overflow-hidden text-gray-500 break-all mb-1'>{chat.men ? chat.men : 'No hay mensaje'}</p>
                             </div>
                         </div>
-                        <div className='rounded-full  top-[3px] w-6 h-6 flex justify-center items-center absolute right-0'>
+                        <div className='rounded-full  top-[8px] w-6 h-6 flex justify-center items-center absolute right-0 bg-blue-600 text-white'>
                             <ModalLeft numero={chat.numberw}/>
                         </div>
 

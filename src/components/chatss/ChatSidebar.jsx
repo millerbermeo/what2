@@ -20,22 +20,15 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     const newMessageSoundRef = useRef(new Audio('sonido1.mp3'));
     const [elementoSeleccionado, setElementoSeleccionado] = useState(null);
     const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
     const [divStyle, setDivStyle] = useState({});
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedOptionFromModal, setSelectedOptionFromModal] = useState(null);
+    const [numeroSeleccionado, setNumeroSeleccionado] = useState(null);
+    const [nameSeleccionado, setNameSeleccionado] = useState('');
     const [mostrar, setMostrar] = useState(true)
-
-    let endpoint;
-
-    if (mostrar === true) {
-
-        endpoint = 'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_agente.php';
-    
-      } else if (mostrar === false) {
-        endpoint = 'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_grupo.php';
-      }
-      
-
-
+    const [filtroActivo, setFiltroActivo] = useState('filtro1'); // Estado para el filtro activo
+    const [filtroNoLeidos, setFiltroNoLeidos] = useState(false);
 
 
     const handleDivClick = () => {
@@ -52,7 +45,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     };
 
 
-    const [selectedOptionFromModal, setSelectedOptionFromModal] = useState(null);
+    
 
 
     const handleSelectedOption = (selectedOption, name1) => {
@@ -67,14 +60,11 @@ const ChatSidebar = ({ onClicEnDiv }) => {
         setElementoSeleccionado(selectedOption)
     }
 
-    const [numeroSeleccionado, setNumeroSeleccionado] = useState(null);
-    const [nameSeleccionado, setNameSeleccionado] = useState('');
+
 
     const handleClick = (numberw, name) => {
         setNumeroSeleccionado(numberw);
         setNameSeleccionado(String(name));
-        // console.log(numberw)
-        // console.log(name)
     };
 
 
@@ -116,11 +106,11 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                 const user = JSON.parse(localStorage.getItem('user'));
                 const number_a = user && user.number_a;
 
-                // Create form data and append the number_a value
+
                 const formData = new FormData();
                 formData.append('number_a', number_a);
 
-                const response = await axios.post(endpoint, formData);
+                const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_agente.php', formData);
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({
                     ...item,
@@ -136,10 +126,9 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
                 }
                 if (uniqueNewMessages.length > 0) {
-                    // console.log("-------------")
+
                     let b1Value = uniqueNewMessages[0].b1;
-                    // console.log('Valor de b1:', b1Value);
-                    // console.log("-------------")
+
 
                     if (b1Value === "1") {
                         newMessageSoundRef.current.play();
@@ -164,22 +153,66 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
         return () => clearInterval(intervalId);
 
-        // fetchData()
 
     }, [data]);
 
-    const [filtroNoLeidos, setFiltroNoLeidos] = useState(false);
+
+
+    useEffect(() => {
+        const fetchData2 = async () => {
+            try {
+
+                const user = JSON.parse(localStorage.getItem('user'));
+                const number_a = user && user.number_a;
+
+                const formData = new FormData();
+                formData.append('number_a', number_a);
+
+                const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_grupo.php', formData);
+                // Mapea los datos y formatea la fecha
+                const formattedData = response.data.map(item => ({
+                    ...item,
+                    fecha: formatFecha(item.fecha),
+                }));
+
+
+                setData2((prevData) => {
+                    // Filtra los nuevos mensajes para eliminar duplicados
+                    const uniqueNewMessages = formattedData.filter(item => !prevData.some(existingItem => existingItem.id === item.id));
+                
+                    // Actualiza el estado agregando los nuevos mensajes únicos
+                    return [...prevData, ...uniqueNewMessages];
+                });
+                
+            } catch (error) {
+                console.error('Error al obtener datos de la API:', error);
+            }
+        };
+
+        const intervalId = setInterval(fetchData2, 1000);
+
+        return () => clearInterval(intervalId);
+
+
+
+    }, [data2]);
+
+   
 
     // Función para manejar el clic en "NO LEIDOS"
-    const handleNoLeidosClick = () => {
-        setFiltroNoLeidos(!filtroNoLeidos);
-        setMostrar(true)
-    };
-
     const handleMostrarTodosClick = () => {
-        setFiltroNoLeidos(false); // Desactiva el filtro de "NO LEIDOS"
-        setMostrar(true)
+        setFiltroActivo('filtro1'); // Establece el filtro activo al primer filtro
+        setFiltroNoLeidos(false); // Desactiva el filtro de "NO LEÍDOS"
+        setMostrar(true);
     };
+    
+    // Función para manejar el clic en "NO LEIDOS"
+    const handleNoLeidosClick = () => {
+        setFiltroNoLeidos(true); // Cambia el estado de filtroNoLeidos
+        setFiltroActivo('filtro1'); 
+        setMostrar(true);
+    };
+    
 
     // Filtra los datos según los criterios
     const filteredData = data.filter((item) => {
@@ -190,9 +223,28 @@ const ChatSidebar = ({ onClicEnDiv }) => {
         );
     });
 
+    const filteredData2 = data2.filter((item) => {
+        return (
+            (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.numberw.toLowerCase().includes(searchTerm.toLowerCase()))
+
+        //     (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        //     item.numberw.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        // (!filtroNoLeidos || item.b1 === "1")
+        );
+    });
+
+
+    const datosFiltrados = filtroActivo === 'filtro1' ? filteredData : filteredData2;
+
+
+
     const handleCambiarEndopoint = () => {
+ 
+        setFiltroActivo('filtro2');
         setMostrar(false)
     }
+
 
     return (
         <>
@@ -245,7 +297,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
                 <div className='w-full h-[60vh] md:h-[75%] 2xl:h-[90%] overflow-auto custom-scrollbar2 lg:-z-20 mt-3 bg-white rounded-xl pb-10 md:pb-2'>
-                    {filteredData.map((item, index) => (
+                    {datosFiltrados.map((item, index) => (
                         <div
                             key={index}
                             className={`flex gap-2 w-full px-2 border-b border-gray-300 relative justify-center items-center hover:bg-gray-300 cursor-pointer ${elementoSeleccionado === item.numberw ? 'bg-gray-300' : ''}`}
@@ -277,34 +329,21 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                             </div>
 
 
-                            {mostrar ? (
+                         
                                 <div className={`grid grid-cols-2 mr-2 md:mr-0 md:mb-[14px] z-1 gap-x-3 gap-y-[6px]`}>
-                                    <div className="bg-gray-800 text-lg md:text-[15px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                    <div className={`bg-gray-800 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
                                         <ModalBot numero={item.numberw} />
                                     </div>
                                     <div className="bg-gray-800 text-lg md:text-[14.5px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
                                         <ModalGroup numero={item.numberw} />
                                     </div>
-                                    <div className="bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                    <div className='bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex  justify-center items-center rounded-full'>
                                         <ModalName numero={item.numberw} />
                                     </div>
-                                    <div className="bg-blue-500 text-lg md:text-[15px] hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                    <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px]  justify-center items-center rounded-full`}>
                                         <ModalLeft numero={item.numberw} />
                                     </div>
                                 </div>
-                            ) : (
-                                <div className={`grid grid-cols-2 mr-2 md:mr-0 md:mb-[40px] z-1 gap-x-3 gap-y-[6px]`}>
-                                    <div className="bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
-                                        <ModalName numero={item.numberw} />
-                                    </div>
-                                    <div className="bg-gray-800 text-lg md:text-[14.5px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
-                                        <AddAgente/>
-                                    </div>
-                                </div>
-                            )}
-
-
-
 
                             <span className='absolute right-2 bottom-0 text-[12px] hidden md:flex'>
                                 {item.fecha}
