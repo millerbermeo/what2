@@ -731,7 +731,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                   {recording ? (
                     <button onClick={stopRecording}>Stop</button>
                   ) : (
-                    <div className='flex justify-center text-blue-500 items-center text-xl  overflow-hidden'>
+                    <div className='flex justify-center text-gray-600 items-center text-xl  overflow-hidden'>
                     <FontAwesomeIcon icon={faMicrophone} />
                 </div>
                   )}
@@ -747,7 +747,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <input
                 ref={mensajeInputRef}
                 onKeyDown={handleKeyDown}
-                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-24 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-20 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                 type="text"
                 placeholder="Escribe algo..."
               />

@@ -35,6 +35,7 @@ function ModalPassword() {
         } else {
             console.log("las contraselas no coinciden")
             setCampo(true)
+            return ;
         }
 
 
