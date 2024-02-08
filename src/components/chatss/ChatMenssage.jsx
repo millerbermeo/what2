@@ -3,7 +3,7 @@ import axios from 'axios';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faDownload, faFile, faRightFromBracket, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faDownload, faFile, faMicrophone, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Logout from '../modals/Logout';
 import AudioRecorder from '../grabacion/AudioRecorder';
 
@@ -731,7 +731,9 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                   {recording ? (
                     <button onClick={stopRecording}>Stop</button>
                   ) : (
-                    <button onClick={startRecording}>Start</button>
+                    <div className='flex justify-center text-blue-500 items-center text-xl  overflow-hidden'>
+                    <FontAwesomeIcon icon={faMicrophone} />
+                </div>
                   )}
 
 
