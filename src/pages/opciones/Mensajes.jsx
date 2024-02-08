@@ -4,8 +4,8 @@ import { faFile, faImage } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
+// import Swal from 'sweetalert2';
+// import 'sweetalert2/dist/sweetalert2.css';
 
 function Mensajes() {
     const campanaRef = useRef(null);
@@ -18,14 +18,14 @@ function Mensajes() {
     const [loading3, setLoading3] = useState(false);
 
 
-    const showAlert = (icon, text) => {
-        Swal.fire({
-            title: '¡Hola!',
-            text: text,
-            icon: icon,
-            confirmButtonText: 'Aceptar'
-        });
-    };
+    // const showAlert = (icon, text) => {
+    //     Swal.fire({
+    //         title: '¡Hola!',
+    //         text: text,
+    //         icon: icon,
+    //         confirmButtonText: 'Aceptar'
+    //     });
+    // };
 
 
     useEffect(() => {
@@ -178,7 +178,7 @@ function Mensajes() {
                 document.getElementById('mostrar-imagen-doc').innerHTML = '';
                 document.getElementById('mostrar-documento').textContent = '';
                 setLoading(false);
-                showAlert('success', 'Plantilla Creada');
+                // showAlert('success', 'Plantilla Creada');
             })
             .catch(error => {
                 setLoading2(true);
@@ -188,7 +188,7 @@ function Mensajes() {
                 textoRef.current.value = "";
                 campanaRef.current.value = "";
                 setLoading(false);
-                showAlert('error', 'La plantilla no fue Creada');
+                // showAlert('error', 'La plantilla no fue Creada');
 
             })
             .finally(() => {

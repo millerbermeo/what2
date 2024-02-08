@@ -4,7 +4,7 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function Logout() {
+function Logout2() {
   const [showModal, setShowModal] = useState(false);
 
   const navigation = useNavigate()
@@ -22,13 +22,13 @@ function Logout() {
 
       // Puedes manejar la respuesta aquí, por ejemplo, redireccionar o mostrar un mensaje
       console.log('Respuesta del servidor:', response.data);
- 
-      // Limpiar el localStorage
-      localStorage.removeItem('user');
 
+      // Limpiar el localStorage
+      localStorage.removeItem('user2');
 
       // Redireccionar a la vista raíz
       navigation("/")
+      
 
     } catch (error) {
       // Manejar errores aquí
@@ -67,4 +67,4 @@ function Logout() {
   );
 }
 
-export default Logout;
+export default Logout2;

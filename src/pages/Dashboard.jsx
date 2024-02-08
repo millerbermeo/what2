@@ -4,9 +4,9 @@ import Navbar from '../components/Navbar'
 import ChatsBot from '../components/chatsmonitoreo/ChatsBot'
 import ChatsNoRespondidos from '../components/chatsmonitoreo/ChatsNoRespondidos'
 import ChatsRespondidos from '../components/chatsmonitoreo/ChatsRespondidos'
-import Logout from '../components/modals/Logout'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import Logout2 from '../components/modals/Logout2'
 
 
 
@@ -14,7 +14,7 @@ import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
 function Dashboard() {
 
 
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user2'));
   console.log(user)
 
   return (
@@ -40,7 +40,7 @@ function Dashboard() {
             </div>
 
 
-            <Logout/>
+           <Logout2/>
           </div>
           <div className='flex 2xl:items-center items-start 2xl:h-[100%] justify-center gap-8 flex-wrap lg:flex-nowrap 2xl:gap-10 mt-5 2xl:px-10'>
 

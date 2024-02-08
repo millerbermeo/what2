@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
+// import Swal from 'sweetalert2';
+// import 'sweetalert2/dist/sweetalert2.css';
 
 function SendCampana() {
   const [agendaItems, setAgendaItems] = useState([]);
@@ -15,14 +15,14 @@ function SendCampana() {
   const [groupedData, setGroupedData] = useState({});
 
 
-  const showAlert = (icon, text) => {
-    Swal.fire({
-      title: '¡Hola!',
-      text: text,
-      icon: icon,
-      confirmButtonText: 'Aceptar'
-    });
-  };
+  // const showAlert = (icon, text) => {
+  //   Swal.fire({
+  //     title: '¡Hola!',
+  //     text: text,
+  //     icon: icon,
+  //     confirmButtonText: 'Aceptar'
+  //   });
+  // };
 
 
   useEffect(() => {
@@ -275,13 +275,13 @@ function SendCampana() {
 
           setSelectedItem(''); // Restablecer el valor del select
 
-          showAlert('success', 'Plantilla masiva enviada');
+          // showAlert('success', 'Plantilla masiva enviada');
 
         })
         .catch(error => {
           // Manejar errores
           console.error('Error al hacer la solicitud:', error);
-          showAlert('error', 'Error al enviar plantillas Masivas');
+          // showAlert('error', 'Error al enviar plantillas Masivas');
         });
       setShowModal(false);
       setCampo(false);

@@ -9,7 +9,8 @@ function Campanas() {
     const [expandedNumbers, setExpandedNumbers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 7; // Número de filas por página
+    const [inputValue, setInputValue] = useState('10')
+    const pageSize = inputValue; // Número de filas por página
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,6 +45,13 @@ function Campanas() {
         );
     };
 
+    const handleInputOnchange = (event) => {
+        setInputValue(event.target.value)
+        if (event.target.value <= 0) {
+            setInputValue('1')
+        }
+    }
+
 
     const totalPages = Math.ceil(filterCampanas().length / pageSize);
 
@@ -57,13 +65,14 @@ function Campanas() {
         <div>
             <div className="flex">
                 <div className='md:relative md:z-0'>
-                    <Sidebar ocultar="hidden"/>
+                    <Sidebar ocultar="hidden" />
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
-                    <Navbar navbar="flex" />
+                    <Navbar navbar="flex"/>
                     <div className='flex justify-start flex-col mt-10 px-2 lg:px-0 lg:pr-5'>
                         <h2 className='font-semibold text-2xl text-gray-900 text-center'>Total de Campañas Masivas</h2>
-                        <div className='flex gap-2 mt-10'>
+                        <div className='flex justify-start 2xl:ml-12 gap-2 mt-10'>
+                            <div className='flex gap-2'>
                             <input
                                 type="text"
                                 placeholder="Buscar..."
@@ -71,6 +80,9 @@ function Campanas() {
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
+                            <input type="number" value={inputValue} onChange={handleInputOnchange} className='w-14 h-[34px] mx-auto pl-4 border rounded outline-none border-gray-600' />
+
+                            </div>
                             <Link to="/send">
                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded">
                                     Crear
@@ -119,27 +131,27 @@ function Campanas() {
                                 </tbody>
                             </table>
 
-                           
+
 
 
                         </div>
 
-                        <div className="flex justify-center w-full lg:justify-end gap-2 mt-4">
-                                <button
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                                >
-                                    Anterior
-                                </button>
-                                <button
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={currentPage === totalPages}
-                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
-                                >
-                                    Siguiente
-                                </button>
-                            </div>
+                        <div className="flex justify-center w-full lg:justify-end gap-2 mt-4 2xl:pr-11">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="bg-gray-300 cursor-pointer hover:bg-gray-400 hover:text-white text-gray-800 font-bold py-2 px-4 rounded-l"
+                            >
+                                Anterior
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="bg-gray-300 cursor-pointer hover:bg-gray-400 hover:text-white text-gray-800 font-bold py-2 px-4 rounded-r"
+                            >
+                                Siguiente
+                            </button>
+                        </div>
                     </div>
                 </main>
             </div>
