@@ -161,41 +161,33 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     useEffect(() => {
         const fetchData2 = async () => {
             try {
-
                 const user = JSON.parse(localStorage.getItem('user'));
                 const number_a = user && user.number_a;
-
+    
                 const formData = new FormData();
                 formData.append('number_a', number_a);
-
+    
                 const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_grupo.php', formData);
+    
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({
                     ...item,
                     fecha: formatFecha(item.fecha),
                 }));
-
-
-                setData2((prevData) => {
-                    // Filtra los nuevos mensajes para eliminar duplicados
-                    const uniqueNewMessages = formattedData.filter(item => !prevData.some(existingItem => existingItem.id === item.id));
-                
-                    // Actualiza el estado agregando los nuevos mensajes únicos
-                    return [...prevData, ...uniqueNewMessages];
-                });
+    
+                setData2(formattedData)
                 
             } catch (error) {
                 console.error('Error al obtener datos de la API:', error);
             }
         };
-
+    
         const intervalId = setInterval(fetchData2, 1000);
 
         return () => clearInterval(intervalId);
-
-
-
-    }, [data2]);
+    
+    }, [data2]); // No es necesario incluir data2 en la dependencia
+    
 
    
 
@@ -240,7 +232,6 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
     const handleCambiarEndopoint = () => {
- 
         setFiltroActivo('filtro2');
         setMostrar(false)
     }

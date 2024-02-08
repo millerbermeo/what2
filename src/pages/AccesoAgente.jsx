@@ -116,7 +116,7 @@ function AccesoAgente() {
 
             <Logout2/>
           </div>
-          <div className='flex 2xl:items-start items-start 2xl:h-[100%] justify-center w-full flex-col gap-3 2xl:gap-10 mt-5 2xl:px-10 '>
+          <div className='flex 2xl:items-start items-start 2xl:h-[100%] justify-center w-full flex-col gap-3 2xl:gap-10 mt-5 2xl:px-0 '>
 
             <div className="mb-4 text-black text-lg font-normal flex gap-3">
               <select
@@ -138,7 +138,7 @@ function AccesoAgente() {
               </button>
             </div>
 
-            <div className='w-full flex justify-center '>
+            <div className='w-full flex justify-center'>
 
               <iframe
               id="loginIframe"

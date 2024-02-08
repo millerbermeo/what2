@@ -122,7 +122,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   }
 
 
-  const cerarPlantilla = ()=> {
+  const cerarPlantilla = () => {
     setMostrarPlantilla(false);
   }
 
@@ -294,7 +294,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
           setShouldScrollToLast(true);
         }
 
-        
+
 
 
       } catch (error) {
@@ -309,7 +309,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     return () => clearInterval(intervalId);
   }, [numeroSeleccionado, scrollRef, mensajes, nameSeleccionado]);
 
-  
+
 
   const renderMedia = (mensaje) => {
 
@@ -458,10 +458,10 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
   const userAgente = JSON.parse(localStorage.getItem('user'));
 
-const primerNombre = userAgente && userAgente.name ? userAgente.name.split(' ')[0] : '';
+  const primerNombre = userAgente && userAgente.name ? userAgente.name.split(' ')[0] : '';
 
 
-const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
+  const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
 
   // ... (resto del código)
 
@@ -481,7 +481,86 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
   const handleAudioRef = (ref) => {
     // Guarda el ref en el estado del componente padre
     setAudioRef(ref);
-};
+  };
+
+  const enviarMensajeEnSegundoPlano2 = async () => {
+    // try {
+    //   const user = JSON.parse(localStorage.getItem('user'));
+    //   const number_a = user && user.number_a;
+  
+    //   if (audioBlob) {
+    //     const url = URL.createObjectURL(audioBlob);
+    //     const a = document.createElement('a');
+    //     document.body.appendChild(a);
+    //     a.style = 'display: none';
+    //     a.href = url;
+    //     a.download = 'recording.mp3'; 
+    //     a.click();
+    //     window.URL.revokeObjectURL(url);
+    //   }
+  
+    //   const formData2 = new FormData();
+    //   formData2.append('numberw', numeroSeleccionado);
+    //   formData2.append('number_a', number_a);
+    //   formData2.append('type_m', 'voice');
+    //   formData2.append('document_w', audioBlob); 
+  
+    //   // Envía la solicitud POST con el FormData que incluye el archivo de audio MP3
+    //  const response = await axios.post(
+    //     'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
+    //     formData2
+    //   );
+
+    //   console.log(response.data)
+  
+    //   // Crear un objeto URL para el blob de audio
+  
+    // } catch (error) {
+    //   console.error('Error al enviar el mensaje en segundo plano:', error);
+    // }
+  };
+  
+  
+
+
+
+  const [recording, setRecording] = useState(false);
+  const [mediaStream, setMediaStream] = useState(null);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [audioBlob, setAudioBlob] = useState(null);
+  const [audioURL, setAudioURL] = useState('');
+
+  const startRecording = async () => {
+    // try {
+    //   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    //   const recorder = new MediaRecorder(stream);
+
+    //   recorder.ondataavailable = (e) => {
+    //     setAudioBlob(e.data);
+    //   };
+
+    //   recorder.onstop = () => {
+    //     const url = URL.createObjectURL(audioBlob);
+    //     setAudioURL(url);
+    //   };
+
+    //   recorder.start();
+    //   setRecording(true);
+    //   setMediaStream(stream);
+    //   setMediaRecorder(recorder);
+    // } catch (err) {
+    //   console.error('Error accessing microphone:', err);
+    // }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && recording) {
+      mediaRecorder.stop();
+      setRecording(false);
+      mediaStream.getTracks().forEach(track => track.stop());
+    }
+  };
+
 
 
   // style={{ backgroundImage: "url('background2.png')", backgroundSize: "cover" }}
@@ -497,10 +576,10 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
               <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
             </div>
           </div>
-          
+
           <div className='flex gap-5 mt-2 items-center text-sm'>
-          <span>{primerNombre}</span>
-          <Logout />
+            <span>{primerNombre}</span>
+            <Logout />
           </div>
         </div>
         <div className="w-full mt-5 lg:mt-14 pb-[15px] h-[100%] overflow-y-scroll custom-scrollbar3 px-4 md:px-12 bg-gray-100" ref={(ref) => setScrollRef(ref)}>
@@ -522,8 +601,8 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                     className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
                   >
                     <option value="">
-                    Selecciona una opción
-                  </option>
+                      Selecciona una opción
+                    </option>
                     {/* Mapea las opciones del estado para llenar el select */}
                     {options.map(option => (
                       <option key={option.id} value={option.nombre}>
@@ -533,25 +612,25 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                   </select>
 
                   <div className='my-3 shadow p-2 bg-gray-100'>
-                {selectedTemplateContent}
-              </div>
+                    {selectedTemplateContent}
+                  </div>
 
                   <div className='flex gap-2 justify-end'>
-                  <button
-                    onClick={cerarPlantilla}
-                    className="mt-4 bg-gray-500 w-[90px] text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-blue-300"
-                  >
-                    Cerrar
-                  </button>
+                    <button
+                      onClick={cerarPlantilla}
+                      className="mt-4 bg-gray-500 w-[90px] text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-blue-300"
+                    >
+                      Cerrar
+                    </button>
 
-                  {/* Botón de envío */}
-                  <button
-                    onClick={enviarMensajePlantilla}
-                    type="submit"
-                    className="mt-4 bg-blue-500 w-[90px] text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
-                  >
-                    Enviar
-                  </button>
+                    {/* Botón de envío */}
+                    <button
+                      onClick={enviarMensajePlantilla}
+                      type="submit"
+                      className="mt-4 bg-blue-500 w-[90px] text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+                    >
+                      Enviar
+                    </button>
                   </div>
                 </div>
               </div>
@@ -642,13 +721,27 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                 <button onClick={toggleDiv}>
                   <FontAwesomeIcon icon={faIcons} />
                 </button>
+                {/* <div onClick={enviarMensajeEnSegundoPlano2} className='bg-red-500 absolute -top-10 left-5'>
+                      enviar
+              </div> */}
               </div>
 
               <div className='ml-10 absolute left-[15px] top-2'>
-                <button>
-                <AudioRecorder enviarRef={handleAudioRef} />
-                </button>
+                <div>
+                  {recording ? (
+                    <button onClick={stopRecording}>Stop</button>
+                  ) : (
+                    <button onClick={startRecording}>Start</button>
+                  )}
+
+
+                  <div className='absolute -translate-y-32'>
+                    {audioURL && <audio className='absolute -top-14' controls src={audioURL} />}
+                    {/* {audioBlob && <button onClick={downloadAudio}>Download Audio</button>} */}
+                  </div>
+                </div>
               </div>
+            
               <input
                 ref={mensajeInputRef}
                 onKeyDown={handleKeyDown}
