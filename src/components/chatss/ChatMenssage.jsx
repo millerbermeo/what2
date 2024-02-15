@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faDownload, faFile, faMicrophone, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Logout from '../modals/Logout';
 import AudioRecorder from '../grabacion/AudioRecorder';
+import InfoUser from '../othercomponents/InfoUser';
 
 function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [mensajes, setMensajes] = useState([]);
@@ -571,7 +572,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
         {/* ... (resto del código) */}
         <div className='absolute top-0 w-full hidden lg:flex h-12 justify-between items-center px-5'>
           <div>
-            <div className='flex gap-2 items-end'>
+            <div className='flex gap-2 items-end relative'>
+            <InfoUser numero={numeroSeleccionado} nombre={nameSeleccionado}/>
               <img className='w-[30px] rounded-full' src="negociemos.jpg" alt="" />
               <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
             </div>
@@ -581,6 +583,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
             <span>{primerNombre}</span>
             <Logout />
           </div>
+
+
         </div>
         <div className="w-full mt-5 lg:mt-14 pb-[15px] h-[100%] overflow-y-scroll custom-scrollbar3 px-4 md:px-12 bg-gray-100" ref={(ref) => setScrollRef(ref)}>
           {mostrarPlantilla ?

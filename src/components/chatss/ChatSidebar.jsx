@@ -11,6 +11,8 @@ import ModalBot from '../modals/ModalBot';
 import ModalContact from '../modals/ModalContact';
 import ModalGroup from '../modals/ModalGroup';
 import AddAgente from '../modals/AddAgente';
+import InfoUser from '../othercomponents/InfoUser';
+import EliminarGrupo from '../modals/EliminarGrupo';
 
 
 
@@ -105,8 +107,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
                 const user = JSON.parse(localStorage.getItem('user'));
                 const number_a = user && user.number_a;
-
-
+                
                 const formData = new FormData();
                 formData.append('number_a', number_a);
 
@@ -301,9 +302,9 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                 setElementoSeleccionado(item.numberw);
 
                             }} className='flex items-center flex-row w-full h-[75px]'>
-                                <div className='w-[50px]'>
-                                    <img src="user.webp" alt="" />
-                                </div>
+                             <div  className='w-[50px] cursor-pointer'>
+                    <img src="user.webp" alt="" />
+                </div>
 
                                 <div className='w-full h-12 overflow-hidden relative pt-6 pl-2'>
                                     <span className='absolute top-1 tex-xs font-semibold h-6 w-44 overflow-hidden text-gray-800'>
@@ -331,6 +332,13 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                     <div className='bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex  justify-center items-center rounded-full'>
                                         <ModalName numero={item.numberw} />
                                     </div>
+
+                                    <div className={`bg-gray-500 text-lg md:text-[15px] ${mostrar ? 'hidden' : 'flex'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
+                              
+
+                                        <EliminarGrupo numero={item.numberw}/>
+                                    </div>
+                                    
                                     <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px]  justify-center items-center rounded-full`}>
                                         <ModalLeft numero={item.numberw} />
                                     </div>

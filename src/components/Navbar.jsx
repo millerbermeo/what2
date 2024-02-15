@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import Logout from './modals/Logout';
 
 
-function Navbar({ navbar }) {
+function Navbar({ navbar, logout }) {
 
 
   return (
 
     <>
-      <nav className={`w-full lg:z-0 overflow-hidden relative mt-2 md:mt-0 flex px-0 lg:${navbar} top-0 h-16 bg-gray-200 rounded-lg justify-between items-center pr-3`}>
+      <nav className={`w-full lg:z-0 navbar-modal overflow-hidden relative mt-2 md:mt-0 flex px-0 lg:${navbar} top-0 h-16 bg-gray-200 rounded-lg justify-between items-center pr-3`}>
         {/* Logo */}
         <div className='ml-3 md:hidden text-xl font-bold text-gray-800'>
           <img className='w-52 ' src="negociemoss.png" alt="" />
@@ -46,7 +46,7 @@ function Navbar({ navbar }) {
         </div>
 
         {/* User Icon */}
-        <div className='pr-14 lg:pr-0'>
+        <div className={`pr-14 lg:pr-0 ${logout}`}>
           <Logout />
         </div>
 

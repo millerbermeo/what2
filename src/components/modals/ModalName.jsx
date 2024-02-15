@@ -77,7 +77,7 @@ const ModalName = ({ numero }) => {
           <div className="bg-white w-96 p-4 rounded shadow-lg z-50">
             <h2 className="text-2xl text-black font-semibold mb-4 text-center">Guardar Nombre</h2>
 
-            <form action="" method="post">
+            <form>
 
               <div className="mb-4 text-black text-lg font-normal">
 

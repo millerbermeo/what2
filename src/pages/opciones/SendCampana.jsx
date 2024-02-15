@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
+import Logout from '../../components/modals/Logout';
 // import Swal from 'sweetalert2';
 // import 'sweetalert2/dist/sweetalert2.css';
 
@@ -309,12 +310,17 @@ function SendCampana() {
         <div className="md:relative md:z-0">
         <Sidebar ocultar="hidden"/>
         </div>
+
         <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0 mb-10">
-          <Navbar navbar="flex" />
+          <Navbar navbar="flex" logout='hidden'/>
           <div className="flex justify-center mt-10 my-5 pl-1">
             <div className="w-full flex justify-center lg:justify-start">
               <h1 className='font-bold'>ENVIAR CAMPAÑA</h1>
             </div>
+          </div>
+
+          <div className='absolute right-4 top-4'>
+            <Logout/>
           </div>
 
 
