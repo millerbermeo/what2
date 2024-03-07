@@ -38,19 +38,19 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const audioRef = useRef(null);
 
   // Función para obtener el valor del audio
-const obtenerValorAudio = () => {
-  // Accede al elemento de audio a través de la referencia
-  const audioElement = audioRef.current;
-  
-  // Verifica si el elemento de audio existe
-  if (audioElement) {
-    // Accede al atributo 'src' del elemento de audio para obtener la URL del audio
-    const audioURL = audioElement.src;
-    
-    // Haz algo con la URL del audio
-    console.log('URL del audio:', audioURL);
-  }
-};
+  const obtenerValorAudio = () => {
+    // Accede al elemento de audio a través de la referencia
+    const audioElement = audioRef.current;
+
+    // Verifica si el elemento de audio existe
+    if (audioElement) {
+      // Accede al atributo 'src' del elemento de audio para obtener la URL del audio
+      const audioURL = audioElement.src;
+
+      // Haz algo con la URL del audio
+      console.log('URL del audio:', audioURL);
+    }
+  };
 
 
   useEffect(() => {
@@ -518,35 +518,69 @@ const obtenerValorAudio = () => {
     window.location.reload();
   };
 
- 
+  function cambiarNombreAleatorioYAccederPropiedades(audioBlob) {
+    // Generar un nombre aleatorio
+    const nombreAleatorio = 'audio_' + Math.random().toString(36).substring(7) + '.mp3';
+
+    // Crear un nuevo blob con el mismo contenido pero con el nombre aleatorio
+    const nuevoBlob = new Blob([audioBlob], { type: audioBlob.type });
+
+    // Asignar el nombre aleatorio al nuevo blob
+    nuevoBlob.name = nombreAleatorio;
+
+    // Acceder a las propiedades del blob
+    console.log("Nombre del archivo: ", nuevoBlob.name);
+    console.log("Tipo de archivo: ", nuevoBlob.type);
+    console.log("Tamaño del archivo: ", nuevoBlob.size, "bytes");
+
+    // Devolver el nuevo blob con el nombre cambiado
+    return nuevoBlob;
+  }
+
+
 
   const enviarMensajeEnSegundoPlano2 = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const number_a = user && user.number_a;
-  
+
+      // Generar un nombre aleatorio para el archivo de audio
+      const nombreAleatorio = Math.random().toString(36).substring(7);
+
       // Crear un nuevo objeto FormData
       const formData2 = new FormData();
       formData2.append('numberw', numeroSeleccionado);
-      formData2.append('message', 'hola');
+      formData2.append('message', 'hola466666');
       formData2.append('number_a', number_a);
       formData2.append('type_m', 'voice');
-      formData2.append('document_w', audioBlob); // Adjuntar el blob de audio al FormData
-  
+
+      // Obtener el Blob de audio
+      const nuevoBlob = cambiarNombreAleatorioYAccederPropiedades(audioBlob);
+
+      console.log(nuevoBlob)
+      // Adjuntar el blob de audio al FormData con el nombre aleatorio
+      formData2.append('document_w', nuevoBlob);
+
       // Envía la solicitud POST con el FormData que incluye el archivo de audio WAV
       const response = await axios.post(
         'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
         formData2
       );
-  
+
+      setAudioBlob('')
       console.log(response.data);
     } catch (error) {
       console.error('Error al enviar el mensaje en segundo plano:', error);
     }
   };
-  
 
 
+
+  function limpiarAudio() {
+    setAudioBlob('');
+  }
+
+  // const intervaloLimpiarAudio = setInterval(limpiarAudio, 25000); 
 
 
   const [isRecording, setRecording] = useState(false);
@@ -559,69 +593,69 @@ const obtenerValorAudio = () => {
   const [reproduciendo, setReproduciendo] = useState(false);
   const [showRecorder, setShowRecorder] = useState(false); // Nuevo estado para controlar la visibilidad de RecorderSound
 
-  useEffect(() => {
-      if (audioBlob) {
-          // Descargar el archivo una vez que se haya completado la grabación
-          downloadAudio();
-      }
-  }, [audioBlob]);
+  // useEffect(() => {
+  //     if (audioBlob) {
+  //         // Descargar el archivo una vez que se haya completado la grabación
+  //         downloadAudio();
+  //     }
+  // }, [audioBlob]);
 
   const onStart = () => {
-      try {
-          setAudioBlob(null);
-          setRecording(true);
-          setShowRecorder(true); // Mostrar RecorderSound al comenzar a grabar
-          console.log('Comenzando la grabación...');
-      } catch (error) {
-          console.log('no funcionó', error);
-      }
+    try {
+      setAudioBlob(null);
+      setRecording(true);
+      setShowRecorder(true); // Mostrar RecorderSound al comenzar a grabar
+      console.log('Comenzando la grabación...');
+    } catch (error) {
+      console.log('no funcionó', error);
+    }
   };
 
   const onStop = (recordedBlob) => {
-      setRecording(false);
-      setShowRecorder(false); // Ocultar RecorderSound al terminar de grabar
-      console.log('Grabación completada:', recordedBlob);
-      setAudioBlob(recordedBlob.blob);
+    setRecording(false);
+    setShowRecorder(false); // Ocultar RecorderSound al terminar de grabar
+    console.log('Grabación completada:', recordedBlob);
+    setAudioBlob(recordedBlob.blob);
   };
 
   const toggleRecording = () => {
-      setAudioBlob(null);
-      setReproduciendo(false)
-      if (isRecording) {
-          // Si ya está grabando, detener la grabación
-          setRecording(false);
-          setShowRecorder(false);
-      } else {
-          // Si no está grabando, iniciar la grabación
-          setRecording(true);
-          setShowRecorder(true);
-      }
+    setAudioBlob(null);
+    setReproduciendo(false)
+    if (isRecording) {
+      // Si ya está grabando, detener la grabación
+      setRecording(false);
+      setShowRecorder(false);
+    } else {
+      // Si no está grabando, iniciar la grabación
+      setRecording(true);
+      setShowRecorder(true);
+    }
   };
 
   const reproducirAudio = () => {
-      setRecording(false);
-      setShowRecorder(false);
+    setRecording(false);
+    setShowRecorder(false);
 
-      if (audioRef.current) {
-          if (reproduciendo) {
-              audioRef.current.pause();
-              setReproduciendo(false);
-          } else {
-              audioRef.current.play();
-              setRecording(false); // Detener grabación al reproducir
-              setReproduciendo(true);
-          }
+    if (audioRef.current) {
+      if (reproduciendo) {
+        audioRef.current.pause();
+        setReproduciendo(false);
+      } else {
+        audioRef.current.play();
+        setRecording(false); // Detener grabación al reproducir
+        setReproduciendo(true);
       }
+    }
   };
 
-  const downloadAudio = () => {
-      const url = URL.createObjectURL(audioBlob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'grabacion_audio.mp3'); // Nombre del archivo a descargar
-      document.body.appendChild(link);
-      link.click();
-  };
+  // const downloadAudio = () => {
+  //     const url = URL.createObjectURL(audioBlob);
+  //     const link = document.createElement('a');
+  //     link.href = url;
+  //     link.setAttribute('download', 'grabacion_audio.mp3'); // Nombre del archivo a descargar
+  //     document.body.appendChild(link);
+  //     link.click();
+  // };
 
 
   // style={{ backgroundImage: "url('background2.png')", backgroundSize: "cover" }}
@@ -785,50 +819,52 @@ const obtenerValorAudio = () => {
                 <button onClick={toggleDiv}>
                   <FontAwesomeIcon icon={faIcons} />
                 </button>
-                <div onClick={enviarMensajeEnSegundoPlano2} className='bg-red-500 absolute -top-10 left-5'>
-                      enviar
-              </div>
-              </div>
-   
 
+                {audioBlob && (
+                  <div className={` absolute -top-28 left-5`}>
+                    <button onClick={enviarMensajeEnSegundoPlano2} className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'>Enviar Audio</button>
+                    <span onClick={limpiarAudio} className='absolute cursor-pointer hover:bg-gray-200 hover:text-black text-lg text-white -top-3 -right-2 h-6 w-6 flex justify-center items-center bg-gray-600 rounded-full'>x</span>
+                  </div>
+                )}
+              </div>
 
               <div className='absolute left-14 top-2'>
-              <div className='relative flex'>
-            <ReactMic
-                record={isRecording}
-                onStop={onStop}
-                onData={(recordedBlob) => console.log('Datos de la grabación:', recordedBlob)}
-                strokeColor="#000"
-                backgroundColor="transparent"
-                className={`overflow-hidden w-max h-14 absolute md:left-12  2xl:left-60 -top-20 ${isRecording ? 'hidden' : 'hidden'}`}
-            />
-            {showRecorder && <RecorderSound />} {/* Mostrar RecorderSound cuando se está grabando */}
+                <div className='relative flex'>
+                  <ReactMic
+                    record={isRecording}
+                    onStop={onStop}
+                    onData={(recordedBlob) => console.log('Datos de la grabación:', recordedBlob)}
+                    strokeColor="#000"
+                    backgroundColor="transparent"
+                    className={`overflow-hidden w-max h-14 absolute md:left-12  2xl:left-60 -top-20 ${isRecording ? 'hidden' : 'hidden'}`}
+                  />
+                  {showRecorder && <RecorderSound />} {/* Mostrar RecorderSound cuando se está grabando */}
 
-            <div className={`mr-2 ${isRecording ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} onClick={toggleRecording}>
-                <FontAwesomeIcon icon={faMicrophone} />
-            </div>
+                  <div className={`mr-2 ${isRecording ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} onClick={toggleRecording}>
+                    <FontAwesomeIcon icon={faMicrophone} />
+                  </div>
 
-            {reproduciendo && <LineSound />} {/* Muestra la animación de línea de sonido si se está reproduciendo */}
+                  {reproduciendo && <LineSound />} {/* Muestra la animación de línea de sonido si se está reproduciendo */}
 
-            {audioBlob && (
-                <>
-                    <audio
+                  {audioBlob && (
+                    <>
+                      <audio
                         controls
                         className='-mt-40 left-40 absolute hidden'
                         ref={audioRef}
                         onEnded={() => setReproduciendo(false)} // Cambiar estado cuando el audio termina de reproducirse
-                    >
+                      >
                         <source src={URL.createObjectURL(audioBlob)} />
                         Tu navegador no soporta la etiqueta de audio.
-                    </audio>
-                </>
-            )}
+                      </audio>
+                    </>
+                  )}
 
-            
-            <div onClick={reproducirAudio}>
-                <FontAwesomeIcon icon={reproduciendo ? faPause : faPlay} className={`${audioBlob ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} />
-            </div>
-        </div>
+
+                  <div onClick={reproducirAudio}>
+                    <FontAwesomeIcon icon={reproduciendo ? faPause : faPlay} className={`${audioBlob ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} />
+                  </div>
+                </div>
               </div>
 
               <input
