@@ -821,7 +821,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                 </button>
 
                 {audioBlob && (
-                  <div className={` absolute -top-28 left-5`}>
+                  <div className={` absolute -top-28 -left-14 md:left-5`}>
                     <button onClick={enviarMensajeEnSegundoPlano2} className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'>Enviar Audio</button>
                     <span onClick={limpiarAudio} className='absolute cursor-pointer hover:bg-gray-200 hover:text-black text-lg text-white -top-3 -right-2 h-6 w-6 flex justify-center items-center bg-gray-600 rounded-full'>x</span>
                   </div>
@@ -836,7 +836,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                     onData={(recordedBlob) => console.log('Datos de la grabación:', recordedBlob)}
                     strokeColor="#000"
                     backgroundColor="transparent"
-                    className={`overflow-hidden w-max h-14 absolute md:left-12  2xl:left-60 -top-20 ${isRecording ? 'hidden' : 'hidden'}`}
+                    className={`overflow-hidden w-max h-14 absolute  md:left-12  2xl:left-60 -top-20 ${isRecording ? 'hidden' : 'hidden'}`}
                   />
                   {showRecorder && <RecorderSound />} {/* Mostrar RecorderSound cuando se está grabando */}
 
