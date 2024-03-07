@@ -3,10 +3,23 @@ import axios from 'axios';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faDownload, faFile, faMicrophone, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faStop, faDownload, faFile, faMicrophone, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Logout from '../modals/Logout';
 import AudioRecorder from '../grabacion/AudioRecorder';
 import InfoUser from '../othercomponents/InfoUser';
+
+
+
+
+
+
+import { ReactMic } from 'react-mic';
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import LineSound from '../grabacion/LineSound';
+import RecorderSound from '../grabacion/RecorderSound';
+
+
+
 
 function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [mensajes, setMensajes] = useState([]);
@@ -22,9 +35,34 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [isFileUploaded, setIsFileUploaded] = useState(false); // Nuevo estado
   const [textoPorDefecto, setTextoPorDefecto] = useState('Texto por defecto');
   const [options, setOptions] = useState([]);
-  const [audioRef, setAudioRef] = useState(null);
+  const audioRef = useRef(null);
+
+  // Función para obtener el valor del audio
+const obtenerValorAudio = () => {
+  // Accede al elemento de audio a través de la referencia
+  const audioElement = audioRef.current;
+  
+  // Verifica si el elemento de audio existe
+  if (audioElement) {
+    // Accede al atributo 'src' del elemento de audio para obtener la URL del audio
+    const audioURL = audioElement.src;
+    
+    // Haz algo con la URL del audio
+    console.log('URL del audio:', audioURL);
+  }
+};
 
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'src/components/chatss/app.js'; // Reemplaza esto con la ruta correcta hacia tu archivo app.js
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   // console.log("----------------");
   // console.log(nameSeleccionado);
@@ -76,6 +114,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const mensajeInputRef = useRef(null);
   const archivoInputRef = useRef(null);
   const mensajePlantilla = useRef(null);
+  const audio123 = useRef();
 
   useEffect(() => {
     // Realiza la solicitud utilizando Axios
@@ -391,8 +430,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     } else {
 
       return (
-        <div className='relative pb-1 break-words'>
-          {mensaje.men} <span className='translate-y-[4px]' style={mensaje.b1 === '1' ? { ...horaStyle, right: '-32px' } : { ...horaStyle, left: '-32px' }}>{formatFecha(mensaje.fecha)}</span>
+        <div className='relative pb-1 break-words px-2'>
+          {mensaje.men} <span className='translate-y-[4px] ' style={mensaje.b1 === '1' ? { ...horaStyle, right: '-32px ' } : { ...horaStyle, left: '-32px ' }}>{formatFecha(mensaje.fecha)}</span>
         </div>
       );
     }
@@ -479,89 +518,110 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     window.location.reload();
   };
 
-  const handleAudioRef = (ref) => {
-    // Guarda el ref en el estado del componente padre
-    setAudioRef(ref);
-  };
+ 
 
   const enviarMensajeEnSegundoPlano2 = async () => {
-    // try {
-    //   const user = JSON.parse(localStorage.getItem('user'));
-    //   const number_a = user && user.number_a;
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const number_a = user && user.number_a;
   
-    //   if (audioBlob) {
-    //     const url = URL.createObjectURL(audioBlob);
-    //     const a = document.createElement('a');
-    //     document.body.appendChild(a);
-    //     a.style = 'display: none';
-    //     a.href = url;
-    //     a.download = 'recording.mp3'; 
-    //     a.click();
-    //     window.URL.revokeObjectURL(url);
-    //   }
+      // Crear un nuevo objeto FormData
+      const formData2 = new FormData();
+      formData2.append('numberw', numeroSeleccionado);
+      formData2.append('message', 'hola');
+      formData2.append('number_a', number_a);
+      formData2.append('type_m', 'voice');
+      formData2.append('document_w', audioBlob); // Adjuntar el blob de audio al FormData
   
-    //   const formData2 = new FormData();
-    //   formData2.append('numberw', numeroSeleccionado);
-    //   formData2.append('number_a', number_a);
-    //   formData2.append('type_m', 'voice');
-    //   formData2.append('document_w', audioBlob); 
+      // Envía la solicitud POST con el FormData que incluye el archivo de audio WAV
+      const response = await axios.post(
+        'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
+        formData2
+      );
   
-    //   // Envía la solicitud POST con el FormData que incluye el archivo de audio MP3
-    //  const response = await axios.post(
-    //     'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
-    //     formData2
-    //   );
-
-    //   console.log(response.data)
-  
-    //   // Crear un objeto URL para el blob de audio
-  
-    // } catch (error) {
-    //   console.error('Error al enviar el mensaje en segundo plano:', error);
-    // }
-  };
-  
-  
-
-
-
-  const [recording, setRecording] = useState(false);
-  const [mediaStream, setMediaStream] = useState(null);
-  const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [audioBlob, setAudioBlob] = useState(null);
-  const [audioURL, setAudioURL] = useState('');
-
-  const startRecording = async () => {
-    // try {
-    //   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    //   const recorder = new MediaRecorder(stream);
-
-    //   recorder.ondataavailable = (e) => {
-    //     setAudioBlob(e.data);
-    //   };
-
-    //   recorder.onstop = () => {
-    //     const url = URL.createObjectURL(audioBlob);
-    //     setAudioURL(url);
-    //   };
-
-    //   recorder.start();
-    //   setRecording(true);
-    //   setMediaStream(stream);
-    //   setMediaRecorder(recorder);
-    // } catch (err) {
-    //   console.error('Error accessing microphone:', err);
-    // }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorder && recording) {
-      mediaRecorder.stop();
-      setRecording(false);
-      mediaStream.getTracks().forEach(track => track.stop());
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error al enviar el mensaje en segundo plano:', error);
     }
   };
+  
 
+
+
+
+  const [isRecording, setRecording] = useState(false);
+  const [audioBlob, setAudioBlob] = useState(null);
+
+
+
+
+
+  const [reproduciendo, setReproduciendo] = useState(false);
+  const [showRecorder, setShowRecorder] = useState(false); // Nuevo estado para controlar la visibilidad de RecorderSound
+
+  useEffect(() => {
+      if (audioBlob) {
+          // Descargar el archivo una vez que se haya completado la grabación
+          downloadAudio();
+      }
+  }, [audioBlob]);
+
+  const onStart = () => {
+      try {
+          setAudioBlob(null);
+          setRecording(true);
+          setShowRecorder(true); // Mostrar RecorderSound al comenzar a grabar
+          console.log('Comenzando la grabación...');
+      } catch (error) {
+          console.log('no funcionó', error);
+      }
+  };
+
+  const onStop = (recordedBlob) => {
+      setRecording(false);
+      setShowRecorder(false); // Ocultar RecorderSound al terminar de grabar
+      console.log('Grabación completada:', recordedBlob);
+      setAudioBlob(recordedBlob.blob);
+  };
+
+  const toggleRecording = () => {
+      setAudioBlob(null);
+      setReproduciendo(false)
+      if (isRecording) {
+          // Si ya está grabando, detener la grabación
+          setRecording(false);
+          setShowRecorder(false);
+      } else {
+          // Si no está grabando, iniciar la grabación
+          setRecording(true);
+          setShowRecorder(true);
+      }
+  };
+
+  const reproducirAudio = () => {
+      setRecording(false);
+      setShowRecorder(false);
+
+      if (audioRef.current) {
+          if (reproduciendo) {
+              audioRef.current.pause();
+              setReproduciendo(false);
+          } else {
+              audioRef.current.play();
+              setRecording(false); // Detener grabación al reproducir
+              setReproduciendo(true);
+          }
+      }
+  };
+
+  const downloadAudio = () => {
+      const url = URL.createObjectURL(audioBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'grabacion_audio.mp3'); // Nombre del archivo a descargar
+      document.body.appendChild(link);
+      link.click();
+  };
 
 
   // style={{ backgroundImage: "url('background2.png')", backgroundSize: "cover" }}
@@ -573,7 +633,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
         <div className='absolute top-0 w-full hidden lg:flex h-12 justify-between items-center px-5'>
           <div>
             <div className='flex gap-2 items-end relative'>
-            <InfoUser numero={numeroSeleccionado} nombre={nameSeleccionado}/>
+              <InfoUser numero={numeroSeleccionado} nombre={nameSeleccionado} />
               <img className='w-[30px] rounded-full' src="negociemos.jpg" alt="" />
               <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
             </div>
@@ -664,7 +724,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                 >
                   {mensaje.b1 === '2' ? (
                     <>
-                      <div key={`media-${index}`} className="text-black break-all text-[15px] shadow bg-[#84b6f4] flex-wrap flex max-w-[65%] rounded-lg p-[7px] pl-10 text-left">
+                      <div key={`media-${index}`} className="text-black break-all text-[15px] shadow bg-[#84b6f4]  flex-wrap flex max-w-[65%] rounded-lg p-[7px] pl-10 text-left">
                         {renderMedia(mensaje)}
                       </div>
                       <div key={`icono-usuario-${index}`} className='border border-[#84b6f4] text-2xl w-10 h-10 grid place-items-center text-[#84b6f4] bg-gray-200 rounded-full'>
@@ -676,7 +736,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                       <div key={`icono-usuario-${index}`} className='border border-gray-300 text-2xl w-10 h-10 grid place-items-center text-gray-400 bg-gray-200 rounded-full'>
                         <FontAwesomeIcon icon={faUser} className="" />
                       </div>
-                      <div key={`media-${index}`} className="text-black text-[15px]  rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
+                      <div key={`media-${index}`} className="text-black text-[15px] min-w-[20px]  rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
                     </>
                   )}
                 </li>
@@ -725,33 +785,56 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                 <button onClick={toggleDiv}>
                   <FontAwesomeIcon icon={faIcons} />
                 </button>
-                {/* <div onClick={enviarMensajeEnSegundoPlano2} className='bg-red-500 absolute -top-10 left-5'>
+                <div onClick={enviarMensajeEnSegundoPlano2} className='bg-red-500 absolute -top-10 left-5'>
                       enviar
-              </div> */}
               </div>
-
-              <div className='ml-10 absolute left-[15px] top-2'>
-                <div>
-                  {recording ? (
-                    <button onClick={stopRecording}>Stop</button>
-                  ) : (
-                    <div className='flex justify-center text-gray-600 items-center text-xl  overflow-hidden'>
-                    <FontAwesomeIcon icon={faMicrophone} />
-                </div>
-                  )}
-
-
-                  <div className='absolute -translate-y-32'>
-                    {audioURL && <audio className='absolute -top-14' controls src={audioURL} />}
-                    {/* {audioBlob && <button onClick={downloadAudio}>Download Audio</button>} */}
-                  </div>
-                </div>
               </div>
+   
+
+
+              <div className='absolute left-14 top-2'>
+              <div className='relative flex'>
+            <ReactMic
+                record={isRecording}
+                onStop={onStop}
+                onData={(recordedBlob) => console.log('Datos de la grabación:', recordedBlob)}
+                strokeColor="#000"
+                backgroundColor="transparent"
+                className={`overflow-hidden w-max h-14 absolute md:left-12  2xl:left-60 -top-20 ${isRecording ? 'hidden' : 'hidden'}`}
+            />
+            {showRecorder && <RecorderSound />} {/* Mostrar RecorderSound cuando se está grabando */}
+
+            <div className={`mr-2 ${isRecording ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} onClick={toggleRecording}>
+                <FontAwesomeIcon icon={faMicrophone} />
+            </div>
+
+            {reproduciendo && <LineSound />} {/* Muestra la animación de línea de sonido si se está reproduciendo */}
+
+            {audioBlob && (
+                <>
+                    <audio
+                        controls
+                        className='-mt-40 left-40 absolute hidden'
+                        ref={audioRef}
+                        onEnded={() => setReproduciendo(false)} // Cambiar estado cuando el audio termina de reproducirse
+                    >
+                        <source src={URL.createObjectURL(audioBlob)} />
+                        Tu navegador no soporta la etiqueta de audio.
+                    </audio>
+                </>
+            )}
+
             
+            <div onClick={reproducirAudio}>
+                <FontAwesomeIcon icon={reproduciendo ? faPause : faPlay} className={`${audioBlob ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} />
+            </div>
+        </div>
+              </div>
+
               <input
                 ref={mensajeInputRef}
                 onKeyDown={handleKeyDown}
-                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-20 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-28 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                 type="text"
                 placeholder="Escribe algo..."
               />
