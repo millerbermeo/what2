@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
 import Sidebar from '../../components/Sidebar'
-import AudioRecorder from '../../components/grabacion/AudioRecorder'
+// import AudioRecorder from '../../components/grabacion/AudioRecorder'
 
 
 function Contacto() {
@@ -31,7 +31,7 @@ function Contacto() {
                             <span className='font-bold'>Teléfono:</span> (+57) 350-608-6936
                         </p>
 
-                        <AudioRecorder/>
+                        {/* <AudioRecorder/> */}
             
                     </div>
 
