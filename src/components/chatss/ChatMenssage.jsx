@@ -564,6 +564,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
         `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
         formData2
       );
+      setRecording('')
 
       setAudioBlob('')
       console.log(response.data);

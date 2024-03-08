@@ -119,6 +119,8 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                     ...item,
                     fecha: formatFecha(item.fecha),
                 }));
+
+
                 // console.log(data)
                 setData(formattedData);
                 const newMessages = formattedData.filter((item) => !data.some((existingItem) => existingItem.id === item.id));
