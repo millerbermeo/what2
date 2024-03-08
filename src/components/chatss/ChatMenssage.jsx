@@ -535,10 +535,11 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     return nuevoBlob;
   }
 
-
+  const [botonDeshabilitado, setBotonDeshabilitado] = useState(false);
 
   const enviarMensajeEnSegundoPlano2 = async () => {
     try {
+      setBotonDeshabilitado(true); // Desactivar el botón al hacer clic
       const user = JSON.parse(localStorage.getItem('user'));
       const number_a = user && user.number_a;
   
@@ -568,11 +569,12 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       limpiarAudio();
   
       console.log(response.data);
+      setBotonDeshabilitado(false); // Reactivar el botón después de recibir la respuesta
     } catch (error) {
       console.error('Error al enviar el mensaje en segundo plano:', error);
+      setBotonDeshabilitado(false); // Asegúrate de reactivar el botón en caso de error también
     }
   };
-  
 
 
   function limpiarAudio() {
@@ -821,7 +823,13 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
                 {audioBlob && (
                   <div className={` absolute -top-28 -left-14 md:left-5`}>
-                    <button onClick={enviarMensajeEnSegundoPlano2} className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'>Enviar Audio</button>
+             <button
+      onClick={enviarMensajeEnSegundoPlano2}
+      className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'
+      disabled={botonDeshabilitado} // Deshabilitar el botón si está en true
+    >
+      Enviar Audio
+    </button>
                     <span onClick={limpiarAudio} className='absolute cursor-pointer hover:bg-gray-200 hover:text-black text-lg text-white -top-3 -right-2 h-6 w-6 flex justify-center items-center bg-gray-600 rounded-full'>x</span>
                   </div>
                 )}
