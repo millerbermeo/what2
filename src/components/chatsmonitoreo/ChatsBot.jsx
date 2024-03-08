@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import baseURL from '../BaseUrl';
+
 
 function ChatsBot({api}) {
 
@@ -9,7 +11,7 @@ function ChatsBot({api}) {
 
     useEffect(() => {
         try {
-            axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/chats_bot.php').then((response) => {
+            axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/chats_bot.php`).then((response) => {
                 setData(response.data)
                 console.log(response.data)
             }).catch((error) => {

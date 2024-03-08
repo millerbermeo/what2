@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
+
 // import Swal from 'sweetalert2';
 // import 'sweetalert2/dist/sweetalert2.css';
 
@@ -28,7 +30,7 @@ function ModalGroup({ numero }) {
 
   const fetchDta = async () => {
     try {
-      const resultado = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agentes.php');
+      const resultado = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agentes.php`);
       setData(resultado.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -69,7 +71,7 @@ function ModalGroup({ numero }) {
       //   console.log(key, value);
       // }
 
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_transferir_grupo.php', formData);
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_transferir_grupo.php`, formData);
       console.log('Respuesta del servidor:', response.data);
 
       // showAlert('success', 'Operación exitosa');

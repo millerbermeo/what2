@@ -6,6 +6,9 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
 import Logout2 from '../components/modals/Logout2';
+import baseURL from '../components/BaseUrl';
+
+
 
 
 
@@ -30,7 +33,7 @@ function AccesoAgente() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agentes.php');
+        const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agentes.php`);
         // Extraer la información relevante del response (por ejemplo, response.data)
         // En este caso, asumiré que el response.data es un array de agentes con propiedades 'number_a' y 'name'
         setAgentes(response.data);
@@ -63,7 +66,7 @@ function AccesoAgente() {
     console.log(formData)
 
     // Make the POST request
-    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agente_login.php', formData)
+    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agente_login.php`, formData)
     .then(response => {
       // Handle the response
       console.log('Response:', response.data);

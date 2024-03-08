@@ -3,6 +3,8 @@ import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
+
 
 function ModalChat() {
   const [isOpen, setIsOpen] = useState(true);
@@ -23,7 +25,7 @@ function ModalChat() {
 
   useEffect(() => {
     // Realiza la solicitud utilizando Axios
-    axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php')
+    axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php`)
       .then(response => {
         // Actualiza el estado con las opciones del select
         setOptions(response.data);
@@ -69,7 +71,7 @@ function ModalChat() {
     formData.append('number_a', number_a);
 
     // Realiza la solicitud POST utilizando Axios
-    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php', formData)
+    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php`, formData)
       .then(response => {
         // Maneja la respuesta del servidor aquí
         console.log(response.data);

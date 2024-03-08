@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
 
 const ModalLeft = ({numero}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [agentes, setAgentes] = useState([]);
   const [selectedAgente, setSelectedAgente] = useState('');
   const [Campo, setCampo] = useState(false)
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agentes.php');
+        const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agentes.php`);
         // Extraer la información relevante del response (por ejemplo, response.data)
         // En este caso, asumiré que el response.data es un array de agentes con propiedades 'number_a' y 'name'
         setAgentes(response.data);
@@ -54,7 +56,7 @@ const ModalLeft = ({numero}) => {
       formData.append('numberw', numero);
       formData.append('number_a', selectedAgente);
 
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_transferir.php', formData);
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_transferir.php`, formData);
 
       // Manejar la respuesta según tus necesidades
       console.log('Respuesta del servidor:', response.data);

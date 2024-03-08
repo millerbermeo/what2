@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import baseURL from '../components/BaseUrl';
+
 
 function Login() {
   
@@ -61,7 +63,7 @@ function Login() {
     formData.append('password', passwordRef.current.value);
 
     try {
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_login.php', formData, {
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_login.php`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -4,6 +4,8 @@ import { faFile, faImage } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import baseURL from '../../components/BaseUrl';
+
 // import Swal from 'sweetalert2';
 // import 'sweetalert2/dist/sweetalert2.css';
 
@@ -163,7 +165,7 @@ function Mensajes() {
         }
         console.log("holamenudo-----------------------------------------------------")
         setLoading(true);
-        await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_crear_p_masiva.php', formData)
+        await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_crear_p_masiva.php`, formData)
             .then(response => {
                 console.log('Solicitud exitosa:', response.data);
                 

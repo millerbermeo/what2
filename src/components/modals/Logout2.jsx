@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import baseURL from '../BaseUrl';
+
 
 function Logout2() {
   const [showModal, setShowModal] = useState(false);
@@ -18,7 +20,7 @@ function Logout2() {
 
 
       // Realizar la petición POST con Axios
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_logout.php');
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_logout.php`);
 
       // Puedes manejar la respuesta aquí, por ejemplo, redireccionar o mostrar un mensaje
       console.log('Respuesta del servidor:', response.data);

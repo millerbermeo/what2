@@ -13,6 +13,8 @@ import ModalGroup from '../modals/ModalGroup';
 import AddAgente from '../modals/AddAgente';
 import InfoUser from '../othercomponents/InfoUser';
 import EliminarGrupo from '../modals/EliminarGrupo';
+import baseURL from '../BaseUrl';
+
 
 
 
@@ -111,7 +113,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                 const formData = new FormData();
                 formData.append('number_a', number_a);
 
-                const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_agente.php', formData);
+                const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_chats_agente.php`, formData);
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({
                     ...item,
@@ -168,7 +170,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                 const formData = new FormData();
                 formData.append('number_a', number_a);
     
-                const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_grupo.php', formData);
+                const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_chats_grupo.php`, formData);
     
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({

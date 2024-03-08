@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
+
 
 const ModalName = ({ numero }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +49,7 @@ const ModalName = ({ numero }) => {
     console.log(formData)
 
     // Make the POST request
-    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_save_name.php', formData)
+    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_transferir.php`, formData)
       .then(response => {
         // Handle the response
         console.log('Response:', response.data);

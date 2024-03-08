@@ -3,6 +3,8 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import { Link } from 'react-router-dom';
+import baseURL from '../../components/BaseUrl';
+
 
 function Campanas() {
     const [campanasData, setCampanasData] = useState([]);
@@ -15,7 +17,7 @@ function Campanas() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_listar_c_masivas.php');
+                const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_listar_c_masivas.php`);
                 setCampanasData(response.data);
                 // Inicializar el estado de expansión con "false" para cada fila
                 setExpandedNumbers(Array(response.data.length).fill(false));

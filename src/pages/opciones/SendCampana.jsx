@@ -3,6 +3,8 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import Logout from '../../components/modals/Logout';
+import baseURL from '../../components/BaseUrl';
+
 // import Swal from 'sweetalert2';
 // import 'sweetalert2/dist/sweetalert2.css';
 
@@ -43,7 +45,7 @@ function SendCampana() {
       return groupedData;
     }
 
-    axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agenda_total.php')
+    axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agenda_total.php`)
       .then(response => {
         const groupedData = groupByAgent(response.data);
         setGroupedData(groupedData);
@@ -106,7 +108,7 @@ function SendCampana() {
       {Object.keys(groupedData).map(agente => (
         <div key={agente} className='mb-10 m-auto relative flex flex-col justify-start w-full'>
           <h3 className='font-bold flex'>
-            <span className='w-56 overflow-hidden text-sm font-normal'>
+            <span className='w-80 overflow-hidden text-sm font-normal'>
               {agente}
             </span>
             <button
@@ -161,7 +163,7 @@ function SendCampana() {
     // Función para hacer la petición GET
     const fetchAgendaItems = async () => {
       try {
-        const response = await axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_plantillas_masivas.php');
+        const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_masivas.php`);
         setAgendaItems(response.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
@@ -269,7 +271,7 @@ function SendCampana() {
 
 
       // Realizar la solicitud POST con Axios
-      axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_crear_c_masiva.php', formData)
+      axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_crear_c_masiva.php`, formData)
         .then(response => {
           // Manejar la respuesta exitosa
           console.log('Respuesta del servidor:', response.data);

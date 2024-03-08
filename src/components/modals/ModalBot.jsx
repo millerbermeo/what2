@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
+
 
 
 function ModalBot({ numero }) {
@@ -20,7 +22,7 @@ function ModalBot({ numero }) {
       const formData = new FormData();
       formData.append('numberw', numero);
       // Realizar la petición POST con Axios
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_mandar_bot.php', formData);
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_mandar_bot.php`, formData);
 
       console.log('Respuesta del servidor:', response.data);
 

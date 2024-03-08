@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentMedical } from '@fortawesome/free-solid-svg-icons';
+import baseURL from '../BaseUrl';
+
 
 function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +32,7 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
       formData.append('number_a', number_a);
 
       try {
-        const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agenda.php', formData);
+        const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agenda.php`, formData);
         setOptions(response.data);
       } catch (error) {
         console.error('Error al realizar la solicitud POST:', error);

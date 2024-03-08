@@ -10,13 +10,11 @@ import InfoUser from '../othercomponents/InfoUser';
 
 
 
-
-
-
 import { ReactMic } from 'react-mic';
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import LineSound from '../grabacion/LineSound';
 import RecorderSound from '../grabacion/RecorderSound';
+import baseURL from '../BaseUrl';
 
 
 
@@ -147,7 +145,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     formData.append('number_a', number_a);
 
     // Realiza la solicitud POST utilizando Axios
-    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php', formData)
+    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php`, formData)
       .then(response => {
         // Maneja la respuesta del servidor aquí
         console.log(response.data);
@@ -214,7 +212,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       mensajeInputRef.current.value = '';
       archivoInputRef.current.value = '';
 
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php', formData2);
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php`, formData2);
       console.log(response);
 
       console.log('Datos de la respuesta:', response.data);
@@ -264,7 +262,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     try {
       // Realizar la operación asíncrona
       await axios.post(
-        'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
+        `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
         formData
       );
 
@@ -563,7 +561,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
       // Envía la solicitud POST con el FormData que incluye el archivo de audio WAV
       const response = await axios.post(
-        'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
+        `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
         formData2
       );
 
