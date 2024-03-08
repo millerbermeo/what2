@@ -116,7 +116,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
   useEffect(() => {
     // Realiza la solicitud utilizando Axios
-    axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php')
+    axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php`)
       .then(response => {
         // Actualiza el estado con las opciones del select
         setOptions(response.data);
@@ -298,7 +298,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
 
         const response = await axios.post(
-          'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/chats_principal.php',
+          `${baseURL}/chat_business2/Dashboard/Dashboard/chats_principal.php`,
           formData
         );
         ///
