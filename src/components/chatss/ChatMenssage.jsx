@@ -636,14 +636,14 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       setRecording(true);
       setShowRecorder(true);
       
-      setMostrarAudio(true)
+
     }
   };
 
   const reproducirAudio = () => {
     setRecording(false);
     setShowRecorder(false);
-
+    setMostrarAudio(true)
     if (audioRef.current) {
       if (reproduciendo) {
         audioRef.current.pause();
