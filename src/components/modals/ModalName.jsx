@@ -49,7 +49,7 @@ const ModalName = ({ numero }) => {
     console.log(formData)
 
     // Make the POST request
-    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_transferir.php`, formData)
+    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_save_name.php`, formData)
       .then(response => {
         // Handle the response
         console.log('Response:', response.data);

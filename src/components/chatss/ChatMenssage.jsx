@@ -518,7 +518,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
   function cambiarNombreAleatorioYAccederPropiedades(audioBlob) {
     // Generar un nombre aleatorio
-    const nombreAleatorio = 'audio_' + Math.random().toString(36).substring(7) + '.mp3';
+    const nombreAleatorio = 'audio_' + Math.random().toString(36).substring(7) + '.wav';
 
     // Crear un nuevo blob con el mismo contenido pero con el nombre aleatorio
     const nuevoBlob = new Blob([audioBlob], { type: audioBlob.type });
@@ -541,38 +541,38 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const number_a = user && user.number_a;
-
+  
       // Generar un nombre aleatorio para el archivo de audio
       const nombreAleatorio = Math.random().toString(36).substring(7);
-
+  
       // Crear un nuevo objeto FormData
       const formData2 = new FormData();
       formData2.append('numberw', numeroSeleccionado);
-      formData2.append('message', 'hola466666');
       formData2.append('number_a', number_a);
       formData2.append('type_m', 'voice');
-
+  
       // Obtener el Blob de audio
       const nuevoBlob = cambiarNombreAleatorioYAccederPropiedades(audioBlob);
-
+  
       console.log(nuevoBlob)
       // Adjuntar el blob de audio al FormData con el nombre aleatorio
       formData2.append('document_w', nuevoBlob);
-
+  
       // Envía la solicitud POST con el FormData que incluye el archivo de audio WAV
       const response = await axios.post(
         `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
         formData2
       );
-      setRecording('')
-
-      setAudioBlob('')
+      
+      // Limpiar el componente después de la petición
+      limpiarAudio();
+  
       console.log(response.data);
     } catch (error) {
       console.error('Error al enviar el mensaje en segundo plano:', error);
     }
   };
-
+  
 
 
   function limpiarAudio() {
@@ -833,6 +833,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                     record={isRecording}
                     onStop={onStop}
                     onData={(recordedBlob) => console.log('Datos de la grabación:', recordedBlob)}
+                    mimeType="audio/wav"
                     strokeColor="#000"
                     backgroundColor="transparent"
                     className={`overflow-hidden w-max h-14 absolute  md:left-12  2xl:left-60 -top-20 ${isRecording ? 'hidden' : 'hidden'}`}
