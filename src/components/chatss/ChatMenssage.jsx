@@ -34,6 +34,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [textoPorDefecto, setTextoPorDefecto] = useState('Texto por defecto');
   const [options, setOptions] = useState([]);
   const audioRef = useRef(null);
+  const [mostrarAudio, setMostrarAudio] = useState(false);
+  
 
   // Función para obtener el valor del audio
   const obtenerValorAudio = () => {
@@ -539,6 +541,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
   const enviarMensajeEnSegundoPlano2 = async () => {
     try {
+
+      setMostrarAudio(false)
       setBotonDeshabilitado(true); // Desactivar el botón al hacer clic
       const user = JSON.parse(localStorage.getItem('user'));
       const number_a = user && user.number_a;
@@ -626,10 +630,13 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       // Si ya está grabando, detener la grabación
       setRecording(false);
       setShowRecorder(false);
+      setMostrarAudio(true)
     } else {
       // Si no está grabando, iniciar la grabación
       setRecording(true);
       setShowRecorder(true);
+      
+      setMostrarAudio(true)
     }
   };
 
@@ -821,18 +828,24 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                   <FontAwesomeIcon icon={faIcons} />
                 </button>
 
-                {audioBlob && (
-                  <div className={` absolute -top-28 -left-14 md:left-5`}>
-             <button
-      onClick={enviarMensajeEnSegundoPlano2}
-      className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'
-      disabled={botonDeshabilitado} // Deshabilitar el botón si está en true
-    >
-      Enviar Audio
-    </button>
-                    <span onClick={limpiarAudio} className='absolute cursor-pointer hover:bg-gray-200 hover:text-black text-lg text-white -top-3 -right-2 h-6 w-6 flex justify-center items-center bg-gray-600 rounded-full'>x</span>
-                  </div>
-                )}
+                <div>
+      {mostrarAudio && (
+        <div className={` absolute -top-28 -left-14 md:left-5`}>
+          <button
+            onClick={enviarMensajeEnSegundoPlano2}
+            className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'
+            disabled={botonDeshabilitado} // Deshabilitar el botón si está en true
+          >
+            Enviar Audio
+          </button>
+          <span onClick={() => {setMostrarAudio(false); limpiarAudio();}} className='absolute cursor-pointer hover:bg-gray-200 hover:text-black text-lg text-white -top-3 -right-2 h-6 w-6 flex justify-center items-center bg-gray-600 rounded-full'>x</span>
+        </div>
+      )}
+
+      {/* <button onClick={() => setMostrarAudio(true)}>Mostrar Audio</button> */}
+    </div>
+
+
               </div>
 
               <div className='absolute left-14 top-2'>
