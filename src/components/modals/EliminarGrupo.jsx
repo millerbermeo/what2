@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
 
 
 function EliminarGrupo({ numero }) {
@@ -14,13 +15,17 @@ function EliminarGrupo({ numero }) {
   }
   
 
-  const eliminarGrupo = async () => {
+  const eliminarGrupo = async ({numero}) => {
     try {
+
+      const user = JSON.parse(localStorage.getItem('user'));
+      const number_a = user && user.number_a;
 
       const formData = new FormData();
       formData.append('numberw', numero);
-      // Realizar la petición POST con Axios
-    //   const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_mandar_bot.php', formData);
+      formData.append('number_a', number_a);
+   
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_delete_grupo.php`, formData);
 
       console.log('Respuesta del servidor:', response.data);
 
