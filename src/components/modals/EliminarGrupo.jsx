@@ -15,11 +15,13 @@ function EliminarGrupo({ numero }) {
   }
   
 
-  const eliminarGrupo = async ({numero}) => {
+  const eliminarGrupo = async () => {
     try {
 
       const user = JSON.parse(localStorage.getItem('user'));
       const number_a = user && user.number_a;
+
+      console.log(numero)
 
       const formData = new FormData();
       formData.append('numberw', numero);

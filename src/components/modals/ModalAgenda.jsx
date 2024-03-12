@@ -4,6 +4,8 @@ import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentMedical } from '@fortawesome/free-solid-svg-icons';
 import baseURL from '../BaseUrl';
+import Select from 'react-select';
+
 
 
 function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
@@ -89,22 +91,21 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
               <h2 className="text-2xl font-semibold mb-4 text-center">Agenda</h2>
 
               <div>
-                <select
-                  className="w-full p-2 border border-gray-300 rounded"
-                  value={selectedOption}
-                  onChange={handleSelectChange}
-                  ref={nombreUser}
-                >
-                  <option value="" disabled>
-                    Selecciona una opción
-                  </option>
-                  {options.map((option, index) => (
-                    <option key={index} value={option.numberw}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+  <Select
+    options={options}
+    value={options.find(option => option.numberw === selectedOption)}
+    onChange={(selectedOption) => {
+      setSelectedOption(selectedOption.numberw);
+      nombreUser.current = selectedOption;
+    }}
+    getOptionLabel={(option) => option.name}
+    getOptionValue={(option) => option.numberw}
+    isClearable
+    placeholder="Selecciona una opción"
+    isSearchable  // Habilita la búsqueda
+  />
+</div>
+
 
               <div className="flex justify-end mt-4 gap-3">
                 <button

@@ -9,6 +9,8 @@ import Contacto from './pages/user/Contacto';
 import SendCampana from './pages/opciones/SendCampana'
 import Dashboard from './pages/Dashboard';
 import AccesoAgente from './pages/AccesoAgente';
+import PlantillaSaludo from './pages/opciones/PlantillaSaludo';
+import PlantillasTablas from './pages/opciones/PlantillasTablas';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -43,6 +45,8 @@ function App() {
       <Route path="/contacto" element={<PrivateRoute element={<Contacto />} />} />
       <Route path="/send" element={<PrivateRoute element={<SendCampana />} />} />
       <Route path="/acceso" element={<PrivateRoute element={<AccesoAgente />} />} />
+      <Route path="/plantilla" element={<PrivateRoute element={<PlantillaSaludo />} />} />
+      <Route path="/listar_plantillas" element={<PrivateRoute element={<PlantillasTablas />} />} />
 
     </Routes>
   );

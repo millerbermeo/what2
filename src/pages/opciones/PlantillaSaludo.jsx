@@ -9,7 +9,7 @@ import baseURL from '../../components/BaseUrl';
 // import Swal from 'sweetalert2';
 // import 'sweetalert2/dist/sweetalert2.css';
 
-function Mensajes() {
+function PlantillaSaludo() {
     const campanaRef = useRef(null);
     const textoRef = useRef(null);
 
@@ -18,6 +18,7 @@ function Mensajes() {
     const [loading, setLoading] = useState(false);
     const [loading2, setLoading2] = useState(false);
     const [loading3, setLoading3] = useState(false);
+
     const [status, setStatus] = useState(false);
 
 
@@ -166,11 +167,14 @@ function Mensajes() {
         }
         console.log("holamenudo-----------------------------------------------------")
         setLoading(true);
-        await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_crear_p_masiva.php`, formData)
+        await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_crear_p_saludo.php`, formData)
             .then(response => {
                 console.log('Solicitud exitosa:', response.data);
                 
-                setStatus(true)
+        
+                    setStatus(true)
+            
+
                 // Limpiar los campos después de enviar el formulario
                 imagen.current.value = "";
                 docu.current.value = "";
@@ -210,9 +214,8 @@ function Mensajes() {
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
-                    <h3 className='my-10 text-center text-2xl uppercase'>Crear Plantilla Masiva</h3>
+                    <h3 className='my-10 text-center text-2xl uppercase'>Crear Plantilla Saludo</h3>
                     <div className="flex justify-center flex-col md:flex-row items-start mt-1 md:mt-10 gap-6 mb-14">
-                        
                         <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg border">
                             <div>
                                 <label className="label-text font-medium text-xl" htmlFor="campana">Nombre Plantilla:</label>
@@ -275,12 +278,13 @@ function Mensajes() {
                                     Cargando...
                                 </div>
                             )}
-
-{status && (
+    {status && (
 <div className='text-center my-10 text-4xl'>
     <p>su plantilla se creó con exito</p>
 </div>)}
                         </div>
+
+                      
                     </div>
                 </main>
 
@@ -290,4 +294,6 @@ function Mensajes() {
     );
 }
 
-export default Mensajes;
+
+
+export default PlantillaSaludo

@@ -4,7 +4,7 @@ import { faBars, faChevronDown, faChevronRight, faHouse, faGear, faCommentDots, 
 import { Link } from 'react-router-dom';
 
 
-const Sidebar = ({mostrar, ocultar}) => {
+const Sidebar = ({ mostrar, ocultar }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -77,9 +77,9 @@ const Sidebar = ({mostrar, ocultar}) => {
 
 
             <div className='h-[75%] overflow-auto custom-scrollbar'>
-              <ul className={`text-[#5f6368] p-3 overflow-hidden w-[250px] flex flex-col gap-2 h-auto  ${user2 ? 'flex' :'flex'}`}>
+              <ul className={`text-[#5f6368] p-3 overflow-hidden w-[250px] flex flex-col gap-2 h-auto  ${user2 ? 'flex' : 'flex'}`}>
                 <div
-                  className={`flex justify-start items-center gap-5 cursor-pointer hover:text-black ${user ? 'flex' :'hidden'}`}
+                  className={`flex justify-start items-center gap-5 cursor-pointer hover:text-black ${user ? 'flex' : 'hidden'}`}
                   onClick={toggleChatMenu}
                 >
                   <div className='text-xl bg-black text-white rounded-full w-[35px] h-[35px] flex justify-center items-center'>
@@ -125,17 +125,23 @@ const Sidebar = ({mostrar, ocultar}) => {
                 </div>
                 <div
                   className="sub-menu overflow-hidden duration-300"
-                  style={{ height: isChatOpen2 ? '90px' : '0' }}
+                  style={{ height: isChatOpen2 ? '130px' : '0' }}
                 >
                   <ul className="p-2 pl-12">
+                  <Link to="/plantilla">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla Saludo</li>
+                    </Link>
                     <Link to="/mensajes">
-                      <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla Masiva</li>
                     </Link>
                     <Link to="/campanas">
-                      <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
                     </Link>
                     <Link to="/send">
-                    <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i>Enviar Campaña</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Enviar Campaña</li>
+                    </Link>
+                    <Link to="/listar_plantillas">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Plantillas</li>
                     </Link>
                   </ul>
                 </div>
@@ -165,8 +171,8 @@ const Sidebar = ({mostrar, ocultar}) => {
 
               </ul>
 
-              <ul className={`text-[#5f6368] p-3 overflow-hidden  w-[250px]  flex-col gap-2 h-auto ${user2 ? 'flex' :'hidden'}`}>
-              <Link to="/dashboard">
+              <ul className={`text-[#5f6368] p-3 overflow-hidden  w-[250px]  flex-col gap-2 h-auto ${user2 ? 'flex' : 'hidden'}`}>
+                <Link to="/dashboard">
                   <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
 
                     <div className="text-xl  bg-white rounded-full w-[35px] h-[35px] flex justify-center items-center">

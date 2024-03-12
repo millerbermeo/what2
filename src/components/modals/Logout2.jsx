@@ -27,6 +27,7 @@ function Logout2() {
 
       // Limpiar el localStorage
       localStorage.removeItem('user2');
+      localStorage.removeItem('user');
 
       // Redireccionar a la vista raíz
       navigation("/")

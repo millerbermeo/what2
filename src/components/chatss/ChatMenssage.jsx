@@ -35,7 +35,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [options, setOptions] = useState([]);
   const audioRef = useRef(null);
   const [mostrarAudio, setMostrarAudio] = useState(false);
-  
+
 
   // Función para obtener el valor del audio
   const obtenerValorAudio = () => {
@@ -409,7 +409,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       return (
         <div className='relative'>
           <audio controls className="cursor-pointer relative w-[200px]" style={mensaje.b1 === '1' ? { right: '-16px' } : { left: '-16px' }}>
-            <source src={mensaje.url}/>
+            <source src={mensaje.url} />
             Your browser does not support the audio tag.
           </audio>
         </div>
@@ -532,48 +532,48 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(false);
 
-    const enviarMensajeEnSegundoPlano2 = async () => {
-      try {
+  const enviarMensajeEnSegundoPlano2 = async () => {
+    try {
 
-        setMostrarAudio(false)
-        setBotonDeshabilitado(true); // Desactivar el botón al hacer clic
-        const user = JSON.parse(localStorage.getItem('user'));
-        const number_a = user && user.number_a;
-    
-        // Generar un nombre aleatorio para el archivo de audio
-        const nombreAleatorio = Math.random().toString(36).substring(7);
-    
-        // Crear un nuevo objeto FormData
-        const formData2 = new FormData();
-        formData2.append('numberw', numeroSeleccionado);
-        formData2.append('number_a', number_a);
-        formData2.append('type_m', 'voice');
-    
-        // Obtener el Blob de audio
-        // const nuevoBlob = cambiarNombreAleatorioYAccederPropiedades(audioBlob);
-    
-        console.log(audioBlob)
-        // Adjuntar el blob de audio al FormData con el nombre aleatorio
-        formData2.append('document_w', audioBlob);
-    
-        // Envía la solicitud POST con el FormData que incluye el archivo de audio WAV
-        const response = await axios.post(
-          `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
-          formData2
-        );
-        
-        // Limpiar el componente después de la petición
-        limpiarAudio();
-        setAudioBlob('')
-        setAudioBlob(null)
+      setMostrarAudio(false)
+      setBotonDeshabilitado(true); // Desactivar el botón al hacer clic
+      const user = JSON.parse(localStorage.getItem('user'));
+      const number_a = user && user.number_a;
 
-        console.log(response.data);
-        setBotonDeshabilitado(false); // Reactivar el botón después de recibir la respuesta
-      } catch (error) {
-        console.error('Error al enviar el mensaje en segundo plano:', error);
-        setBotonDeshabilitado(false); // Asegúrate de reactivar el botón en caso de error también
-      }
-    };
+      // Generar un nombre aleatorio para el archivo de audio
+      const nombreAleatorio = Math.random().toString(36).substring(7);
+
+      // Crear un nuevo objeto FormData
+      const formData2 = new FormData();
+      formData2.append('numberw', numeroSeleccionado);
+      formData2.append('number_a', number_a);
+      formData2.append('type_m', 'voice');
+
+      // Obtener el Blob de audio
+      // const nuevoBlob = cambiarNombreAleatorioYAccederPropiedades(audioBlob);
+
+      console.log(audioBlob)
+      // Adjuntar el blob de audio al FormData con el nombre aleatorio
+      formData2.append('document_w', audioBlob);
+
+      // Envía la solicitud POST con el FormData que incluye el archivo de audio WAV
+      const response = await axios.post(
+        `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
+        formData2
+      );
+
+      // Limpiar el componente después de la petición
+      limpiarAudio();
+      setAudioBlob('')
+      setAudioBlob(null)
+
+      console.log(response.data);
+      setBotonDeshabilitado(false); // Reactivar el botón después de recibir la respuesta
+    } catch (error) {
+      console.error('Error al enviar el mensaje en segundo plano:', error);
+      setBotonDeshabilitado(false); // Asegúrate de reactivar el botón en caso de error también
+    }
+  };
 
 
   function limpiarAudio() {
@@ -623,7 +623,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       // Si no está grabando, iniciar la grabación
       setRecording(true);
       setShowRecorder(true);
-      
+
 
     }
   };
@@ -817,21 +817,21 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                 </button>
 
                 <div>
-      {mostrarAudio && (
-        <div className={` absolute -top-28 -left-14 md:left-5`}>
-          <button
-            onClick={enviarMensajeEnSegundoPlano2}
-            className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'
-            disabled={botonDeshabilitado} // Deshabilitar el botón si está en true
-          >
-            Enviar Audio
-          </button>
-          <span onClick={() => {setMostrarAudio(false); limpiarAudio();}} className='absolute cursor-pointer hover:bg-gray-200 hover:text-black text-lg text-white -top-3 -right-2 h-6 w-6 flex justify-center items-center bg-gray-600 rounded-full'>x</span>
-        </div>
-      )}
+                  {mostrarAudio && (
+                    <div className={` absolute -top-28 -left-14 md:left-5`}>
+                      <button
+                        onClick={enviarMensajeEnSegundoPlano2}
+                        className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'
+                        disabled={botonDeshabilitado} // Deshabilitar el botón si está en true
+                      >
+                        Enviar Audio
+                      </button>
+                      <span onClick={() => { setMostrarAudio(false); limpiarAudio(); }} className='absolute cursor-pointer hover:bg-gray-200 hover:text-black text-lg text-white -top-3 -right-2 h-6 w-6 flex justify-center items-center bg-gray-600 rounded-full'>x</span>
+                    </div>
+                  )}
 
-      {/* <button onClick={() => setMostrarAudio(true)}>Mostrar Audio</button> */}
-    </div>
+                  {/* <button onClick={() => setMostrarAudio(true)}>Mostrar Audio</button> */}
+                </div>
 
 
               </div>
@@ -848,7 +848,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                     className={`overflow-hidden w-max h-14 absolute  md:left-12  2xl:left-60 -top-20 ${isRecording ? 'hidden' : 'hidden'}`}
                   />
 
-                  
+
                   {showRecorder && <RecorderSound />} {/* Mostrar RecorderSound cuando se está grabando */}
 
                   <div className={`mr-2 ${isRecording ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} onClick={toggleRecording}>
@@ -871,10 +871,11 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                     </>
                   )}
 
-
-                  <div onClick={reproducirAudio}>
-                    <FontAwesomeIcon icon={reproduciendo ? faPause : faPlay} className={`${audioBlob ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} />
-                  </div>
+                  {audioBlob && (
+                    <div onClick={reproducirAudio}>
+                      <FontAwesomeIcon icon={reproduciendo ? faPause : faPlay} className={`${audioBlob ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} />
+                    </div>
+                  )}
                 </div>
               </div>
 
