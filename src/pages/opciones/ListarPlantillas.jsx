@@ -14,7 +14,7 @@ function ListarPlantillas() {
     const [expandedNumbers, setExpandedNumbers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [inputValue, setInputValue] = useState('10')
+    const [inputValue, setInputValue] = useState('8')
     const pageSize = inputValue; // Número de filas por página
 
     useEffect(() => {
@@ -34,6 +34,7 @@ function ListarPlantillas() {
 
         fetchData();
     }, []);
+    
 
     const toggleExpand = (index) => {
         // Crear una copia del estado de expansión

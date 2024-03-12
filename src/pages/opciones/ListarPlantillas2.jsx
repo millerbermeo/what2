@@ -9,7 +9,7 @@ function ListarPlantillas2() {
     const [expandedNumbers, setExpandedNumbers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [inputValue, setInputValue] = useState('10')
+    const [inputValue, setInputValue] = useState('8')
     const pageSize = inputValue; // Número de filas por página
 
     useEffect(() => {
@@ -20,7 +20,7 @@ function ListarPlantillas2() {
                 // Inicializar el estado de expansión con "false" para cada fila
                 setExpandedNumbers(Array(response.data.length).fill(false));
 
-                console.log("xxxxxxxxx", response.data)
+                console.log("saludo", response.data)
 
             } catch (error) {
                 console.error('Error fetching data:', error);

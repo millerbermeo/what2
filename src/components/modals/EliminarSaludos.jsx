@@ -22,7 +22,7 @@ function EliminarSaludos({id}) {
 
 
             // Realizar la solicitud POST con Axios
-            axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_delete_p_masiva.php`, formData)
+            axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_delete_p_saludo.php`, formData)
                 .then(response => {
                     console.log(response.data)
 

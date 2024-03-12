@@ -150,24 +150,29 @@ function ModalChat() {
                     Selecciona una Plantilla
                   </label>
                   {/* Cambia el input a un select */}
-                  <select
-                    id="inputTexto"
-                    name="inputTexto"
-                    ref={mensajePlantilla}
-                    onChange={handleTemplateSelect}
-                    className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
-                  >
-                     <option value="">
-                    Selecciona una opción
-                  </option>
+         {/* Cambia el input a un select */}
+<select
+  id="inputTexto"
+  name="inputTexto"
+  ref={mensajePlantilla}
+  onChange={handleTemplateSelect}
+  className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+>
+  <option value="">
+    Selecciona una opción
+  </option>
 
-                    {/* Mapea las opciones del estado para llenar el select */}
-                    {options.map(option => (
-                      <option key={option.id} value={option.nombre}>
-                        {option.nombre}
-                      </option>
-                    ))}
-                  </select>
+  {/* Mapea las opciones del estado para llenar el select */}
+  {options.map(option => (
+    // Utiliza una condición para mostrar solo las opciones con estado igual a 1
+    option.estado == 1 &&
+      <option key={option.id} value={option.nombre}>
+        {option.nombre}
+      </option>
+  ))}
+</select>
+
+
                 </div>
 
                 <div className='my-3 shadow p-2 bg-gray-100'>

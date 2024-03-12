@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { saveAs } from 'file-saver'; // Importar saveAs desde file-saver
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import { Link } from 'react-router-dom';
 import baseURL from '../../components/BaseUrl';
-
 
 function Campanas() {
     const [campanasData, setCampanasData] = useState([]);
     const [expandedNumbers, setExpandedNumbers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [inputValue, setInputValue] = useState('10')
+    const [inputValue, setInputValue] = useState('10');
     const pageSize = inputValue; // Número de filas por página
 
     useEffect(() => {
@@ -22,8 +22,8 @@ function Campanas() {
                 // Inicializar el estado de expansión con "false" para cada fila
                 setExpandedNumbers(Array(response.data.length).fill(false));
 
-                console.log("xxxxxxxxx",response.data)
-                
+                console.log("xxxxxxxxx", response.data)
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -57,6 +57,14 @@ function Campanas() {
         }
     }
 
+    const downloadCSV = () => {
+        const csvData = filterCampanas().map(campana => {
+            return `${campana.id},${campana.nombre_p},${campana.number_m},${campana.number_a},${campana.estado},${campana.fecha}`;
+        }).join('\n');
+
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+        saveAs(blob, 'campanas_data.csv');
+    };
 
     const totalPages = Math.ceil(filterCampanas().length / pageSize);
 
@@ -70,29 +78,39 @@ function Campanas() {
         <div>
             <div className="flex">
                 <div className='md:relative md:z-0'>
-                <Sidebar ocultar="hidden"/>
+                    <Sidebar ocultar="hidden" />
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
-                    <Navbar navbar="flex"/>
+                    <Navbar navbar="flex" />
                     <div className='flex justify-start flex-col mt-10 px-2 lg:px-0 lg:pr-5'>
                         <h2 className='uppercase font-semibold text-2xl text-gray-900 text-center'>Total de Campañas Masivas</h2>
-                        <div className='flex justify-start 2xl:ml-36 gap-2 mt-10'>
+                        <div className='flex justify-between 2xl:ml-36 gap-2 mt-10'>
                             <div className='flex gap-2'>
-                            <input
-                                type="text"
-                                placeholder="Buscar..."
-                                className="px-2 py-1 border outline-none rounded mb-2"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                            <input type="number" value={inputValue} onChange={handleInputOnchange} className='w-14 h-[34px] mx-auto pl-4 border rounded outline-none border-gray-600' />
+                                <input
+                                    type="text"
+                                    placeholder="Buscar..."
+                                    className="px-2 py-1 border outline-none rounded mb-2"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                                <input type="number" value={inputValue} onChange={handleInputOnchange} className='w-14 h-[34px] mx-auto pl-4 border rounded outline-none border-gray-600' />
+                                <Link to="/send">
+                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded">
+                                        Crear
+                                    </button>
+                                </Link>
+                            </div>
+
+
+                            <div onClick={downloadCSV} className='2xl:mr-40 cursor-pointer'>
+
+                                <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
+                                    <span>Download</span>
+                                </button>
+
 
                             </div>
-                            <Link to="/send">
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded">
-                                    Crear
-                                </button>
-                            </Link>
 
                         </div>
 
@@ -135,10 +153,6 @@ function Campanas() {
                                     ))}
                                 </tbody>
                             </table>
-
-
-
-
                         </div>
 
                         <div className="flex justify-center w-full lg:justify-end gap-2 mt-4 2xl:pr-36">
