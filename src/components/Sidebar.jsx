@@ -134,15 +134,16 @@ const Sidebar = ({ mostrar, ocultar }) => {
                     <Link to="/mensajes">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla Masiva</li>
                     </Link>
+                    <Link to="/listar_plantillas">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Plantillas</li>
+                    </Link>
                     <Link to="/campanas">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
                     </Link>
                     <Link to="/send">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Enviar Campaña</li>
                     </Link>
-                    <Link to="/listar_plantillas">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Plantillas</li>
-                    </Link>
+                  
                   </ul>
                 </div>
                 <Link to="/perfil">

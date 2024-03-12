@@ -19,7 +19,8 @@ function Mensajes() {
     const [loading2, setLoading2] = useState(false);
     const [loading3, setLoading3] = useState(false);
     const [status, setStatus] = useState(false);
-
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
     // const showAlert = (icon, text) => {
     //     Swal.fire({
@@ -169,7 +170,8 @@ function Mensajes() {
         await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_crear_p_masiva.php`, formData)
             .then(response => {
                 console.log('Solicitud exitosa:', response.data);
-                
+                setShowModal(true)
+                setModalMessage("Plantilla reada correctamente")
                 setStatus(true)
                 // Limpiar los campos después de enviar el formulario
                 imagen.current.value = "";
@@ -184,6 +186,8 @@ function Mensajes() {
                 // showAlert('success', 'Plantilla Creada');
             })
             .catch(error => {
+                setShowModal(true)
+                setModalMessage("La plantilla masiva no se pudo crear")
                 setLoading2(true);
                 console.error('Error al enviar la solicitud:', error);
                 imagen.current.value = "";
@@ -195,6 +199,7 @@ function Mensajes() {
 
             })
             .finally(() => {
+                imagen.current.value = "";
                 setLoading(false);
                 // Ocultar loader al finalizar la solicitud, ya sea éxito o error
             });
@@ -205,14 +210,30 @@ function Mensajes() {
     return (
         <>
             <div className="flex">
+                {showModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white w-96 rounded-lg shadow-lg">
+                            <div className="p-8">
+                                <p className="text-xl text-center">{modalMessage}</p>
+                                <button
+                                    onClick={() => setShowModal(false)}
+                                    className="mt-4 w-full bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 focus:outline-none focus:bg-gray-800"
+                                >
+                                    Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className='md:relative md:z-0'>
-                <Sidebar ocultar="hidden"/>
+                    <Sidebar ocultar="hidden" />
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
                     <h3 className='my-10 text-center text-2xl uppercase'>Crear Plantilla Masiva</h3>
-                    <div className="flex justify-center flex-col md:flex-row items-start mt-1 md:mt-10 gap-6 mb-14">
-                        
+                    <div className="flex justify-center flex-col md:flex-row items-start mt-1 md:mt-10 gap-14 2xl:gap-24 mb-14">
+
                         <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg border">
                             <div>
                                 <label className="label-text font-medium text-xl" htmlFor="campana">Nombre Plantilla:</label>
@@ -276,10 +297,10 @@ function Mensajes() {
                                 </div>
                             )}
 
-{status && (
-<div className='text-center my-10 text-4xl'>
-    <p>su plantilla se creó con exito</p>
-</div>)}
+                            {/* {status && (
+                                <div className='text-center my-10 text-4xl'>
+                                    <p>su plantilla se creó con exito</p>
+                                </div>)} */}
                         </div>
                     </div>
                 </main>

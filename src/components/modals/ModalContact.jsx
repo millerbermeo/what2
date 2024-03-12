@@ -10,6 +10,7 @@ const ModalContact = () => {
 
     const [Campo, setCampo] = useState(false)
     const [Campo2, setCampo2] = useState(false)
+    const [Campo3, setCampo3] = useState(false)
 
     const nombre = useRef()
     const numero = useRef()
@@ -23,18 +24,18 @@ const ModalContact = () => {
         setIsOpen(false);
         setCampo(false);
         setCampo2(false);
+        setCampo3(false);
     };
 
     const guardarNombre = (e) => {
-
         e.preventDefault();
-
+    
         const user = JSON.parse(localStorage.getItem('user'));
         const number_a = user && user.number_a;
-
+    
         const nombreValue = nombre.current.value.trim(); // Trim removes leading and trailing whitespaces
         const numeroValue = numero.current.value;
-
+    
         // Check if the user has written something
         if (!nombreValue) {
             // Optionally, you can show an error message or handle it as needed
@@ -44,23 +45,33 @@ const ModalContact = () => {
         } else {
             setCampo(false);
         }
-
+    
         if (!numeroValue) {
             // Optionally, you can show an error message or handle it as needed
             console.error('Please enter a name before saving.');
             setCampo2(true);
             return;
         } else {
-            setCampo(false);
+            setCampo2(false);
         }
-
+    
+        // Validate that the number does not start with digit 3
+        if (numeroValue.startsWith('3')) {
+            // Optionally, you can show an error message or handle it as needed
+            console.error('The number cannot start with the digit 3.');
+            setCampo3(true);
+            return;
+        } else {
+            setCampo3(false);
+        }
+    
         const formData = new FormData();
         formData.append('numberw', numeroValue);
         formData.append('nombre', nombreValue);
         formData.append('number_a', number_a);
-
+    
         console.log(formData)
-
+    
         // Make the POST request
         axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_save_name.php`, formData)
             .then(response => {
@@ -69,6 +80,7 @@ const ModalContact = () => {
                 setIsOpen(false);
                 setCampo2(false);
                 setCampo(false);
+                setCampo3(false);
             })
             .catch(error => {
                 // Handle errors
@@ -76,9 +88,10 @@ const ModalContact = () => {
                 setIsOpen(false);
                 setCampo2(false);
                 setCampo(false);
+                setCampo3(false);
             });
-
     }
+    
 
 
 
@@ -129,7 +142,7 @@ const ModalContact = () => {
                                 <label htmlFor="numero">Ingrese el Número</label>
                                 <input
                                     type='number'
-                                    placeholder='Numero'
+                                    placeholder='57 3110000000'
                                     required
                                     id='numero'
                                     ref={numero}
@@ -140,6 +153,12 @@ const ModalContact = () => {
                             {Campo2 && (
                                 <div className='text-lg font-normal absolut w-full text-white bg-red-500 py-1 px-2 rounded my-2'>
                                     Campo Requerido
+                                </div>
+                            )}
+
+{Campo3 && (
+                                <div className='text-lg font-normal absolut w-full text-white bg-red-500 py-1 px-2 rounded my-2'>
+                                    El numero no es valido
                                 </div>
                             )}
 
