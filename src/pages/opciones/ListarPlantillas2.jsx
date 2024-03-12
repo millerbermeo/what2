@@ -28,6 +28,10 @@ function ListarPlantillas2() {
         };
 
         fetchData();
+        const interval = setInterval(fetchData, 1000);
+
+        // Limpiar el intervalo al desmontar el componente para evitar fugas de memoria
+        return () => clearInterval(interval);
     }, []);
 
     const toggleExpand = (index) => {

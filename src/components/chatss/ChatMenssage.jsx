@@ -549,25 +549,44 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       formData2.append('number_a', number_a);
       formData2.append('type_m', 'voice');
 
-      // Obtener el Blob de audio
-      // const nuevoBlob = cambiarNombreAleatorioYAccederPropiedades(audioBlob);
-
       console.log(audioBlob)
       // Adjuntar el blob de audio al FormData con el nombre aleatorio
       formData2.append('document_w', audioBlob);
 
       // Envía la solicitud POST con el FormData que incluye el archivo de audio WAV
-      const response = await axios.post(
-        `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
+
+      const response1 = await axios.post(
+        `${baseURL}/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php`,
         formData2
       );
+
+      
+
+      if (response1.data.trim() === 'Mensaje') {
+        setMostrarPlantilla(false);
+        const response = await axios.post(
+          `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
+          formData2
+        );
+
+        console.log("audio enviado", response)
+
+
+      } else if (response1.data.trim() === 'Plantilla') {
+        setMostrarPlantilla(!mostrarPlantilla);
+      }
+
+      // Obtener el Blob de audio
+      // const nuevoBlob = cambiarNombreAleatorioYAccederPropiedades(audioBlob);
+
+
 
       // Limpiar el componente después de la petición
       limpiarAudio();
       setAudioBlob('')
       setAudioBlob(null)
 
-      console.log(response.data);
+      // console.log(response.data);
       setBotonDeshabilitado(false); // Reactivar el botón después de recibir la respuesta
     } catch (error) {
       console.error('Error al enviar el mensaje en segundo plano:', error);
@@ -699,6 +718,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                     </option>
                     {/* Mapea las opciones del estado para llenar el select */}
                     {options.map(option => (
+                      // Utiliza una condición para mostrar solo las opciones con estado igual a 1
+                      option.estado == 1 &&
                       <option key={option.id} value={option.nombre}>
                         {option.nombre}
                       </option>
