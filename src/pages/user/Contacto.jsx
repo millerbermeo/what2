@@ -1,6 +1,8 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
 import Sidebar from '../../components/Sidebar'
+// import AudioRecorder from '../../components/grabacion/AudioRecorder'
+
 
 function Contacto() {
 
@@ -13,7 +15,7 @@ function Contacto() {
 
             <div className="flex">
                 <div className='md:relative md:z-0'>
-                    <Sidebar ocultar="hidden"/>
+                <Sidebar ocultar="hidden"/>
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
@@ -29,6 +31,8 @@ function Contacto() {
                             <span className='font-bold'>Teléfono:</span> (+57) 350-608-6936
                         </p>
 
+                        {/* <AudioRecorder/> */}
+            
                     </div>
 
                 </main>

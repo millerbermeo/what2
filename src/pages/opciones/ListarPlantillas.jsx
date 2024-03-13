@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { saveAs } from 'file-saver'; // Importar saveAs desde file-saver
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import { Link } from 'react-router-dom';
 import baseURL from '../../components/BaseUrl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import EliminarMasivas from '../../components/modals/EliminarMasivas';
 
-function Campanas() {
+
+function ListarPlantillas() {
     const [campanasData, setCampanasData] = useState([]);
     const [expandedNumbers, setExpandedNumbers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [inputValue, setInputValue] = useState('10');
+    const [inputValue, setInputValue] = useState('8')
     const pageSize = inputValue; // Número de filas por página
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_listar_c_masivas.php`);
+                const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_masivas.php`);
                 setCampanasData(response.data);
                 // Inicializar el estado de expansión con "false" para cada fila
                 setExpandedNumbers(Array(response.data.length).fill(false));
@@ -30,7 +33,12 @@ function Campanas() {
         };
 
         fetchData();
+        const interval = setInterval(fetchData, 1000);
+
+        // Limpiar el intervalo al desmontar el componente para evitar fugas de memoria
+        return () => clearInterval(interval);
     }, []);
+    
 
     const toggleExpand = (index) => {
         // Crear una copia del estado de expansión
@@ -45,8 +53,7 @@ function Campanas() {
     const filterCampanas = () => {
         return campanasData.filter(
             (campana) =>
-                campana.nombre_p.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                campana.number_a.toLowerCase().includes(searchTerm.toLowerCase())
+                campana.nombre.toLowerCase().includes(searchTerm.toLowerCase())
         );
     };
 
@@ -57,14 +64,6 @@ function Campanas() {
         }
     }
 
-    const downloadCSV = () => {
-        const csvData = filterCampanas().map(campana => {
-            return `${campana.id},${campana.nombre_p},${campana.number_m},${campana.number_a},${campana.estado},${campana.fecha}`;
-        }).join('\n');
-
-        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
-        saveAs(blob, 'campanas_data.csv');
-    };
 
     const totalPages = Math.ceil(filterCampanas().length / pageSize);
 
@@ -74,17 +73,18 @@ function Campanas() {
 
     const paginatedCampanas = filterCampanas().slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
+
+
+  
+
+
+
     return (
         <div>
-            <div className="flex">
-                <div className='md:relative md:z-0'>
-                    <Sidebar ocultar="hidden" />
-                </div>
-                <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
-                    <Navbar navbar="flex" />
+         
                     <div className='flex justify-start flex-col mt-10 px-2 lg:px-0 lg:pr-5'>
-                        <h2 className='uppercase font-semibold text-2xl text-gray-900 text-center'>Total de Campañas Masivas</h2>
-                        <div className='flex justify-between 2xl:ml-36 gap-2 mt-10'>
+                        <h2 className='font-semibold text-2xl text-gray-900 text-center'>Plantillas Masivas</h2>
+                        <div className='flex justify-start 2xl:ml-36 gap-2 mt-10'>
                             <div className='flex gap-2'>
                                 <input
                                     type="text"
@@ -94,23 +94,13 @@ function Campanas() {
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                                 <input type="number" value={inputValue} onChange={handleInputOnchange} className='w-14 h-[34px] mx-auto pl-4 border rounded outline-none border-gray-600' />
-                                <Link to="/send">
-                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded">
-                                        Crear
-                                    </button>
-                                </Link>
+
                             </div>
-
-
-                            <div onClick={downloadCSV} className='2xl:mr-40 cursor-pointer'>
-
-                                <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
-                                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
-                                    <span>Download</span>
+                            {/* <Link to="/send">
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded">
+                                    Crear
                                 </button>
-
-
-                            </div>
+                            </Link> */}
 
                         </div>
 
@@ -120,10 +110,11 @@ function Campanas() {
                                     <tr>
                                         <th className="py-3 px-4 border-r text-left">ID</th>
                                         <th className="py-3 px-4 border-r text-left">Nombre</th>
-                                        <th className="py-3 px-4 border-r text-left">Numero</th>
-                                        <th className="py-3 px-4 border-r text-left">Agente</th>
-                                        <th className="py-3 px-4 border-r text-left">Estado</th>
-                                        <th className="py-3 px-4 text-left">Fecha</th>
+                                        <th className="py-3 px-4 border-r text-left">Contenido</th>
+                                        <th className="py-3 px-4 border-r text-left">Url</th>
+                                        <th className="py-3 px-4 border-r text-left">tipo</th>
+                                        {/* <th className="py-3 px-4 text-left">estado</th> */}
+                                        <th className="py-3 px-4 text-left">Acciones</th>   
                                     </tr>
                                 </thead>
                                 <tbody className='border'>
@@ -131,28 +122,26 @@ function Campanas() {
                                         <React.Fragment key={campana.id}>
                                             <tr className={`border border-b ${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-300'}`}>
                                                 <td className="py-3 font-bold px-4">{campana.id}</td>
-                                                <td className="py-3 px-4">{campana.nombre_p}</td>
+                                                <td className="py-3 px-4">{campana.nombre}</td>
                                                 <td className="px-4">
-                                                    <div>
-                                                        <div className="w-52 flex max-h-30 overflow-auto break-all">
-                                                            {expandedNumbers[index] ? campana.number_m : campana.number_m.slice(0, 40) + "..."}
-                                                        </div>
-                                                        <button
-                                                            onClick={() => toggleExpand(index)}
-                                                            className="text-gray-900 underline focus:outline-none mt-1"
-                                                        >
-                                                            {expandedNumbers[index] ? "Mostrar menos" : "Mostrar más"}
-                                                        </button>
-                                                    </div>
+                                                    {campana.contenido}
                                                 </td>
-                                                <td className="py-3 px-4">{campana.number_a}</td>
-                                                <td className="py-3 px-4">{campana.estado}</td>
-                                                <td className="py-3 px-4">{campana.fecha}</td>
+
+                                                <td className="py-3 px-4"><a href={campana.url}>{campana.url}</a></td>
+                                                <td className="py-3 px-4">{campana.tipo}</td>
+                                                {/* <td className="py-3 px-4">{campana.estado}</td> */}
+                                                <td className="py-3 px-4 text-center">
+                                                    {campana.estado === '1' && <EliminarMasivas id={campana.id}/>}
+                                                </td>
                                             </tr>
                                         </React.Fragment>
                                     ))}
                                 </tbody>
                             </table>
+
+
+
+
                         </div>
 
                         <div className="flex justify-center w-full lg:justify-end gap-2 mt-4 2xl:pr-36">
@@ -163,6 +152,8 @@ function Campanas() {
                             >
                                 Anterior
                             </button>
+
+
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
@@ -172,10 +163,12 @@ function Campanas() {
                             </button>
                         </div>
                     </div>
-                </main>
-            </div>
+              
+
         </div>
     )
 }
 
-export default Campanas;
+
+
+export default ListarPlantillas

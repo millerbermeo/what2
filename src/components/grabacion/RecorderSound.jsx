@@ -24,7 +24,7 @@ function RecorderSound() {
 
     return (
         <>
-            <div className='flex justify-center items-center gap-5 absolute -top-28 left-[350%] 2xl:left-[350px]'>
+            <div className='flex justify-center items-center gap-5 absolute -top-28 -left-20 md:left-[350%] 2xl:left-[350px]'>
                 <div className='w-20 h-20 flex justify-center text-blue-500 items-center text-5xl rounded-full overflow-hidden border'>
                     <FontAwesomeIcon icon={faMicrophone} />
                 </div>

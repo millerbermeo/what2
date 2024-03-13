@@ -3,9 +3,21 @@ import axios from 'axios';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faDownload, faFile, faRightFromBracket, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faStop, faDownload, faFile, faMicrophone, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Logout from '../modals/Logout';
-import AudioRecorder from '../grabacion/AudioRecorder';
+
+import InfoUser from '../othercomponents/InfoUser';
+
+
+
+import { ReactMic } from 'react-mic';
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import LineSound from '../grabacion/LineSound';
+import RecorderSound from '../grabacion/RecorderSound';
+import baseURL from '../BaseUrl';
+
+
+
 
 function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [mensajes, setMensajes] = useState([]);
@@ -21,9 +33,36 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const [isFileUploaded, setIsFileUploaded] = useState(false); // Nuevo estado
   const [textoPorDefecto, setTextoPorDefecto] = useState('Texto por defecto');
   const [options, setOptions] = useState([]);
-  const [audioRef, setAudioRef] = useState(null);
+  const audioRef = useRef(null);
+  const [mostrarAudio, setMostrarAudio] = useState(false);
 
 
+  // Función para obtener el valor del audio
+  const obtenerValorAudio = () => {
+    // Accede al elemento de audio a través de la referencia
+    const audioElement = audioRef.current;
+
+    // Verifica si el elemento de audio existe
+    if (audioElement) {
+      // Accede al atributo 'src' del elemento de audio para obtener la URL del audio
+      const audioURL = audioElement.src;
+
+      // Haz algo con la URL del audio
+      console.log('URL del audio:', audioURL);
+    }
+  };
+
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'src/components/chatss/app.js'; // Reemplaza esto con la ruta correcta hacia tu archivo app.js
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   // console.log("----------------");
   // console.log(nameSeleccionado);
@@ -75,10 +114,11 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const mensajeInputRef = useRef(null);
   const archivoInputRef = useRef(null);
   const mensajePlantilla = useRef(null);
+  const audio123 = useRef();
 
   useEffect(() => {
     // Realiza la solicitud utilizando Axios
-    axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php')
+    axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php`)
       .then(response => {
         // Actualiza el estado con las opciones del select
         setOptions(response.data);
@@ -107,7 +147,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     formData.append('number_a', number_a);
 
     // Realiza la solicitud POST utilizando Axios
-    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php', formData)
+    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php`, formData)
       .then(response => {
         // Maneja la respuesta del servidor aquí
         console.log(response.data);
@@ -122,7 +162,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   }
 
 
-  const cerarPlantilla = ()=> {
+  const cerarPlantilla = () => {
     setMostrarPlantilla(false);
   }
 
@@ -174,7 +214,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       mensajeInputRef.current.value = '';
       archivoInputRef.current.value = '';
 
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php', formData2);
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php`, formData2);
       console.log(response);
 
       console.log('Datos de la respuesta:', response.data);
@@ -224,7 +264,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     try {
       // Realizar la operación asíncrona
       await axios.post(
-        'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_message.php',
+        `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
         formData
       );
 
@@ -260,7 +300,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
 
         const response = await axios.post(
-          'http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/chats_principal.php',
+          `${baseURL}/chat_business2/Dashboard/Dashboard/chats_principal.php`,
           formData
         );
         ///
@@ -294,7 +334,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
           setShouldScrollToLast(true);
         }
 
-        
+
 
 
       } catch (error) {
@@ -309,7 +349,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     return () => clearInterval(intervalId);
   }, [numeroSeleccionado, scrollRef, mensajes, nameSeleccionado]);
 
-  
+
 
   const renderMedia = (mensaje) => {
 
@@ -369,7 +409,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       return (
         <div className='relative'>
           <audio controls className="cursor-pointer relative w-[200px]" style={mensaje.b1 === '1' ? { right: '-16px' } : { left: '-16px' }}>
-            <source src={mensaje.url} type="audio/mp3" />
+            <source src={mensaje.url} />
             Your browser does not support the audio tag.
           </audio>
         </div>
@@ -390,8 +430,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     } else {
 
       return (
-        <div className='relative pb-1 break-words'>
-          {mensaje.men} <span className='translate-y-[4px]' style={mensaje.b1 === '1' ? { ...horaStyle, right: '-32px' } : { ...horaStyle, left: '-32px' }}>{formatFecha(mensaje.fecha)}</span>
+        <div className='relative pb-1 break-words px-2'>
+          {mensaje.men} <span className='translate-y-[4px] ' style={mensaje.b1 === '1' ? { ...horaStyle, right: '-32px ' } : { ...horaStyle, left: '-32px ' }}>{formatFecha(mensaje.fecha)}</span>
         </div>
       );
     }
@@ -458,10 +498,10 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
   const userAgente = JSON.parse(localStorage.getItem('user'));
 
-const primerNombre = userAgente && userAgente.name ? userAgente.name.split(' ')[0] : '';
+  const primerNombre = userAgente && userAgente.name ? userAgente.name.split(' ')[0] : '';
 
 
-const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
+  const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
 
   // ... (resto del código)
 
@@ -478,10 +518,159 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
     window.location.reload();
   };
 
-  const handleAudioRef = (ref) => {
-    // Guarda el ref en el estado del componente padre
-    setAudioRef(ref);
-};
+
+
+  const [isRecording, setRecording] = useState(false);
+  const [audioBlob, setAudioBlob] = useState(null);
+
+
+
+
+
+  const [reproduciendo, setReproduciendo] = useState(false);
+  const [showRecorder, setShowRecorder] = useState(false);
+
+  const [botonDeshabilitado, setBotonDeshabilitado] = useState(false);
+
+  const enviarMensajeEnSegundoPlano2 = async () => {
+    try {
+
+      setMostrarAudio(false)
+      setBotonDeshabilitado(true); // Desactivar el botón al hacer clic
+      const user = JSON.parse(localStorage.getItem('user'));
+      const number_a = user && user.number_a;
+
+      // Generar un nombre aleatorio para el archivo de audio
+      const nombreAleatorio = Math.random().toString(36).substring(7);
+
+      // Crear un nuevo objeto FormData
+      const formData2 = new FormData();
+      formData2.append('numberw', numeroSeleccionado);
+      formData2.append('number_a', number_a);
+      formData2.append('type_m', 'voice');
+
+      console.log(audioBlob)
+      // Adjuntar el blob de audio al FormData con el nombre aleatorio
+      formData2.append('document_w', audioBlob);
+
+      // Envía la solicitud POST con el FormData que incluye el archivo de audio WAV
+
+      const response1 = await axios.post(
+        `${baseURL}/chat_business2/Dashboard/Dashboard/api_validar_mensaje.php`,
+        formData2
+      );
+
+      
+
+      if (response1.data.trim() === 'Mensaje') {
+        setMostrarPlantilla(false);
+        const response = await axios.post(
+          `${baseURL}/chat_business2/Dashboard/Dashboard/api_send_message.php`,
+          formData2
+        );
+
+        console.log("audio enviado", response)
+
+
+      } else if (response1.data.trim() === 'Plantilla') {
+        setMostrarPlantilla(!mostrarPlantilla);
+      }
+
+      // Obtener el Blob de audio
+      // const nuevoBlob = cambiarNombreAleatorioYAccederPropiedades(audioBlob);
+
+
+
+      // Limpiar el componente después de la petición
+      limpiarAudio();
+      setAudioBlob('')
+      setAudioBlob(null)
+
+      // console.log(response.data);
+      setBotonDeshabilitado(false); // Reactivar el botón después de recibir la respuesta
+    } catch (error) {
+      console.error('Error al enviar el mensaje en segundo plano:', error);
+      setBotonDeshabilitado(false); // Asegúrate de reactivar el botón en caso de error también
+    }
+  };
+
+
+  function limpiarAudio() {
+    setAudioBlob(null);
+  }
+
+  // const intervaloLimpiarAudio = setInterval(limpiarAudio, 25000); 
+
+
+  // Nuevo estado para controlar la visibilidad de RecorderSound
+
+  // useEffect(() => {
+  //     if (audioBlob) {
+  //         // Descargar el archivo una vez que se haya completado la grabación
+  //         downloadAudio();
+  //     }
+  // }, [audioBlob]);
+
+  const onStart = () => {
+    try {
+      setAudioBlob(null);
+      setAudioBlob('');
+      setRecording(true);
+      setShowRecorder(true); // Mostrar RecorderSound al comenzar a grabar
+      console.log('Comenzando la grabación...');
+    } catch (error) {
+      console.log('no funcionó', error);
+    }
+  };
+
+  const onStop = (recordedBlob) => {
+    setRecording(false);
+    setShowRecorder(false); // Ocultar RecorderSound al terminar de grabar
+    console.log('Grabación completada:', recordedBlob);
+    setAudioBlob(recordedBlob.blob);
+  };
+
+  const toggleRecording = () => {
+    setAudioBlob(null);
+    setReproduciendo(false)
+    if (isRecording) {
+      // Si ya está grabando, detener la grabación
+      setRecording(false);
+      setShowRecorder(false);
+      setMostrarAudio(true)
+    } else {
+      // Si no está grabando, iniciar la grabación
+      setRecording(true);
+      setShowRecorder(true);
+
+
+    }
+  };
+
+  const reproducirAudio = () => {
+    setRecording(false);
+    setShowRecorder(false);
+    setMostrarAudio(true)
+    if (audioRef.current) {
+      if (reproduciendo) {
+        audioRef.current.pause();
+        setReproduciendo(false);
+      } else {
+        audioRef.current.play();
+        setRecording(false); // Detener grabación al reproducir
+        setReproduciendo(true);
+      }
+    }
+  };
+
+  // const downloadAudio = () => {
+  //     const url = URL.createObjectURL(audioBlob);
+  //     const link = document.createElement('a');
+  //     link.href = url;
+  //     link.setAttribute('download', 'grabacion_audio.mp3'); // Nombre del archivo a descargar
+  //     document.body.appendChild(link);
+  //     link.click();
+  // };
 
 
   // style={{ backgroundImage: "url('background2.png')", backgroundSize: "cover" }}
@@ -492,16 +681,19 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
         {/* ... (resto del código) */}
         <div className='absolute top-0 w-full hidden lg:flex h-12 justify-between items-center px-5'>
           <div>
-            <div className='flex gap-2 items-end'>
+            <div className='flex gap-2 items-end relative'>
+              <InfoUser numero={numeroSeleccionado} nombre={nameSeleccionado} />
               <img className='w-[30px] rounded-full' src="negociemos.jpg" alt="" />
               <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
             </div>
           </div>
-          
+
           <div className='flex gap-5 mt-2 items-center text-sm'>
-          <span>{primerNombre}</span>
-          <Logout />
+            <span>{primerNombre}</span>
+            <Logout />
           </div>
+
+
         </div>
         <div className="w-full mt-5 lg:mt-14 pb-[15px] h-[100%] overflow-y-scroll custom-scrollbar3 px-4 md:px-12 bg-gray-100" ref={(ref) => setScrollRef(ref)}>
           {mostrarPlantilla ?
@@ -522,10 +714,12 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                     className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
                   >
                     <option value="">
-                    Selecciona una opción
-                  </option>
+                      Selecciona una opción
+                    </option>
                     {/* Mapea las opciones del estado para llenar el select */}
                     {options.map(option => (
+                      // Utiliza una condición para mostrar solo las opciones con estado igual a 1
+                      option.estado == 1 &&
                       <option key={option.id} value={option.nombre}>
                         {option.nombre}
                       </option>
@@ -533,25 +727,25 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                   </select>
 
                   <div className='my-3 shadow p-2 bg-gray-100'>
-                {selectedTemplateContent}
-              </div>
+                    {selectedTemplateContent}
+                  </div>
 
                   <div className='flex gap-2 justify-end'>
-                  <button
-                    onClick={cerarPlantilla}
-                    className="mt-4 bg-gray-500 w-[90px] text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-blue-300"
-                  >
-                    Cerrar
-                  </button>
+                    <button
+                      onClick={cerarPlantilla}
+                      className="mt-4 bg-gray-500 w-[90px] text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring focus:border-blue-300"
+                    >
+                      Cerrar
+                    </button>
 
-                  {/* Botón de envío */}
-                  <button
-                    onClick={enviarMensajePlantilla}
-                    type="submit"
-                    className="mt-4 bg-blue-500 w-[90px] text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
-                  >
-                    Enviar
-                  </button>
+                    {/* Botón de envío */}
+                    <button
+                      onClick={enviarMensajePlantilla}
+                      type="submit"
+                      className="mt-4 bg-blue-500 w-[90px] text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+                    >
+                      Enviar
+                    </button>
                   </div>
                 </div>
               </div>
@@ -581,7 +775,7 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                 >
                   {mensaje.b1 === '2' ? (
                     <>
-                      <div key={`media-${index}`} className="text-black break-all text-[15px] shadow bg-[#84b6f4] flex-wrap flex max-w-[65%] rounded-lg p-[7px] pl-10 text-left">
+                      <div key={`media-${index}`} className="text-black break-all text-[15px] shadow bg-[#84b6f4]  flex-wrap flex max-w-[65%] rounded-lg p-[7px] pl-10 text-left">
                         {renderMedia(mensaje)}
                       </div>
                       <div key={`icono-usuario-${index}`} className='border border-[#84b6f4] text-2xl w-10 h-10 grid place-items-center text-[#84b6f4] bg-gray-200 rounded-full'>
@@ -593,7 +787,7 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                       <div key={`icono-usuario-${index}`} className='border border-gray-300 text-2xl w-10 h-10 grid place-items-center text-gray-400 bg-gray-200 rounded-full'>
                         <FontAwesomeIcon icon={faUser} className="" />
                       </div>
-                      <div key={`media-${index}`} className="text-black text-[15px]  rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
+                      <div key={`media-${index}`} className="text-black text-[15px] min-w-[20px]  rounded-lg break-all shadow bg-gray-300 flex-wrap flex max-w-[65%] p-[7px] pr-10">{renderMedia(mensaje)}</div>
                     </>
                   )}
                 </li>
@@ -642,17 +836,74 @@ const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
                 <button onClick={toggleDiv}>
                   <FontAwesomeIcon icon={faIcons} />
                 </button>
+
+                <div>
+                  {mostrarAudio && (
+                    <div className={` absolute -top-28 -left-14 md:left-5`}>
+                      <button
+                        onClick={enviarMensajeEnSegundoPlano2}
+                        className='bg-blue-500 text-white font-bold py-2 px-8 cursor-pointer rounded'
+                        disabled={botonDeshabilitado} // Deshabilitar el botón si está en true
+                      >
+                        Enviar Audio
+                      </button>
+                      <span onClick={() => { setMostrarAudio(false); limpiarAudio(); }} className='absolute cursor-pointer hover:bg-gray-200 hover:text-black text-lg text-white -top-3 -right-2 h-6 w-6 flex justify-center items-center bg-gray-600 rounded-full'>x</span>
+                    </div>
+                  )}
+
+                  {/* <button onClick={() => setMostrarAudio(true)}>Mostrar Audio</button> */}
+                </div>
+
+
               </div>
 
-              <div className='ml-10 absolute left-[15px] top-2'>
-                <button>
-                <AudioRecorder enviarRef={handleAudioRef} />
-                </button>
+              <div className='absolute left-14 top-2'>
+                <div className='relative flex'>
+                  <ReactMic
+                    record={isRecording}
+                    onStop={onStop}
+                    onData={(recordedBlob) => console.log('Datos de la grabación:', recordedBlob)}
+                    mimeType="audio/wav"
+                    strokeColor="#000"
+                    backgroundColor="transparent"
+                    className={`overflow-hidden w-max h-14 absolute  md:left-12  2xl:left-60 -top-20 ${isRecording ? 'hidden' : 'hidden'}`}
+                  />
+
+
+                  {showRecorder && <RecorderSound />} {/* Mostrar RecorderSound cuando se está grabando */}
+
+                  <div className={`mr-2 ${isRecording ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} onClick={toggleRecording}>
+                    <FontAwesomeIcon icon={faMicrophone} />
+                  </div>
+
+                  {reproduciendo && <LineSound />} {/* Muestra la animación de línea de sonido si se está reproduciendo */}
+
+                  {audioBlob && (
+                    <>
+                      <audio
+                        controls
+                        className='-mt-40 left-40 absolute hidden'
+                        ref={audioRef}
+                        onEnded={() => setReproduciendo(false)} // Cambiar estado cuando el audio termina de reproducirse
+                      >
+                        <source src={URL.createObjectURL(audioBlob)} />
+                        Tu navegador no soporta la etiqueta de audio.
+                      </audio>
+                    </>
+                  )}
+
+                  {audioBlob && (
+                    <div onClick={reproducirAudio}>
+                      <FontAwesomeIcon icon={reproduciendo ? faPause : faPlay} className={`${audioBlob ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} />
+                    </div>
+                  )}
+                </div>
               </div>
+
               <input
                 ref={mensajeInputRef}
                 onKeyDown={handleKeyDown}
-                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-24 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-28 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                 type="text"
                 placeholder="Escribe algo..."
               />

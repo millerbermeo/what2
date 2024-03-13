@@ -11,6 +11,10 @@ import ModalBot from '../modals/ModalBot';
 import ModalContact from '../modals/ModalContact';
 import ModalGroup from '../modals/ModalGroup';
 import AddAgente from '../modals/AddAgente';
+import InfoUser from '../othercomponents/InfoUser';
+import EliminarGrupo from '../modals/EliminarGrupo';
+import baseURL from '../BaseUrl';
+
 
 
 
@@ -105,17 +109,18 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
                 const user = JSON.parse(localStorage.getItem('user'));
                 const number_a = user && user.number_a;
-
-
+                
                 const formData = new FormData();
                 formData.append('number_a', number_a);
 
-                const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_agente.php', formData);
+                const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_chats_agente.php`, formData);
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({
                     ...item,
                     fecha: formatFecha(item.fecha),
                 }));
+
+
                 // console.log(data)
                 setData(formattedData);
                 const newMessages = formattedData.filter((item) => !data.some((existingItem) => existingItem.id === item.id));
@@ -161,41 +166,33 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     useEffect(() => {
         const fetchData2 = async () => {
             try {
-
                 const user = JSON.parse(localStorage.getItem('user'));
                 const number_a = user && user.number_a;
-
+    
                 const formData = new FormData();
                 formData.append('number_a', number_a);
-
-                const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_chats_grupo.php', formData);
+    
+                const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_chats_grupo.php`, formData);
+    
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({
                     ...item,
                     fecha: formatFecha(item.fecha),
                 }));
-
-
-                setData2((prevData) => {
-                    // Filtra los nuevos mensajes para eliminar duplicados
-                    const uniqueNewMessages = formattedData.filter(item => !prevData.some(existingItem => existingItem.id === item.id));
-                
-                    // Actualiza el estado agregando los nuevos mensajes únicos
-                    return [...prevData, ...uniqueNewMessages];
-                });
+    
+                setData2(formattedData)
                 
             } catch (error) {
                 console.error('Error al obtener datos de la API:', error);
             }
         };
-
+    
         const intervalId = setInterval(fetchData2, 1000);
 
         return () => clearInterval(intervalId);
-
-
-
-    }, [data2]);
+    
+    }, [data2]); // No es necesario incluir data2 en la dependencia
+    
 
    
 
@@ -240,7 +237,6 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
     const handleCambiarEndopoint = () => {
- 
         setFiltroActivo('filtro2');
         setMostrar(false)
     }
@@ -249,7 +245,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     return (
         <>
             <div style={divStyle} className="w-full lg:w-[680px] h-screen lg:h-[95vh] lg:z-10 bg-gray-200 mb-96 md:mb-0  border-r flex flex-col items-center border-gray-300 shadow-lg p-3">
-                <div className='flex justify-start 2xl:justify-center gap-[20px] items-center w-full  md:-z-10'>
+                <div className='flex justify-start 2xl:justify-center gap-[20px] items-center w-full md:-z-10'>
                     <div className='w-[45px]'>
                         <img className='bg-transparent' src="logologo.png" alt="" />
                     </div>
@@ -310,9 +306,9 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                 setElementoSeleccionado(item.numberw);
 
                             }} className='flex items-center flex-row w-full h-[75px]'>
-                                <div className='w-[50px]'>
-                                    <img src="user.webp" alt="" />
-                                </div>
+                             <div  className='w-[50px] cursor-pointer'>
+                    <img src="user.webp" alt="" />
+                </div>
 
                                 <div className='w-full h-12 overflow-hidden relative pt-6 pl-2'>
                                     <span className='absolute top-1 tex-xs font-semibold h-6 w-44 overflow-hidden text-gray-800'>
@@ -340,6 +336,13 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                     <div className='bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex  justify-center items-center rounded-full'>
                                         <ModalName numero={item.numberw} />
                                     </div>
+
+                                    <div className={`bg-gray-500 text-lg md:text-[15px] ${mostrar ? 'hidden' : 'flex'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
+                              
+
+                                        <EliminarGrupo numero={item.numberw}/>
+                                    </div>
+                                    
                                     <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px]  justify-center items-center rounded-full`}>
                                         <ModalLeft numero={item.numberw} />
                                     </div>

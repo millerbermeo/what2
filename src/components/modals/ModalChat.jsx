@@ -3,6 +3,8 @@ import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
+
 
 function ModalChat() {
   const [isOpen, setIsOpen] = useState(true);
@@ -23,7 +25,7 @@ function ModalChat() {
 
   useEffect(() => {
     // Realiza la solicitud utilizando Axios
-    axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php')
+    axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php`)
       .then(response => {
         // Actualiza el estado con las opciones del select
         setOptions(response.data);
@@ -69,7 +71,7 @@ function ModalChat() {
     formData.append('number_a', number_a);
 
     // Realiza la solicitud POST utilizando Axios
-    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php', formData)
+    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php`, formData)
       .then(response => {
         // Maneja la respuesta del servidor aquí
         console.log(response.data);
@@ -102,7 +104,7 @@ function ModalChat() {
       <div>
         <button
           onClick={toggleModal}
-          className="w-full gap-1 bg-gray-800 text-[#ccc] text-sm  hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40"
+          className="w-full gap-1 bg-gray-800 text-[#ccc] text-sm  hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-blue-500 dark:focus:ring-blue-500/40"
         >
           Nuevo <span className='hidden md:flex'>Chat</span>
           <FontAwesomeIcon icon={faBook} />
@@ -148,24 +150,29 @@ function ModalChat() {
                     Selecciona una Plantilla
                   </label>
                   {/* Cambia el input a un select */}
-                  <select
-                    id="inputTexto"
-                    name="inputTexto"
-                    ref={mensajePlantilla}
-                    onChange={handleTemplateSelect}
-                    className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
-                  >
-                     <option value="">
-                    Selecciona una opción
-                  </option>
+         {/* Cambia el input a un select */}
+<select
+  id="inputTexto"
+  name="inputTexto"
+  ref={mensajePlantilla}
+  onChange={handleTemplateSelect}
+  className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+>
+  <option value="">
+    Selecciona una opción
+  </option>
 
-                    {/* Mapea las opciones del estado para llenar el select */}
-                    {options.map(option => (
-                      <option key={option.id} value={option.nombre}>
-                        {option.nombre}
-                      </option>
-                    ))}
-                  </select>
+  {/* Mapea las opciones del estado para llenar el select */}
+  {options.map(option => (
+    // Utiliza una condición para mostrar solo las opciones con estado igual a 1
+    option.estado == 1 &&
+      <option key={option.id} value={option.nombre}>
+        {option.nombre}
+      </option>
+  ))}
+</select>
+
+
                 </div>
 
                 <div className='my-3 shadow p-2 bg-gray-100'>

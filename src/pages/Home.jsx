@@ -12,9 +12,8 @@ function Home() {
       setNumeroSeleccionado(numberw);
       setNameSeleccionado(name);
     };
-  //   console.log("------22222222----------");
-  // console.log(nameSeleccionado);
-  // console.log("-------222222222---------");
+  //   console.log("esto lo hizo dev prueba");
+
     
   return (
     <>

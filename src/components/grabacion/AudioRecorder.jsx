@@ -5,14 +5,12 @@ import { faMicrophone, faPlay, faPause } from '@fortawesome/free-solid-svg-icons
 import LineSound from './LineSound';
 import RecorderSound from './RecorderSound';
 
-function AudioRecorder({enviarRef}) {
+function AudioRecorder() {
     const [isRecording, setRecording] = useState(false);
     const [audioBlob, setAudioBlob] = useState(null);
     const audioRef = useRef(null);
 
-    React.useEffect(() => {
-        enviarRef(audioRef);
-      }, [audioRef, enviarRef]);
+
 
 
     const [reproduciendo, setReproduciendo] = useState(false);
@@ -74,12 +72,12 @@ function AudioRecorder({enviarRef}) {
     };
 
     const downloadAudio = () => {
-        // const url = URL.createObjectURL(audioBlob);
-        // const link = document.createElement('a');
-        // link.href = url;
-        // link.setAttribute('download', 'grabacion_audio.mp3'); // Nombre del archivo a descargar
-        // document.body.appendChild(link);
-        // link.click();
+        const url = URL.createObjectURL(audioBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'grabacion_audio.mp3'); // Nombre del archivo a descargar
+        document.body.appendChild(link);
+        link.click();
     };
 
     return (
@@ -113,6 +111,8 @@ function AudioRecorder({enviarRef}) {
                     </audio>
                 </>
             )}
+
+            
             <div onClick={reproducirAudio}>
                 <FontAwesomeIcon icon={reproduciendo ? faPause : faPlay} className={`${audioBlob ? 'text-blue-500' : 'text-gray-600'} focus:outline-none`} />
             </div>

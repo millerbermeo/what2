@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
+
 
 const ModalName = ({ numero }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +49,7 @@ const ModalName = ({ numero }) => {
     console.log(formData)
 
     // Make the POST request
-    axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_save_name.php', formData)
+    axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_save_name.php`, formData)
       .then(response => {
         // Handle the response
         console.log('Response:', response.data);
@@ -77,7 +79,7 @@ const ModalName = ({ numero }) => {
           <div className="bg-white w-96 p-4 rounded shadow-lg z-50">
             <h2 className="text-2xl text-black font-semibold mb-4 text-center">Guardar Nombre</h2>
 
-            <form action="" method="post">
+            <form>
 
               <div className="mb-4 text-black text-lg font-normal">
 

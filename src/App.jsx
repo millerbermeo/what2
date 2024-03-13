@@ -8,20 +8,27 @@ import Campanas from './pages/opciones/Campanas';
 import Contacto from './pages/user/Contacto';
 import SendCampana from './pages/opciones/SendCampana'
 import Dashboard from './pages/Dashboard';
-import PageMonitoreo from './pages/PageMonitoreo';
 import AccesoAgente from './pages/AccesoAgente';
+import PlantillaSaludo from './pages/opciones/PlantillaSaludo';
+import PlantillasTablas from './pages/opciones/PlantillasTablas';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('user'));
+  const user2 = JSON.parse(localStorage.getItem('user2'));
 
   const PrivateRoute = ({ element, path }) => {
-    if (!user) {
-      // Si no hay un usuario, redirige a la página de inicio de sesión
-      return <Navigate to="/" />;
+    if (user && user.type === 'agente') {
+      // Si el usuario es un agente, redirige a la página de inicio
+      return element;
     }
-
-    // Si hay un usuario, renderiza la ruta privada
-    return element;
+  
+    if (user2 && user2.type === 'admin') {
+      // Si el usuario2 es un admin, renderiza la ruta privada
+      return element;
+    }
+  
+    // En caso de que ninguna condición se cumpla, redirige a la página de inicio de sesión
+    return <Navigate to="/" />;
   };
 
   return (
@@ -38,6 +45,8 @@ function App() {
       <Route path="/contacto" element={<PrivateRoute element={<Contacto />} />} />
       <Route path="/send" element={<PrivateRoute element={<SendCampana />} />} />
       <Route path="/acceso" element={<PrivateRoute element={<AccesoAgente />} />} />
+      <Route path="/plantilla" element={<PrivateRoute element={<PlantillaSaludo />} />} />
+      <Route path="/listar_plantillas" element={<PrivateRoute element={<PlantillasTablas />} />} />
 
     </Routes>
   );

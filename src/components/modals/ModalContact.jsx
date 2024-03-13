@@ -2,12 +2,15 @@ import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import baseURL from '../BaseUrl';
+
 
 const ModalContact = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [Campo, setCampo] = useState(false)
     const [Campo2, setCampo2] = useState(false)
+    const [Campo3, setCampo3] = useState(false)
 
     const nombre = useRef()
     const numero = useRef()
@@ -21,18 +24,18 @@ const ModalContact = () => {
         setIsOpen(false);
         setCampo(false);
         setCampo2(false);
+        setCampo3(false);
     };
 
     const guardarNombre = (e) => {
-
         e.preventDefault();
-
+    
         const user = JSON.parse(localStorage.getItem('user'));
         const number_a = user && user.number_a;
-
+    
         const nombreValue = nombre.current.value.trim(); // Trim removes leading and trailing whitespaces
         const numeroValue = numero.current.value;
-
+    
         // Check if the user has written something
         if (!nombreValue) {
             // Optionally, you can show an error message or handle it as needed
@@ -42,31 +45,42 @@ const ModalContact = () => {
         } else {
             setCampo(false);
         }
-
+    
         if (!numeroValue) {
             // Optionally, you can show an error message or handle it as needed
             console.error('Please enter a name before saving.');
             setCampo2(true);
             return;
         } else {
-            setCampo(false);
+            setCampo2(false);
         }
-
+    
+        // Validate that the number does not start with digit 3
+        if (numeroValue.startsWith('3')) {
+            // Optionally, you can show an error message or handle it as needed
+            console.error('The number cannot start with the digit 3.');
+            setCampo3(true);
+            return;
+        } else {
+            setCampo3(false);
+        }
+    
         const formData = new FormData();
         formData.append('numberw', numeroValue);
         formData.append('nombre', nombreValue);
         formData.append('number_a', number_a);
-
+    
         console.log(formData)
-
+    
         // Make the POST request
-        axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_save_name.php', formData)
+        axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_save_name.php`, formData)
             .then(response => {
                 // Handle the response
                 console.log('Response:', response.data);
                 setIsOpen(false);
                 setCampo2(false);
                 setCampo(false);
+                setCampo3(false);
             })
             .catch(error => {
                 // Handle errors
@@ -74,9 +88,10 @@ const ModalContact = () => {
                 setIsOpen(false);
                 setCampo2(false);
                 setCampo(false);
+                setCampo3(false);
             });
-
     }
+    
 
 
 
@@ -86,7 +101,7 @@ const ModalContact = () => {
             <div>
                 <button
                     onClick={openModal}
-                    className="w-full gap-2 md:gap-5 bg-[#005187] text-sm text-[#ccc] hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40"
+                    className="w-full gap-2 md:gap-5 bg-[#005187] text-sm text-[#ccc] hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-blue-500 dark:focus:ring-blue-500/40"
                 >
                     <span>
                         Contacto
@@ -127,7 +142,7 @@ const ModalContact = () => {
                                 <label htmlFor="numero">Ingrese el Número</label>
                                 <input
                                     type='number'
-                                    placeholder='Numero'
+                                    placeholder='57 3110000000'
                                     required
                                     id='numero'
                                     ref={numero}
@@ -138,6 +153,12 @@ const ModalContact = () => {
                             {Campo2 && (
                                 <div className='text-lg font-normal absolut w-full text-white bg-red-500 py-1 px-2 rounded my-2'>
                                     Campo Requerido
+                                </div>
+                            )}
+
+{Campo3 && (
+                                <div className='text-lg font-normal absolut w-full text-white bg-red-500 py-1 px-2 rounded my-2'>
+                                    El numero no es valido
                                 </div>
                             )}
 

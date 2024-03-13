@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
+import baseURL from '../BaseUrl';
+
+// import Swal from 'sweetalert2';
+// import 'sweetalert2/dist/sweetalert2.css';
 
 function ModalGroup({ numero }) {
   const [showModal, setShowModal] = useState(false);
@@ -16,19 +18,19 @@ function ModalGroup({ numero }) {
   };
 
   
-  const showAlert = (icon, text) => {
-    Swal.fire({
-        title: '¡Hola!',
-        text: text,
-        icon: icon,
-        confirmButtonText: 'Aceptar'
-    });
-};
+//   const showAlert = (icon, text) => {
+//     Swal.fire({
+//         title: '¡Hola!',
+//         text: text,
+//         icon: icon,
+//         confirmButtonText: 'Aceptar'
+//     });
+// };
 
 
   const fetchDta = async () => {
     try {
-      const resultado = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agentes.php');
+      const resultado = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agentes.php`);
       setData(resultado.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -52,7 +54,8 @@ function ModalGroup({ numero }) {
     try {
 
       if (selectedAgents.length === 0) {
-        showAlert('warning', 'Debes seleccionar al menos un agente');
+        alert('warning', 'Debes seleccionar al menos un agente')
+
         return; // Evitar continuar con la operación si no hay agentes seleccionados
       }
 
@@ -68,15 +71,15 @@ function ModalGroup({ numero }) {
       //   console.log(key, value);
       // }
 
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_transferir_grupo.php', formData);
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_transferir_grupo.php`, formData);
       console.log('Respuesta del servidor:', response.data);
 
-      showAlert('success', 'Operación exitosa');
+      // showAlert('success', 'Operación exitosa');
 
     } catch (error) {
       // Manejar errores aquí
       console.error('Error al realizar la petición POST:', error);
-      showAlert('error', 'Hubo un error en la operación');
+      // showAlert('error', 'Hubo un error en la operación');
     } finally {
       // Siempre ocultar el modal después de realizar la acción
       setShowModal(false);

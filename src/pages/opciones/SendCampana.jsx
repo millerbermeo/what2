@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
+import Logout from '../../components/modals/Logout';
+import baseURL from '../../components/BaseUrl';
+
+// import Swal from 'sweetalert2';
+// import 'sweetalert2/dist/sweetalert2.css';
 
 function SendCampana() {
   const [agendaItems, setAgendaItems] = useState([]);
@@ -15,14 +18,14 @@ function SendCampana() {
   const [groupedData, setGroupedData] = useState({});
 
 
-  const showAlert = (icon, text) => {
-    Swal.fire({
-      title: '¡Hola!',
-      text: text,
-      icon: icon,
-      confirmButtonText: 'Aceptar'
-    });
-  };
+  // const showAlert = (icon, text) => {
+  //   Swal.fire({
+  //     title: '¡Hola!',
+  //     text: text,
+  //     icon: icon,
+  //     confirmButtonText: 'Aceptar'
+  //   });
+  // };
 
 
   useEffect(() => {
@@ -42,7 +45,7 @@ function SendCampana() {
       return groupedData;
     }
 
-    axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agenda_total.php')
+    axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agenda_total.php`)
       .then(response => {
         const groupedData = groupByAgent(response.data);
         setGroupedData(groupedData);
@@ -105,7 +108,7 @@ function SendCampana() {
       {Object.keys(groupedData).map(agente => (
         <div key={agente} className='mb-10 m-auto relative flex flex-col justify-start w-full'>
           <h3 className='font-bold flex'>
-            <span className='w-56 overflow-hidden text-sm font-normal'>
+            <span className='w-80 overflow-hidden text-sm font-normal'>
               {agente}
             </span>
             <button
@@ -160,7 +163,7 @@ function SendCampana() {
     // Función para hacer la petición GET
     const fetchAgendaItems = async () => {
       try {
-        const response = await axios.get('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_plantillas_masivas.php');
+        const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_masivas.php`);
         setAgendaItems(response.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
@@ -268,20 +271,20 @@ function SendCampana() {
 
 
       // Realizar la solicitud POST con Axios
-      axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_crear_c_masiva.php', formData)
+      axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_crear_c_masiva.php`, formData)
         .then(response => {
           // Manejar la respuesta exitosa
           console.log('Respuesta del servidor:', response.data);
 
           setSelectedItem(''); // Restablecer el valor del select
 
-          showAlert('success', 'Plantilla masiva enviada');
+          // showAlert('success', 'Plantilla masiva enviada');
 
         })
         .catch(error => {
           // Manejar errores
           console.error('Error al hacer la solicitud:', error);
-          showAlert('error', 'Error al enviar plantillas Masivas');
+          // showAlert('error', 'Error al enviar plantillas Masivas');
         });
       setShowModal(false);
       setCampo(false);
@@ -307,14 +310,19 @@ function SendCampana() {
     <div>
       <div className="flex">
         <div className="md:relative md:z-0">
-          <Sidebar ocultar="hidden"/>
+        <Sidebar ocultar="hidden"/>
         </div>
+
         <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0 mb-10">
-          <Navbar navbar="flex" />
+          <Navbar navbar="flex" logout='hidden'/>
           <div className="flex justify-center mt-10 my-5 pl-1">
             <div className="w-full flex justify-center lg:justify-start">
               <h1 className='font-bold'>ENVIAR CAMPAÑA</h1>
             </div>
+          </div>
+
+          <div className='absolute right-4 top-4'>
+            <Logout/>
           </div>
 
 

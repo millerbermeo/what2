@@ -3,6 +3,10 @@ import axios from 'axios';
 import { Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentMedical } from '@fortawesome/free-solid-svg-icons';
+import baseURL from '../BaseUrl';
+import Select from 'react-select';
+
+
 
 function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +34,7 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
       formData.append('number_a', number_a);
 
       try {
-        const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_agenda.php', formData);
+        const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agenda.php`, formData);
         setOptions(response.data);
       } catch (error) {
         console.error('Error al realizar la solicitud POST:', error);
@@ -61,7 +65,7 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
       <div>
         <button
           onClick={toggleModal}
-          className="w-full gap-2 md:gap-5 bg-[#005187] text-sm text-[#ccc] hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40"
+          className="w-full gap-2 md:gap-5 bg-[#005187] text-sm text-[#ccc] hover:bg-[#005187]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg py-2.5 2xl:py-3 text-center flex justify-center items-center dark:hover:bg-blue-500 dark:focus:ring-blue-500/40"
         >
           <span>
             Agenda
@@ -87,22 +91,21 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
               <h2 className="text-2xl font-semibold mb-4 text-center">Agenda</h2>
 
               <div>
-                <select
-                  className="w-full p-2 border border-gray-300 rounded"
-                  value={selectedOption}
-                  onChange={handleSelectChange}
-                  ref={nombreUser}
-                >
-                  <option value="" disabled>
-                    Selecciona una opción
-                  </option>
-                  {options.map((option, index) => (
-                    <option key={index} value={option.numberw}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+  <Select
+    options={options}
+    value={options.find(option => option.numberw === selectedOption)}
+    onChange={(selectedOption) => {
+      setSelectedOption(selectedOption.numberw);
+      nombreUser.current = selectedOption;
+    }}
+    getOptionLabel={(option) => option.name}
+    getOptionValue={(option) => option.numberw}
+    isClearable
+    placeholder="Selecciona una opción"
+    isSearchable  // Habilita la búsqueda
+  />
+</div>
+
 
               <div className="flex justify-end mt-4 gap-3">
                 <button

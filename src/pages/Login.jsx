@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import baseURL from '../components/BaseUrl';
+
 
 function Login() {
+  
 
   const navigation = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
@@ -60,7 +63,7 @@ function Login() {
     formData.append('password', passwordRef.current.value);
 
     try {
-      const response = await axios.post('http://181.143.234.138:5001/chat_business2/Dashboard/Dashboard/api_login.php', formData, {
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_login.php`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -69,9 +72,21 @@ function Login() {
       // Assuming the API returns a token or some indication of a successful login
       console.log(response.data);
       if (response.status === 200 && response.data && response.data.name && response.data.email && response.data.type && response.data.number_a) {
-        localStorage.setItem('user', JSON.stringify(response.data));
+
+     
+        if (response.data.type == 'admin') {
+          localStorage.setItem('user2', JSON.stringify(response.data));
+          navigation('/dashboard');
+        } else {
+          localStorage.setItem('user', JSON.stringify(response.data));
+          navigation('/');
+        }
+
+
+
         console.log('Login successful');
         window.location.reload();
+
         setCampo(false)
       } else {
         setCampo(true)
@@ -84,22 +99,27 @@ function Login() {
     } catch (error) {
       // Handle errors (e.g., network issues, server errors)
       console.error('Login error:', error);
+      
 
     }
   };
+  
 
   useEffect(() => {
     // Verificar si hay información de usuario en localStorage
     const user = JSON.parse(localStorage.getItem('user'));
+    const user2 = JSON.parse(localStorage.getItem('user2'));
   
     // Si hay información de usuario y el tipo es 'agente', redirigir a la página '/home'
     if (user && user.type === 'agente') {
       navigation('/home');
     }
 
-    if (user && user.type === 'admin') {
-      navigation('/dashboard');
+    if (user2 && user2.type === 'admin') {
+      navigation('/');
     }
+
+    
   }, [navigation]);
   
 
@@ -110,7 +130,7 @@ function Login() {
       <div>
         <div className="m-auto bg-white w-[350px]  lg:w-96">
 
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleLogin}>
             <div className="border-t-4 border-blue-600 overflow-hidden rounded shadow-lg">
               <h3 className="text-xl text-center mt-8 mb-2">Bienvenido a</h3>
               <img className='w-56 mb-5 mx-auto' src="negociemoss.png" alt="" />
@@ -173,7 +193,7 @@ function Login() {
               <div className="px-4 mb-6 mt-8">
                 <button
                   className="border border-blue-500 bg-blue-600 rounded w-full px-4 py-3 text-white font-semibold"
-                  onClick={handleLogin}
+        
                   type='submit'
                 >
                   Ingresar
