@@ -7,11 +7,8 @@ import baseURL from '../BaseUrl';
 
 const ModalName = ({ numero }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const [Campo, setCampo] = useState(false)
-
-  const nombre = useRef()
-
+  const [Campo, setCampo] = useState(false);
+  const nombre = useRef();
 
   const openModal = () => {
     setIsOpen(true);
@@ -23,18 +20,12 @@ const ModalName = ({ numero }) => {
   };
 
   const guardarNombre = (e) => {
-
     e.preventDefault();
-
     const user = JSON.parse(sessionStorage.getItem('user'));
     const number_a = user && user.number_a;
-    
+    const nombreValue = nombre.current.value.trim();
 
-    const nombreValue = nombre.current.value.trim(); // Trim removes leading and trailing whitespaces
-
-    // Check if the user has written something
     if (!nombreValue) {
-      // Optionally, you can show an error message or handle it as needed
       console.error('Please enter a name before saving.');
       setCampo(true);
       return;
@@ -47,31 +38,26 @@ const ModalName = ({ numero }) => {
     formData.append('nombre', nombreValue);
     formData.append('number_a', number_a);
 
-    console.log(formData)
-
-    // Make the POST request
     axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_save_name.php`, formData)
       .then(response => {
-        // Handle the response
         console.log('Response:', response.data);
         setIsOpen(false);
       })
       .catch(error => {
-        // Handle errors
         console.error('Error:', error);
         setIsOpen(false);
       });
-
   }
 
-
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      guardarNombre(e);
+    }
+  };
 
   return (
     <div>
-      <button
-        onClick={openModal}
-      >
-
+      <button onClick={openModal}>
         <FontAwesomeIcon icon={faAddressBook} />
       </button>
 
@@ -81,18 +67,16 @@ const ModalName = ({ numero }) => {
             <h2 className="text-2xl text-black font-semibold mb-4 text-center">Guardar Nombre</h2>
 
             <form>
-
               <div className="mb-4 text-black text-lg font-normal">
-
                 <label htmlFor="nombre">Ingrese el Nombre</label>
                 <input
-                id='nombre'
+                  id='nombre'
                   required
                   ref={nombre}
                   placeholder='Nombre'
                   className="w-full mt-1 p-2 border border-gray-300 rounded"
+                  onKeyDown={handleKeyPress}
                 />
-
               </div>
               {Campo && (
                 <div className='text-lg font-normal w-full py-1 bg-red-500 p-2 my-2 rounded'>

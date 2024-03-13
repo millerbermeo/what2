@@ -4,9 +4,6 @@ import { faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import baseURL from '../BaseUrl';
 
-// import Swal from 'sweetalert2';
-// import 'sweetalert2/dist/sweetalert2.css';
-
 function ModalGroup({ numero }) {
   const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState([]);
@@ -50,8 +47,9 @@ function ModalGroup({ numero }) {
     }
   };
 
-  const transferirGrupo = async () => {
+  const transferirGrupo = async (event) => {
     try {
+      event.preventDefault()
 
       if (selectedAgents.length === 0) {
         alert('warning', 'Debes seleccionar al menos un agente')
