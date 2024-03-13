@@ -45,8 +45,9 @@ const Sidebar = ({ mostrar, ocultar }) => {
 
   };
 
-  const user = JSON.parse(localStorage.getItem('user'));
-  const user2 = JSON.parse(localStorage.getItem('user2'));
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  const user2 = JSON.parse(sessionStorage.getItem('user2'));
+  
 
 
   // f1f3f4

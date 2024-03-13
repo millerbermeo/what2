@@ -49,9 +49,9 @@ const ModalLeft = ({numero}) => {
     }
     
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
+      const user = JSON.parse(sessionStorage.getItem('user'));
       const number_a = user && user.number_a;
-
+      
       const formData = new FormData();
       formData.append('numberw', numero);
       formData.append('number_a', selectedAgente);

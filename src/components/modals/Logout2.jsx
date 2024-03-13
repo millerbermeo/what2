@@ -25,9 +25,9 @@ function Logout2() {
       // Puedes manejar la respuesta aquí, por ejemplo, redireccionar o mostrar un mensaje
       console.log('Respuesta del servidor:', response.data);
 
-      // Limpiar el localStorage
-      localStorage.removeItem('user2');
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user2');
+      sessionStorage.removeItem('user');
+      
 
       // Redireccionar a la vista raíz
       navigation("/")

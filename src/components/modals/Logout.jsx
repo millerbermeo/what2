@@ -26,7 +26,8 @@ function Logout() {
       console.log('Respuesta del servidor:', response.data);
  
       // Limpiar el localStorage
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
+
 
 
       // Redireccionar a la vista raíz

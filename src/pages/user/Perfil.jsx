@@ -6,8 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 function Perfil() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const user2 = JSON.parse(localStorage.getItem('user2'));
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user2 = JSON.parse(sessionStorage.getItem('user2'));
+    
 
 
     // Check if user exists, if not, display user2

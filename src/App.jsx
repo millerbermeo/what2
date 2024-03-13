@@ -13,8 +13,9 @@ import PlantillaSaludo from './pages/opciones/PlantillaSaludo';
 import PlantillasTablas from './pages/opciones/PlantillasTablas';
 
 function App() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const user2 = JSON.parse(localStorage.getItem('user2'));
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  const user2 = JSON.parse(sessionStorage.getItem('user2'));
+  
 
   const PrivateRoute = ({ element, path }) => {
     if (user && user.type === 'agente') {

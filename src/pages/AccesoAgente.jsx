@@ -29,8 +29,9 @@ function AccesoAgente() {
     fetchData();
   }, []);
 
-  const user2 = JSON.parse(localStorage.getItem('user2'));
+  const user2 = JSON.parse(sessionStorage.getItem('user2'));
   console.log(user2);
+  
 
   const iniciarSession = (e) => {
     e.preventDefault();
@@ -56,7 +57,7 @@ function AccesoAgente() {
         const loginIframe = document.getElementById('loginIframe');
         if (loginIframe) {
           const dataQueryString = encodeURIComponent(JSON.stringify(userData));
-          localStorage.setItem('user', JSON.stringify(userData));
+          sessionStorage.setItem('user', JSON.stringify(userData));
           loginIframe.src = `/home?data=${dataQueryString}`;
         }
       })

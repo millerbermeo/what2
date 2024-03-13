@@ -14,9 +14,9 @@ import Logout2 from '../components/modals/Logout2'
 function Dashboard() {
 
 
-  const user = JSON.parse(localStorage.getItem('user2'));
-  console.log(user)
-
+  const user = JSON.parse(sessionStorage.getItem('user2'));
+  console.log(user);
+  
   return (
     <>
       <div className="flex">

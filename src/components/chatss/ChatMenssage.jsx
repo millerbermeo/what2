@@ -133,8 +133,9 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const enviarMensajePlantilla = async () => {
     const menPlant = mensajePlantilla.current?.value;
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(sessionStorage.getItem('user'));
     const number_a = user && user.number_a;
+    
 
     // Validación para permitir continuar con el código
     // if (menPlant === null || menPlant === undefined) {
@@ -177,8 +178,9 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
       const selectedFile = archivoInputRef.current.files[0];
       const type_file = selectedFile ? 'document' : 'text';
 
-      const user = JSON.parse(localStorage.getItem('user'));
+      const user = JSON.parse(sessionStorage.getItem('user'));
       const number_a = user && user.number_a;
+      
 
       if (numeroSeleccionado === null || numeroSeleccionado === undefined) {
         console.error('El número seleccionado no puede ser null');
@@ -496,7 +498,8 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   };
 
 
-  const userAgente = JSON.parse(localStorage.getItem('user'));
+  const userAgente = JSON.parse(sessionStorage.getItem('user'));
+
 
   const primerNombre = userAgente && userAgente.name ? userAgente.name.split(' ')[0] : '';
 
@@ -537,7 +540,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
       setMostrarAudio(false)
       setBotonDeshabilitado(true); // Desactivar el botón al hacer clic
-      const user = JSON.parse(localStorage.getItem('user'));
+      const user = JSON.parse(sessionStorage.getItem('user'));
       const number_a = user && user.number_a;
 
       // Generar un nombre aleatorio para el archivo de audio

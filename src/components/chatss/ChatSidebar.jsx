@@ -107,8 +107,9 @@ const ChatSidebar = ({ onClicEnDiv }) => {
         const fetchData = async () => {
             try {
 
-                const user = JSON.parse(localStorage.getItem('user'));
+                const user = JSON.parse(sessionStorage.getItem('user'));
                 const number_a = user && user.number_a;
+                
                 
                 const formData = new FormData();
                 formData.append('number_a', number_a);
@@ -166,9 +167,9 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     useEffect(() => {
         const fetchData2 = async () => {
             try {
-                const user = JSON.parse(localStorage.getItem('user'));
-                const number_a = user && user.number_a;
-    
+                const user = JSON.parse(sessionStorage.getItem('user'));
+const number_a = user && user.number_a;
+
                 const formData = new FormData();
                 formData.append('number_a', number_a);
     

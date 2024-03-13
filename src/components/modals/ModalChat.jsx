@@ -39,8 +39,9 @@ function ModalChat() {
   const enviarMensajePlantilla = async () => {
     const menPlant = mensajePlantilla.current?.value;
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(sessionStorage.getItem('user'));
     const number_a = user && user.number_a;
+    
 
     // Validación para permitir continuar con el código
     // if (menPlant === null || menPlant === undefined) {

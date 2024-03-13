@@ -73,15 +73,14 @@ function Login() {
       console.log(response.data);
       if (response.status === 200 && response.data && response.data.name && response.data.email && response.data.type && response.data.number_a) {
 
-     
         if (response.data.type == 'admin') {
-          localStorage.setItem('user2', JSON.stringify(response.data));
+          sessionStorage.setItem('user2', JSON.stringify(response.data));
           navigation('/dashboard');
         } else {
-          localStorage.setItem('user', JSON.stringify(response.data));
+          sessionStorage.setItem('user', JSON.stringify(response.data));
           navigation('/');
         }
-
+        
 
 
         console.log('Login successful');
@@ -106,21 +105,21 @@ function Login() {
   
 
   useEffect(() => {
-    // Verificar si hay información de usuario en localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
-    const user2 = JSON.parse(localStorage.getItem('user2'));
+    // Verificar si hay información de usuario en sessionStorage
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user2 = JSON.parse(sessionStorage.getItem('user2'));
   
     // Si hay información de usuario y el tipo es 'agente', redirigir a la página '/home'
     if (user && user.type === 'agente') {
       navigation('/home');
     }
-
+  
     if (user2 && user2.type === 'admin') {
       navigation('/');
     }
-
-    
+  
   }, [navigation]);
+  
   
 
 
