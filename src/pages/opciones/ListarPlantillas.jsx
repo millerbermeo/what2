@@ -17,7 +17,7 @@ function ListarPlantillas() {
     const [inputValue, setInputValue] = useState('8')
     const pageSize = inputValue; // Número de filas por página
 
-    useEffect(() => {
+    
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_masivas.php`);
@@ -32,11 +32,12 @@ function ListarPlantillas() {
             }
         };
 
-        fetchData();
-        const interval = setInterval(fetchData, 1000);
+       
+        // const interval = setInterval(fetchData, 1000);
 
-        // Limpiar el intervalo al desmontar el componente para evitar fugas de memoria
-        return () => clearInterval(interval);
+        // // Limpiar el intervalo al desmontar el componente para evitar fugas de memoria
+        useEffect(() => { 
+            fetchData();    // return () => clearInterval(interval);
     }, []);
     
 
@@ -131,7 +132,7 @@ function ListarPlantillas() {
                                                 <td className="py-3 px-4">{campana.tipo}</td>
                                                 {/* <td className="py-3 px-4">{campana.estado}</td> */}
                                                 <td className="py-3 px-4 text-center">
-                                                    {campana.estado === '1' && <EliminarMasivas id={campana.id}/>}
+                                                    {campana.estado === '1' && <EliminarMasivas id={campana.id} fetchData={fetchData}/>}
                                                 </td>
                                             </tr>
                                         </React.Fragment>

@@ -125,7 +125,7 @@ function Login() {
 
 
   return (
-    <div className='w-[100%] h-screen grid place-items-center' style={{ backgroundImage: "url('background2.png')", backgroundSize: "cover" }}>
+    <div className='w-[100%] h-screen grid place-items-center' style={{ backgroundImage: "url('background222.jpg')", backgroundSize: "cover" }}>
       <div>
         <div className="m-auto bg-white w-[350px]  lg:w-96">
 

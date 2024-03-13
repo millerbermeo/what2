@@ -12,28 +12,25 @@ function ListarPlantillas2() {
     const [inputValue, setInputValue] = useState('8')
     const pageSize = inputValue; // Número de filas por página
 
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php`);
+            setCampanasData(response.data);
+            // Inicializar el estado de expansión con "false" para cada fila
+            setExpandedNumbers(Array(response.data.length).fill(false));
+
+            console.log("saludo", response.data)
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php`);
-                setCampanasData(response.data);
-                // Inicializar el estado de expansión con "false" para cada fila
-                setExpandedNumbers(Array(response.data.length).fill(false));
-
-                console.log("saludo", response.data)
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
         fetchData();
-        const interval = setInterval(fetchData, 1000);
-
-        // Limpiar el intervalo al desmontar el componente para evitar fugas de memoria
-        return () => clearInterval(interval);
     }, []);
 
+    
     const toggleExpand = (index) => {
         // Crear una copia del estado de expansión
         const newExpandedNumbers = [...expandedNumbers];
@@ -125,7 +122,7 @@ function ListarPlantillas2() {
                                                 <td className="py-3 px-4">{campana.tipo}</td>
                                                 {/* <td className="py-3 px-4">{campana.estado}</td> */}
                                                 <td className="py-3 px-4 text-center">
-                                                    {campana.estado === '1' && <EliminarSaludos id={campana.id}/>}
+                                                    {campana.estado === '1' && <EliminarSaludos id={campana.id}  fetchData={fetchData}/>}
                                                 </td>
                                             </tr>
                                         </React.Fragment>

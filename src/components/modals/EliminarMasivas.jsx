@@ -5,7 +5,7 @@ import axios from 'axios';
 import baseURL from '../BaseUrl';
 
 
-function EliminarMasivas({id}) {
+function EliminarMasivas({id, fetchData}) {
     const [showModal, setShowModal] = useState(false);
 
 
@@ -25,7 +25,7 @@ function EliminarMasivas({id}) {
             axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_delete_p_masiva.php`, formData)
                 .then(response => {
                     console.log(response.data)
-
+                    fetchData();
                 })
                 .catch(error => {
                     // Manejar errores

@@ -505,6 +505,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
 
   const [selectedTemplateContent, setSelectedTemplateContent] = useState(null);
+  const [selectedTemplateContent2, setSelectedTemplateContent2] = useState(null);
 
   // ... (resto del código)
 
@@ -514,6 +515,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
     // Actualiza el estado con el contenido de la plantilla seleccionada
     setSelectedTemplateContent(selectedTemplate ? selectedTemplate.contenido : null);
+    setSelectedTemplateContent2(selectedTemplate ? selectedTemplate.url : null);
   };
 
 
@@ -732,6 +734,12 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                   <div className='my-3 shadow p-2 bg-gray-100'>
                     {selectedTemplateContent}
                   </div>
+
+                  <div className='my-3 shadow p-2 bg-gray-100 flex justify-center items-center'>
+               
+
+                  <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
+                </div>
 
                   <div className='flex gap-2 justify-end'>
                     <button

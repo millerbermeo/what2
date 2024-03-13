@@ -5,7 +5,7 @@ import axios from 'axios';
 import baseURL from '../BaseUrl';
 
 
-function EliminarSaludos({id}) {
+function EliminarSaludos({id, fetchData}) {
     const [showModal, setShowModal] = useState(false);
 
 
@@ -25,7 +25,7 @@ function EliminarSaludos({id}) {
             axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_delete_p_saludo.php`, formData)
                 .then(response => {
                     console.log(response.data)
-
+                    fetchData();
                 })
                 .catch(error => {
                     // Manejar errores
