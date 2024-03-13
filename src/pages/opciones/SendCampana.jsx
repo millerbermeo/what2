@@ -245,8 +245,9 @@ function SendCampana() {
     if (validateFields()) {
 
 
-      const user = JSON.parse(localStorage.getItem('user'));
-      const number_a = user && user.number_a;
+      const user = JSON.parse(sessionStorage.getItem('user'));
+const number_a = user && user.number_a;
+
 
       // Crear un objeto FormData y agregar los datos necesarios
       const formData = new FormData();

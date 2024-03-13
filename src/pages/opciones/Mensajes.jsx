@@ -115,7 +115,8 @@ function Mensajes() {
 
 
     const sendData = async () => {
-        const number_a = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).number_a : null;
+        const number_a = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')).number_a : null;
+
 
         const campanaValue = campanaRef.current.value.trim();
 
