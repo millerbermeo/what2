@@ -19,23 +19,25 @@ function ModalChat() {
   let numbero_enviar = useRef()
 
   const toggleModal = () => {
+    fetchDta()
     setIsOpen(true); // Cambiar isOpen
     setMostrarPlantilla(true);
   };
 
-  useEffect(() => {
-    // Realiza la solicitud utilizando Axios
+
+  const fetchDta = async () => {
     axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php`)
-      .then(response => {
-        // Actualiza el estado con las opciones del select
-        setOptions(response.data);
-        console.log(response.data)
-      })
-      .catch(error => {
-        // Maneja errores aquí
-        console.error('Error al realizar la solicitud:', error);
-      });
-  }, []);
+    .then(response => {
+      // Actualiza el estado con las opciones del select
+      setOptions(response.data);
+      console.log(response.data)
+    })
+    .catch(error => {
+      // Maneja errores aquí
+      console.error('Error al realizar la solicitud:', error);
+    });
+  }
+
 
   const enviarMensajePlantilla = async () => {
     const menPlant = mensajePlantilla.current?.value;

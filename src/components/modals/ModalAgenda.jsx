@@ -15,7 +15,9 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
   const nombreUser = useRef(null);
 
   const toggleModal = () => {
+  
     setIsOpen(!isOpen);
+      fetchData()
   };
 
   const submitDatos = (e) => {
@@ -25,7 +27,7 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
     toggleModal();
   };
 
-  useEffect(() => {
+
     // Obtener el valor de number_a del localStorage
     const number_a = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')).number_a : null;
 
@@ -43,16 +45,7 @@ function ModalAgenda({ onSelectedOption, onSelectedOptionName }) {
     };
 
     // Realiza la primera carga de datos
-    fetchData();
 
-    // Establece la repetición cada 3 segundos
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 3000);
-
-    // Limpieza del intervalo cuando el componente se desmonta
-    return () => clearInterval(intervalId);
-  }, [isOpen]); // Dependencia isOpen para reiniciar el intervalo cuando se abre/cierra el modal
 
   const handleSelectChange = (e) => {
     const selectedValue = e.target.value;

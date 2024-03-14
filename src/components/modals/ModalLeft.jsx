@@ -11,7 +11,7 @@ const ModalLeft = ({numero}) => {
   const [Campo, setCampo] = useState(false)
   
 
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agentes.php`);
@@ -23,8 +23,8 @@ const ModalLeft = ({numero}) => {
       }
     };
 
-    fetchData();
-  }, []); // El segundo argumento vacío asegura que useEffect solo se ejecute una vez al montar el componente
+
+ // El segundo argumento vacío asegura que useEffect solo se ejecute una vez al montar el componente
 
   const handleSelectChange = (event) => {
     setSelectedAgente(event.target.value);
@@ -32,6 +32,7 @@ const ModalLeft = ({numero}) => {
 
   const openModal = () => {
     setIsOpen(true);
+    fetchData();
   };
 
   const closeModal = () => {

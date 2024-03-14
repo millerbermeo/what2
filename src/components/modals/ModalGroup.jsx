@@ -12,6 +12,7 @@ function ModalGroup({ numero }) {
 
   const log = () => {
     setShowModal(!showModal);
+    fetchDta();
   };
 
   
@@ -34,9 +35,9 @@ function ModalGroup({ numero }) {
     }
   };
 
-  useEffect(() => {
-    fetchDta();
-  }, []);
+  // useEffect(() => {
+   
+  // }, []);
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;

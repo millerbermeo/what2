@@ -15,7 +15,6 @@ const ModalContact = () => {
     const nombre = useRef()
     const numero = useRef()
 
-
     const openModal = () => {
         setIsOpen(true);
     };
@@ -29,54 +28,46 @@ const ModalContact = () => {
 
     const guardarNombre = (e) => {
         e.preventDefault();
-    
+
         const user = JSON.parse(sessionStorage.getItem('user'));
         const number_a = user && user.number_a;
-        
-    
-        const nombreValue = nombre.current.value.trim(); // Trim removes leading and trailing whitespaces
+
+        const nombreValue = nombre.current.value.trim();
         const numeroValue = numero.current.value;
-    
-        // Check if the user has written something
+
         if (!nombreValue) {
-            // Optionally, you can show an error message or handle it as needed
             console.error('Please enter a name before saving.');
             setCampo(true);
             return;
         } else {
             setCampo(false);
         }
-    
+
         if (!numeroValue) {
-            // Optionally, you can show an error message or handle it as needed
             console.error('Please enter a name before saving.');
             setCampo2(true);
             return;
         } else {
             setCampo2(false);
         }
-    
-        // Validate that the number does not start with digit 3
+
         if (numeroValue.startsWith('3')) {
-            // Optionally, you can show an error message or handle it as needed
             console.error('The number cannot start with the digit 3.');
             setCampo3(true);
             return;
         } else {
             setCampo3(false);
         }
-    
+
         const formData = new FormData();
         formData.append('numberw', numeroValue);
         formData.append('nombre', nombreValue);
         formData.append('number_a', number_a);
-    
+
         console.log(formData)
-    
-        // Make the POST request
+
         axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_save_name.php`, formData)
             .then(response => {
-                // Handle the response
                 console.log('Response:', response.data);
                 setIsOpen(false);
                 setCampo2(false);
@@ -84,7 +75,6 @@ const ModalContact = () => {
                 setCampo3(false);
             })
             .catch(error => {
-                // Handle errors
                 console.error('Error:', error);
                 setIsOpen(false);
                 setCampo2(false);
@@ -92,13 +82,15 @@ const ModalContact = () => {
                 setCampo3(false);
             });
     }
-    
 
-
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            guardarNombre(e);
+        }
+    };
 
     return (
         <div>
-
             <div>
                 <button
                     onClick={openModal}
@@ -116,10 +108,8 @@ const ModalContact = () => {
                     <div className="bg-white w-96 p-4 rounded shadow-lg z-50">
                         <h2 className="text-2xl text-black font-semibold mb-4 text-center">Guardar Contacto</h2>
 
-                        <form action="" method="post">
-
+                        <form action="" method="post" onKeyPress={handleKeyPress}>
                             <div className="mb-4 text-black text-lg font-normal">
-
                                 <label htmlFor="nombre">Ingrese el Nombre</label>
                                 <input
                                     type='text'
@@ -129,7 +119,6 @@ const ModalContact = () => {
                                     ref={nombre}
                                     className="w-full p-2 mt-1 border border-gray-300 rounded"
                                 />
-
                             </div>
 
                             {Campo && (
@@ -139,7 +128,6 @@ const ModalContact = () => {
                             )}
 
                             <div className="mb-4 text-black text-lg font-normal">
-
                                 <label htmlFor="numero">Ingrese el Número</label>
                                 <input
                                     type='number'
@@ -149,15 +137,15 @@ const ModalContact = () => {
                                     ref={numero}
                                     className="w-full p-2 border mt-1 border-gray-300 rounded"
                                 />
-
                             </div>
+
                             {Campo2 && (
                                 <div className='text-lg font-normal absolut w-full text-white bg-red-500 py-1 px-2 rounded my-2'>
                                     Campo Requerido
                                 </div>
                             )}
 
-{Campo3 && (
+                            {Campo3 && (
                                 <div className='text-lg font-normal absolut w-full text-white bg-red-500 py-1 px-2 rounded my-2'>
                                     El numero no es valido
                                 </div>
@@ -186,9 +174,4 @@ const ModalContact = () => {
     );
 };
 
-
-
-export default ModalContact
-
-
-
+export default ModalContact;
