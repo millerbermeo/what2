@@ -172,7 +172,7 @@ function Mensajes() {
             .then(response => {
                 console.log('Solicitud exitosa:', response.data);
                 setShowModal(true)
-                setModalMessage("Plantilla reada correctamente")
+                setModalMessage("Plantilla creada correctamente")
                 setStatus(true)
                 // Limpiar los campos después de enviar el formulario
                 imagen.current.value = "";

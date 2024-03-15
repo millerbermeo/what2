@@ -37,6 +37,7 @@ function Logout2() {
       // Manejar errores aquí
       console.error('Error al realizar la petición POST:', error);
     } finally {
+      navigation("/")
       // Siempre ocultar el modal después de realizar la acción
       setShowModal(false);
     }

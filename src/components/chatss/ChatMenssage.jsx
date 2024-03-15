@@ -3,7 +3,7 @@ import axios from 'axios';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faStop, faDownload, faFile, faMicrophone, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faMessage, faDownload, faFile, faMicrophone, faUserTie, faCloudArrowUp, faIcons, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Logout from '../modals/Logout';
 
 import InfoUser from '../othercomponents/InfoUser';
@@ -135,12 +135,18 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
     const user = JSON.parse(sessionStorage.getItem('user'));
     const number_a = user && user.number_a;
-    
+
 
     // Validación para permitir continuar con el código
     // if (menPlant === null || menPlant === undefined) {
     //   console.warn('menPlant es null o undefined. El mensaje se enviará sin menPlant.');
     // }
+
+    if (!numeroSeleccionado) {
+      console.warn('No hay número seleccionado. El mensaje no se enviará.');
+      return; // Detener la función si no hay número seleccionado
+  }
+
 
     const formData = new FormData();
     formData.append('numberw', numeroSeleccionado);
@@ -167,6 +173,18 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     setMostrarPlantilla(false);
   }
 
+  const motrarPlantilla = () => {
+    // Verificar si hay un número seleccionado
+    if (!numeroSeleccionado) {
+        console.warn('No hay número seleccionado. La plantilla no se mostrará.');
+        return; // Detener la función si no hay número seleccionado
+    }
+
+    // Mostrar la plantilla solo si hay un número seleccionado
+    setMostrarPlantilla(true);
+}
+
+
 
   const enviarMensaje = async () => {
     try {
@@ -180,7 +198,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
       const user = JSON.parse(sessionStorage.getItem('user'));
       const number_a = user && user.number_a;
-      
+
 
       if (numeroSeleccionado === null || numeroSeleccionado === undefined) {
         console.error('El número seleccionado no puede ser null');
@@ -565,7 +583,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
         formData2
       );
 
-      
+
 
       if (response1.data.trim() === 'Mensaje') {
         setMostrarPlantilla(false);
@@ -736,10 +754,10 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                   </div>
 
                   <div className='my-3 shadow p-2 bg-gray-100 flex justify-center items-center'>
-               
 
-                  <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
-                </div>
+
+                    <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
+                  </div>
 
                   <div className='flex gap-2 justify-end'>
                     <button
@@ -829,8 +847,11 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                 <FontAwesomeIcon icon={faChevronLeft} />
               </div>
             </button>
-            <div className="relative w-full text-gray-600">
-              <div className='ml-10 absolute -left-8 top-2'>
+            <div className="relative w-full text-gray-600 ">
+              <div className='absolute top-2 left-2'>
+                <button onClick={motrarPlantilla}><FontAwesomeIcon icon={faMessage} /></button>
+              </div>
+              <div className='ml-16 absolute -left-8 top-2'>
                 <input
                   ref={archivoInputRef}
                   id="fileInput"
@@ -843,7 +864,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                   <FontAwesomeIcon icon={faCloudArrowUp} />
                 </label>
               </div>
-              <div className='ml-10 absolute -left-2 top-2'>
+              <div className='ml-16 absolute -left-2 top-2'>
                 <button onClick={toggleDiv}>
                   <FontAwesomeIcon icon={faIcons} />
                 </button>
@@ -868,7 +889,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
               </div>
 
-              <div className='absolute left-14 top-2'>
+              <div className='absolute left-20 top-2'>
                 <div className='relative flex'>
                   <ReactMic
                     record={isRecording}

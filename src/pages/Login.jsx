@@ -78,13 +78,13 @@ function Login() {
           navigation('/dashboard');
         } else {
           sessionStorage.setItem('user', JSON.stringify(response.data));
-          navigation('/');
+          navigation('/home');
         }
         
 
 
         console.log('Login successful');
-        window.location.reload();
+
 
         setCampo(false)
       } else {

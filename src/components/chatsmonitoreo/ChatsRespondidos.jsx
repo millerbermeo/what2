@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import ModalLeft from '../modals/ModalLeft';
 import baseURL from '../BaseUrl';
 
-
-
 function ChatsRespondidos() {
-
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
 
     useEffect(() => {
-        try {
-            axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/chats_respondidos.php`).then((response) => {
-                setData(response.data)
-                console.log(response.data)
-            }).catch((error) => {
-                console.log("error en la peticion", error)
-            })
-        } catch (error) {
-            console.log("error cliente", error)
-        }
-    }, [])
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/chats_respondidos.php`);
+                setData(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.log("error en la petición", error);
+            }
+        };
 
+        fetchData(); // Ejecutar la primera vez al montar el componente
 
+        const interval = setInterval(fetchData, 60000); // Realizar la petición cada minuto
+
+        return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
+    }, []);
 
     return (
         <div className='w-[90%] 2xl:w-[480px] h-[500px] 2xl:h-[700px] border rounded-lg overflow-hidden shadow-2xl shadow-gray-200'>
@@ -54,10 +54,7 @@ function ChatsRespondidos() {
                 ))}
             </div>
         </div>
-
-    )
+    );
 }
 
-export default ChatsRespondidos
-
-
+export default ChatsRespondidos;
