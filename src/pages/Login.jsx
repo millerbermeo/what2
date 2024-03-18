@@ -84,7 +84,7 @@ function Login() {
 
 
         console.log('Login successful');
-
+        window.location.reload()
 
         setCampo(false)
       } else {
@@ -102,23 +102,25 @@ function Login() {
 
     }
   };
-  
 
-  useEffect(() => {
-    // Verificar si hay información de usuario en sessionStorage
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    const user2 = JSON.parse(sessionStorage.getItem('user2'));
+
+  // useEffect(() => {
+  //   // Verificar si hay información de usuario en sessionStorage
+  //   const user = JSON.parse(sessionStorage.getItem('user'));
+  //   const user2 = JSON.parse(sessionStorage.getItem('user2'));
   
-    // Si hay información de usuario y el tipo es 'agente', redirigir a la página '/home'
-    if (user && user.type === 'agente') {
-      navigation('/home');
-    }
+  //   // Si hay información de usuario y el tipo es 'agente', redirigir a la página '/home'
+  //   if (user && user.type === 'agente') {
+  //     navigation('/home');
+  //   }
   
-    if (user2 && user2.type === 'admin') {
-      navigation('/');
-    }
+  //   if (user2 && user2.type === 'admin') {
+  //     navigation('/');
+  //   }
+
+  //   window.location.reload()
   
-  }, [navigation]);
+  // }, [navigation]);
   
   
 
