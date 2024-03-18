@@ -14,6 +14,7 @@ import AddAgente from '../modals/AddAgente';
 import InfoUser from '../othercomponents/InfoUser';
 import EliminarGrupo from '../modals/EliminarGrupo';
 import baseURL from '../BaseUrl';
+import SalirGrupo from '../modals/SalirGrupo';
 
 
 
@@ -49,7 +50,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     };
 
 
-    
+
 
 
     const handleSelectedOption = (selectedOption, name1) => {
@@ -109,8 +110,8 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
                 const user = JSON.parse(sessionStorage.getItem('user'));
                 const number_a = user && user.number_a;
-                
-                
+
+
                 const formData = new FormData();
                 formData.append('number_a', number_a);
 
@@ -145,11 +146,11 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                 setData((prevData) => {
                     // Filtra los nuevos mensajes para eliminar duplicados
                     const uniqueNewMessages = formattedData.filter(item => !prevData.some(existingItem => existingItem.id === item.id));
-                
+
                     // Actualiza el estado agregando los nuevos mensajes únicos
                     return [...prevData, ...uniqueNewMessages];
                 });
-                
+
             } catch (error) {
                 console.error('Error al obtener datos de la API:', error);
             }
@@ -168,34 +169,34 @@ const ChatSidebar = ({ onClicEnDiv }) => {
         const fetchData2 = async () => {
             try {
                 const user = JSON.parse(sessionStorage.getItem('user'));
-const number_a = user && user.number_a;
+                const number_a = user && user.number_a;
 
                 const formData = new FormData();
                 formData.append('number_a', number_a);
-    
+
                 const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_chats_grupo.php`, formData);
-    
+
                 // Mapea los datos y formatea la fecha
                 const formattedData = response.data.map(item => ({
                     ...item,
                     fecha: formatFecha(item.fecha),
                 }));
-    
+
                 setData2(formattedData)
-                
+
             } catch (error) {
                 console.error('Error al obtener datos de la API:', error);
             }
         };
-    
+
         const intervalId = setInterval(fetchData2, 1000);
 
         return () => clearInterval(intervalId);
-    
-    }, [data2]); // No es necesario incluir data2 en la dependencia
-    
 
-   
+    }, [data2]); // No es necesario incluir data2 en la dependencia
+
+
+
 
     // Función para manejar el clic en "NO LEIDOS"
     const handleMostrarTodosClick = () => {
@@ -203,14 +204,14 @@ const number_a = user && user.number_a;
         setFiltroNoLeidos(false); // Desactiva el filtro de "NO LEÍDOS"
         setMostrar(true);
     };
-    
+
     // Función para manejar el clic en "NO LEIDOS"
     const handleNoLeidosClick = () => {
         setFiltroNoLeidos(true); // Cambia el estado de filtroNoLeidos
-        setFiltroActivo('filtro1'); 
+        setFiltroActivo('filtro1');
         setMostrar(true);
     };
-    
+
 
     // Filtra los datos según los criterios
     const filteredData = data.filter((item) => {
@@ -226,9 +227,9 @@ const number_a = user && user.number_a;
             (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 item.numberw.toLowerCase().includes(searchTerm.toLowerCase()))
 
-        //     (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        //     item.numberw.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        // (!filtroNoLeidos || item.b1 === "1")
+            //     (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            //     item.numberw.toLowerCase().includes(searchTerm.toLowerCase())) &&
+            // (!filtroNoLeidos || item.b1 === "1")
         );
     });
 
@@ -307,9 +308,9 @@ const number_a = user && user.number_a;
                                 setElementoSeleccionado(item.numberw);
 
                             }} className='flex items-center flex-row w-full h-[75px]'>
-                             <div  className='w-[50px] cursor-pointer'>
-                    <img src="user.webp" alt="" />
-                </div>
+                                <div className='w-[50px] cursor-pointer'>
+                                    <img src="user.webp" alt="" />
+                                </div>
 
                                 <div className='w-full h-12 overflow-hidden relative pt-6 pl-2'>
                                     <span className='absolute top-1 tex-xs font-semibold h-6 w-44 overflow-hidden text-gray-800'>
@@ -326,28 +327,31 @@ const number_a = user && user.number_a;
                             </div>
 
 
-                         
-                                <div className={`grid grid-cols-2 mr-2 md:mr-0 md:mb-[14px] z-1 gap-x-3 gap-y-[6px]`}>
-                                    <div className={`bg-gray-800 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
-                                        <ModalBot numero={item.numberw} />
-                                    </div>
-                                    <div className="bg-gray-800 text-lg md:text-[14.5px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
-                                        <ModalGroup numero={item.numberw} />
-                                    </div>
-                                    <div className='bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex  justify-center items-center rounded-full'>
-                                        <ModalName numero={item.numberw} />
-                                    </div>
 
-                                    <div className={`bg-gray-500 text-lg md:text-[15px] ${mostrar ? 'hidden' : 'flex'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
-                              
-
-                                        <EliminarGrupo numero={item.numberw}/>
-                                    </div>
-                                    
-                                    <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px]  justify-center items-center rounded-full`}>
-                                        <ModalLeft numero={item.numberw} />
-                                    </div>
+                            <div className={`grid grid-cols-2 mr-2 md:mr-0 md:mb-[14px] z-1 gap-x-3 gap-y-[6px]`}>
+                                <div className={`bg-gray-800 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
+                                    <ModalBot numero={item.numberw} />
                                 </div>
+                                <div className="bg-gray-800 text-lg md:text-[14.5px] hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full">
+                                    <ModalGroup numero={item.numberw} />
+                                </div>
+                                <div className='bg-green-500 text-lg md:text-[15px] hover:bg-green-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex  justify-center items-center rounded-full'>
+                                    <ModalName numero={item.numberw} />
+                                </div>
+
+                                <div className={`bg-gray-500 text-lg md:text-[15px] ${mostrar ? 'hidden' : 'flex'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
+
+
+                                    <EliminarGrupo numero={item.numberw} />
+                                </div>
+
+                                <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'hidden' : 'flex'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
+                                    <SalirGrupo/>
+                                </div>
+                                <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px]  justify-center items-center rounded-full`}>
+                                    <ModalLeft numero={item.numberw} />
+                                </div>
+                            </div>
 
                             <span className='absolute right-2 bottom-0 text-[12px] hidden md:flex'>
                                 {item.fecha}

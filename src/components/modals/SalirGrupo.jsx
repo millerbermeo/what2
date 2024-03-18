@@ -5,7 +5,7 @@ import axios from 'axios';
 import baseURL from '../BaseUrl';
 
 
-function EliminarGrupo({ numero }) {
+function SalirGrupo() {
   const [showModal, setShowModal] = useState(false);
 
   //  
@@ -22,13 +22,13 @@ function EliminarGrupo({ numero }) {
       const number_a = user && user.number_a;
       
 
-      console.log(numero)
+   
 
       const formData = new FormData();
-      formData.append('numberw', numero);
+    //   formData.append('numberw', numero);
       formData.append('number_a', number_a);
    
-      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_delete_grupo.php`, formData);
+      const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_delete_person_g.php`, formData);
 
       console.log('Respuesta del servidor:', response.data);
 
@@ -52,7 +52,7 @@ function EliminarGrupo({ numero }) {
       {showModal && (
          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
          <div className="bg-white p-12 m-5 rounded shadow-lg flex items-center flex-col">
-            <p className='text-black text-xl text-center font-normal'>¿Seguro que quieres eliminar el grupo?</p>
+            <p className='text-black text-xl text-center'>¿Seguro que quieres salir del grupo?</p>
 
             <div className='flex gap-4 mt-3'>
               <button className='text-black text-lg font-semibold' onClick={() => setShowModal(false)}>Cancelar</button>
@@ -72,4 +72,4 @@ function EliminarGrupo({ numero }) {
 
 
 
-export default EliminarGrupo
+export default SalirGrupo

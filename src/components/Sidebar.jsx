@@ -130,19 +130,19 @@ const Sidebar = ({ mostrar, ocultar }) => {
                 >
                   <ul className="p-2 pl-12">
                   <Link to="/plantilla">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla Saludo</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Saludo</li>
                     </Link>
                     <Link to="/mensajes">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla Masiva</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Masivo</li>
                     </Link>
                     <Link to="/listar_plantillas">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Plantillas</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Administrar Plantillas</li>
                     </Link>
                     <Link to="/campanas">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Historial Masivos</li>
                     </Link>
                     <Link to="/send">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Enviar Campaña</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Envio Masivo</li>
                     </Link>
                   
                   </ul>

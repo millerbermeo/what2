@@ -189,14 +189,14 @@ function SendCampana() {
     if (tipo === 'text') {
       return (
         <div>
-          <h2 className="uppercase font-bold">{nombre}</h2>
+          {/* <h2 className="uppercase font-bold">{nombre}</h2> */}
           <p className="mb-2">{contenido}</p>
         </div>
       );
     } else if (tipo === 'image') {
       return (
         <div>
-          <h2 className="uppercase font-bold">{nombre}</h2>
+          {/* <h2 className="uppercase font-bold">{nombre}</h2> */}
           <p className="mb-2">{contenido}</p>
           <img src={url} alt="Plantilla" className="w-40 h-auto object-cover" />
         </div>
@@ -204,7 +204,7 @@ function SendCampana() {
     } else if (tipo === 'document') {
       return (
         <div>
-          <h2 className="uppercase font-bold">{nombre}</h2>
+          {/* <h2 className="uppercase font-bold">{nombre}</h2> */}
           <p className="mb-2">{contenido}</p>
           <a href={url} target="_blank" rel="noopener noreferrer" className="block mt-2 px-2 py-3 rounded-sm bg-slate-400 text-white">Ver documento</a>
         </div>

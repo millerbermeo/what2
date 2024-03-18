@@ -53,7 +53,7 @@ function Logout() {
       {showModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white text-black p-12 rounded shadow-lg flex items-center flex-col">
-            <p className='text-xl text-black font-bold'>¿Seguro que quieres salir?</p>
+            <p className='text-xl text-black font-normal'>¿Seguro que quieres salir?</p>
 
             <div className='flex gap-4 mt-3'>
               <button className='text-lg' onClick={() => setShowModal(false)}>Cancelar</button>
