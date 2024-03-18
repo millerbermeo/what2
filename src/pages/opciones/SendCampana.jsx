@@ -16,6 +16,8 @@ function SendCampana() {
   const [showModal, setShowModal] = useState(false);
   const [Campo, setCampo] = useState(false)
   const [groupedData, setGroupedData] = useState({});
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
 
 
   // const showAlert = (icon, text) => {
@@ -237,24 +239,29 @@ function SendCampana() {
     return true;
   };
 
-
+  const renderSuccessModal = () => {
+    if (successModalVisible) {
+      return (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-12 rounded shadow-lg flex items-center flex-col">
+            <p className='text-black text-xl'>¡Campañas enviadas exitosamente!</p>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
 
 
   const handleClick = () => {
-
+    
     if (validateFields()) {
-
-
       const user = JSON.parse(sessionStorage.getItem('user'));
-const number_a = user && user.number_a;
-
-
-      // Crear un objeto FormData y agregar los datos necesarios
+      const number_a = user && user.number_a;
       const formData = new FormData();
       formData.append('number_a', number_a);
-      formData.append('nombre_p', selectedItem); // Utilizar el valor seleccionado del primer select
-
-      // Obtener la lista de number_w de los checkboxes seleccionados
+      formData.append('nombre_p', selectedItem);
+  
       const selectedNumbers = [];
       Object.keys(groupedData).forEach((agente) => {
         groupedData[agente].checkboxes.forEach((checkbox) => {
@@ -263,35 +270,32 @@ const number_a = user && user.number_a;
           }
         });
       });
-
-
-
-      // Convertir la lista de numbers a una cadena y agregarla a FormData
-      const lista = selectedNumbers.join(','); // Puedes ajustar el delimitador según tus necesidades
+      const lista = selectedNumbers.join(',');
       formData.append('number_m', lista);
-
-
-      // Realizar la solicitud POST con Axios
+  
       axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_crear_c_masiva.php`, formData)
         .then(response => {
-          // Manejar la respuesta exitosa
           console.log('Respuesta del servidor:', response.data);
-
-          setSelectedItem(''); // Restablecer el valor del select
-
+          setSelectedItem('');
+          setSuccessModalVisible(true); 
+          setTimeout(() => {
+            setSuccessModalVisible(false); // Ocultar el modal de éxito después de 3 segundos
+          }, 3000);
+        
           // showAlert('success', 'Plantilla masiva enviada');
-
         })
         .catch(error => {
-          // Manejar errores
           console.error('Error al hacer la solicitud:', error);
           // showAlert('error', 'Error al enviar plantillas Masivas');
+          showErrorModal(); // Mostrar el modal de error en caso de error
         });
       setShowModal(false);
       setCampo(false);
-
     }
   };
+  
+  // Renderizar el modal de error en caso de que errorModalVisible sea true
+ 
 
 
 
@@ -307,6 +311,15 @@ const number_a = user && user.number_a;
 
 
 
+
+// Función para mostrar el modal de error
+const showErrorModal = () => {
+  setErrorModalVisible(true);
+  setTimeout(() => {
+    setErrorModalVisible(false);
+  }, 3000); // Ocultar el modal después de 3 segundos
+};
+
   return (
     <div>
       <div className="flex">
@@ -315,6 +328,20 @@ const number_a = user && user.number_a;
         </div>
 
         <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0 mb-10">
+        {successModalVisible && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-12 rounded shadow-lg flex items-center flex-col">
+            <p className='text-black text-xl'>¡Campañas enviadas exitosamente!</p>
+          </div>
+        </div>
+      )}
+        {errorModalVisible && (
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-12 rounded shadow-lg flex items-center flex-col">
+        <p className='text-black text-xl'>No se pudo enviar la plantilla</p>
+      </div>
+    </div>
+  )}
           <Navbar navbar="flex" logout='hidden'/>
           <div className="flex justify-center mt-10 my-5 pl-1">
             <div className="w-full flex justify-center lg:justify-start">

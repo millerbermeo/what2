@@ -142,7 +142,7 @@ const Sidebar = ({ mostrar, ocultar }) => {
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Historial Masivos</li>
                     </Link>
                     <Link to="/send">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Envio Masivo</li>
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Envío Masivo</li>
                     </Link>
                   
                   </ul>

@@ -39,7 +39,7 @@ function ChatsBot() {
                                 <FontAwesomeIcon icon={faCircleUser} />
                             </span>
                             <div className=''>
-                                <h4 className='font-semibold'>{chat.numberw}</h4>
+                            <h4 className='font-semibold'>{chat.name ? chat.name : chat.numberw}</h4>
                                 <p className='text-sm 2xl:text-base h-10 2xl:h-12 overflow-hidden text-gray-500 break-all mb-1'>{chat.men ? chat.men : 'No hay mensaje'}</p>
                             </div>
                         </div>
