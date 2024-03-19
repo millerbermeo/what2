@@ -242,7 +242,7 @@ function PlantillaSaludo() {
                 </div>
                 <main className="flex-1 w-full pl-0 lg:pl-6 lg:p-2 pt-0 lg:pt-1 pb-0">
                     <Navbar navbar="flex" />
-                    <h3 className='my-10 text-center text-2xl uppercase'>Crear Plantilla Saludo</h3>
+                    <h3 className='my-10 text-center text-2xl uppercase'>Crear Saludo</h3>
                     <div className="flex justify-center flex-col md:flex-row items-start mt-1 md:mt-10 gap-14 2xl:gap-24 mb-14">
                         <div className="w-full max-w-2xl p-8 bg-gray-100 rounded-lg border">
                             <div>

@@ -14,7 +14,7 @@ function ChatsNoRespondidos() {
         try {
             axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/chats_no_respondidos.php`).then((response) => {
                 setData(response.data)
-                console.log(response.data)
+                console.log("niiiiiiiiiiii",response.data)
             }).catch((error) => {
                 console.log("error en la peticion", error)
             })
@@ -39,7 +39,7 @@ function ChatsNoRespondidos() {
                                 <FontAwesomeIcon icon={faCircleUser} />
                             </span>
                             <div className=''>
-                                <h4 className='font-semibold'>{chat.numberw}</h4>
+                                <h4 className='font-semibold'>{chat.name ? chat.name : chat.numberw}</h4>
                                 <p className='text-sm 2xl:text-base h-10 2xl:h-12  overflow-hidden text-gray-500 break-all mb-1'>{chat.men ? chat.men : 'No hay mensaje'}</p>
                             </div>
                         </div>
