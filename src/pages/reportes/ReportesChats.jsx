@@ -1,12 +1,53 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../../components/Sidebar';
 import Logout2 from '../../components/modals/Logout2';
+import axios from 'axios';
+import baseURL from '../../components/BaseUrl';
+
+
 
 function ReportesChats() {
   const user = JSON.parse(sessionStorage.getItem('user2'));
   console.log(user);
+
+  const [data, setData] = useState([])
+
+  const fecha1 = useRef()
+  const fecha2 = useRef()
+  const whatsapp = useRef()
+
+  const fetchData = async() => {
+
+      try {
+
+          const formData = new FormData();
+
+          formData.append('fecha1', fecha1.current.value);
+          formData.append('fecha2', fecha2.current.value);
+          formData.append('numberw', whatsapp.current.value);
+
+          for (const pair of formData.entries()) {
+              console.log(pair[0], pair[1]);
+            }
+        await  axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_numero.php`).then((response) => {
+              console.log(response.data)
+              setData(response.data)
+          })
+          
+      } catch (error) {
+          console.log("error del servidor", error)
+      }
+
+  }
+
+  // useEffect(() => {
+  //     fetchData()
+  // })
+
+
+
 
   return (
     <>
@@ -40,22 +81,22 @@ function ReportesChats() {
 
               <div className='flex gap-2 items-center'>
                 <label>Fecha Inicio</label>
-                <input type="date" placeholder="Fecha inicial" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                <input type="date" ref={fecha1} placeholder="Fecha inicial" className="px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
 
 
               <div className='flex gap-2 items-center'>
                 <label>Fecha Final</label>
-                <input type="date" placeholder="Fecha final" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                <input type="date" ref={fecha2} placeholder="Fecha final" className="px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
 
               <div className='flex gap-2 items-center'>
                 <label>Whatsapp</label>
-                <input type="number" placeholder="Número" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                <input type="number" ref={whatsapp} placeholder="Número" className="px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
 
 
-              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg">Enviar</button>
+              <button onClick={fetchData} className="px-4 py-2 bg-blue-500 text-white rounded-lg">Enviar</button>
             </div>
           </div>
 
