@@ -18,27 +18,30 @@ function ReportesChats() {
   const fecha2 = useRef()
   const whatsapp = useRef()
 
-  const fetchData = async() => {
 
-      try {
 
-          const formData = new FormData();
+  const fetchData = async () => {
 
-          formData.append('fecha1', fecha1.current.value);
-          formData.append('fecha2', fecha2.current.value);
-          formData.append('numberw', whatsapp.current.value);
+    try {
 
-          for (const pair of formData.entries()) {
-              console.log(pair[0], pair[1]);
-            }
-        await  axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_numero.php`).then((response) => {
-              console.log(response.data)
-              setData(response.data)
-          })
-          
-      } catch (error) {
-          console.log("error del servidor", error)
+      const formData = new FormData();
+
+      formData.append('fecha_inicio', fecha1.current.value);
+      formData.append('fecha_fin', fecha2.current.value);
+      formData.append('numberw', whatsapp.current.value);
+
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
       }
+      await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_numero.php`).then((response) => {
+        console.log(response.data)
+        setData(response.data)
+      })
+
+
+    } catch (error) {
+      console.log("error del servidor", error)
+    }
 
   }
 
@@ -81,14 +84,14 @@ function ReportesChats() {
 
               <div className='flex gap-2 items-center'>
                 <label>Fecha Inicio</label>
-                <input type="date" ref={fecha1} placeholder="Fecha inicial" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                <input type="text" ref={fecha1} placeholder="Fecha inicial" className="px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
-
 
               <div className='flex gap-2 items-center'>
                 <label>Fecha Final</label>
-                <input type="date" ref={fecha2} placeholder="Fecha final" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                <input type="text" ref={fecha2} placeholder="Fecha final" className="px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
+
 
               <div className='flex gap-2 items-center'>
                 <label>Whatsapp</label>
@@ -109,40 +112,44 @@ function ReportesChats() {
             <h3 className='font-semibold text-2xl mb-5'>Datos Reportes</h3>
             <table className="table-auto w-full">
 
-              <div className='flex justify-between border-b my-5 pb-2'>
-              <span className='text-xl'>
-                  Reporte Tipo:
-                </span>
-                <span>
-                  Agente
-                </span>
-              </div>
+              {data.table && data.table.map((item, index) => (
+                <div key={index} className='flex justify-between border-b my-5 pb-2'>
+                  <span className='text-xl'>
+                    Reporte Tipo:
+                  </span>
+                  <span>
+                    {data.Table[2]}
+                  </span>
+                </div>
+              ))}
+
+
 
               <div className='flex justify-between border-b my-5 pb-2'>
-              <span className='text-xl'>
+                <span className='text-xl'>
                   Total de mensajes en rango de fechas:
                 </span>
                 <span>
-                  Agente
+                  {data.total_mensajes_en_fechas}
                 </span>
               </div>
 
 
               <div className='flex justify-between border-b my-5 pb-2'>
-              <span className='text-xl'>
-                 Fecha Inicio
+                <span className='text-xl'>
+                  Fecha Inicio
                 </span>
                 <span>
-                28/02/2024
+                  {data.fecha_inicio}
                 </span>
               </div>
 
               <div className='flex justify-between border-b my-5 pb-2'>
-              <span className='text-xl'>
-                Fecha Fin
+                <span className='text-xl'>
+                  Fecha Fin
                 </span>
                 <span>
-                28/02/2024
+                  {data.fecha_fin}
                 </span>
               </div>
 
@@ -153,64 +160,50 @@ function ReportesChats() {
 
 
           <div className="overflow-x-auto border rounded-lg overflow-hidden">
-  <table className="min-w-full divide-y divide-gray-200">
-    <thead className="bg-gray-50">
-      <tr>
-        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-          ID
-        </th>
-        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-          Whatsapp
-        </th>
-        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-          Mensaje
-        </th>
-        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-          Tipo
-        </th>
-        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-          Fecha
-        </th>
-      </tr>
-    </thead>
-    <tbody className="bg-white divide-y divide-gray-200">
-      <tr>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">1</div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">123456</div>
-        </td>
-        <td className="px-6 py-4 whitespace-wrap">
-          <div className="text-sm text-gray-900 break-all">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">2</div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">28/02/2024</div>
-        </td>
-      </tr>
-      <tr>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">2</div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">789012</div>
-        </td>
-        <td className="px-6 py-4 whitespace-wrap">
-          <div className="text-sm text-gray-900 break-all">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">2</div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">28/02/2024</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    ID
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Whatsapp
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Mensaje
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Tipo
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Fecha
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {Array.isArray(data) && data.map((item, index) => (
+                  <tr key={index}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{item.id}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{item.whatsapp}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-wrap">
+                      <div className="text-sm text-gray-900 break-all">{item.mensaje}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{item.tipo}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{item.fecha}</div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
 
 
 

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import ModalLeft from '../modals/ModalLeft';
 import baseURL from '../BaseUrl';
+import ModalMensajeUser from './ModalMensajeUser';
 
 
 function ChatsNoRespondidos() {
@@ -45,8 +46,9 @@ function ChatsNoRespondidos() {
                         </div>
                         <div className='rounded-full  top-[8px] w-6 h-6 flex justify-center items-center absolute right-0 bg-blue-600 text-white'>
                             <ModalLeft numero={chat.numberw}/>
+                         
                         </div>
-
+                        <ModalMensajeUser/>
                         <span className='absolute right-0 bottom-0 text-[11px] font-semibold text-gray-500'>{chat.fecha}</span>
                         <div className='border-b w-full h-1 absolute -bottom-1 -z-10'></div>
                     </div>
