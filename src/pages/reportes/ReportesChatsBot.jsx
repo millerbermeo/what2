@@ -5,16 +5,19 @@ import Sidebar from '../../components/Sidebar';
 import Logout2 from '../../components/modals/Logout2';
 import axios from 'axios';
 import baseURL from '../../components/BaseUrl';
+import { saveAs } from 'file-saver'; 
 
 function ReportesChatsBot() {
     const [data, setData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
     const fecha1 = useRef();
     const fecha2 = useRef();
     const agente = useRef();
 
     const user = JSON.parse(sessionStorage.getItem('user2'));
-    console.log(user)
-    console.log(user.number_a)
+    console.log(user);
+    console.log(user.number_a);
 
     const fetchData = async () => {
         try {
@@ -25,13 +28,30 @@ function ReportesChatsBot() {
 
             const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_chats.php`, formData);
             setData(response.data);
-            console.log(response.data)
+            console.log(response.data);
         } catch (error) {
             console.log("Error del servidor", error);
         }
     };
 
-   // Ejecutar solo una vez al cargar el componente
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = data.table ? data.table.slice(indexOfFirstItem, indexOfLastItem) : [];
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const downloadCSV = () => {
+        const csvData = data.table.map(item => {
+            return `${item.Id},${item.Whatsapp},${item.Mensaje},${item.Tipo},${item.Fecha}`;
+        }).join('\n');
+
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+        saveAs(blob, 'reporte_chats.csv');
+    };
 
     return (
         <>
@@ -81,14 +101,6 @@ function ReportesChatsBot() {
                     <div className="overflow-x-auto px-10 bg-gray-100 py-8 rounded-lg mb-10">
                         <h3 className='font-semibold text-2xl mb-5'>Datos Reportes</h3>
                         <table className="table-auto w-full">
-                            {/* <div className='flex justify-between border-b my-5 pb-2'>
-                                <span className='text-xl'>
-                                    Reporte Tipo:
-                                </span>
-                                <span>
-                                    {data.total_mensajes_en_fechas}
-                                </span>
-                            </div> */}
                             <div className='flex justify-between border-b my-5 pb-2'>
                                 <span className='text-xl'>
                                     Total de mensajes en rango de fechas:
@@ -117,6 +129,14 @@ function ReportesChatsBot() {
                     </div>
 
                     <div className="overflow-x-auto border rounded-lg overflow-hidden">
+            <button onClick={downloadCSV} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+              <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+              </svg>
+              <span>Download CSV</span>
+            </button>
+          </div>
+                    <div className="overflow-x-auto border rounded-lg overflow-hidden">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                                 <tr>
@@ -138,22 +158,77 @@ function ReportesChatsBot() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                {data.table && data.table.map((item, index) => (
+                {currentItems.map((item, index) => (
                   <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap">{item.Id}</td> {/* Acceder a la clave correcta */}
-                    <td className="px-6 py-4 whitespace-nowrap">{item.Whatsapp}</td> {/* Acceder a la clave correcta */}
-                    <td className="px-6 py-4 whitespace-wrap">{item.Mensaje}</td> {/* Acceder a la clave correcta */}
-                    <td className="px-6 py-4 whitespace-nowrap">{item.Tipo}</td> {/* Acceder a la clave correcta */}
-                    <td className="px-6 py-4 whitespace-nowrap">{item.Fecha}</td> {/* Acceder a la clave correcta */}
+                    <td className="px-6 py-4 whitespace-nowrap">{item.Id}</td> 
+                    <td className="px-6 py-4 whitespace-nowrap">{item.Whatsapp}</td> 
+                    <td className="px-6 py-4 whitespace-wrap">{item.Mensaje}</td> 
+                    <td className="px-6 py-4 whitespace-nowrap">{item.Tipo}</td> 
+                    <td className="px-6 py-4 whitespace-nowrap">{item.Fecha}</td> 
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
-        </main>
-      </div>
+            <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+              <div className="flex-1 flex justify-between sm:hidden">
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg
+                  {currentPage === 1 ? 'pointer-events-none opacity-50' : ''}"
+                  >
+                    Anterior
+                  </button>
+                  <button
+                    onClick={() => paginate(currentPage + 1)}
+                    disabled={currentItems.length < itemsPerPage}
+                    className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 ${indexOfLastItem >= (data.table ? data.table.length : 0) ? 'pointer-events-none opacity-50' : ''}`}
+                  >
+                    Siguiente
+                  </button>
+                </div>
+                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-gray-700">
+                      Mostrando
+                      <span className="font-medium">{` ${indexOfFirstItem + 1}`}</span>
+                      a
+                      <span className="font-medium">{` ${Math.min(indexOfLastItem, data.table ? data.table.length : 0)}`}</span>
+                      de
+                      <span className="font-medium">{` ${data.table ? data.table.length : 0}`}</span>
+                      resultados
+                    </p>
+                  </div>
+                  <div>
+                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                      <button
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${currentPage === 1 ? 'pointer-events-none opacity-50' : ''}`}
+                      >
+                        <span className="sr-only">Anterior</span>
+                        <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fillRule="evenodd" d="M9.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H4a1 1 0 110-2h8.586l-3.293-3.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={indexOfLastItem >= (data.table ? data.table.length : 0)}
+                        className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${indexOfLastItem >= (data.table ? data.table.length : 0) ? 'pointer-events-none opacity-50' : ''}`}
+                      >
+                        <span className="sr-only">Siguiente</span>
+                        <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fillRule="evenodd" d="M10.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L7.586 12H16a1 1 0 110 2H7.586l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L10.707 14.707z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
     </>
-  )
-}
-
+  );
+  };
 export default ReportesChatsBot
