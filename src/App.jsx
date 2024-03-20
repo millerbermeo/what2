@@ -2,6 +2,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Loader from './components/Loader';
 
+
 // Importa los componentes de forma diferida
 const Home = React.lazy(() => import('./pages/Home'));
 const Login = React.lazy(() => import('./pages/Login'));
@@ -14,6 +15,8 @@ const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const AccesoAgente = React.lazy(() => import('./pages/AccesoAgente'));
 const PlantillaSaludo = React.lazy(() => import('./pages/opciones/PlantillaSaludo'));
 const PlantillasTablas = React.lazy(() => import('./pages/opciones/PlantillasTablas'));
+const ReportesChats = React.lazy(() => import('./pages/reportes/ReportesChats'));
+const ReportesAgente = React.lazy(() => import('./pages/reportes/ReportesAgente'));
 
 function App() {
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -58,6 +61,8 @@ function App() {
         <Route path="/acceso" element={<PrivateRoute element={<AccesoAgente />} />} />
         <Route path="/plantilla" element={<PrivateRoute element={<PlantillaSaludo />} />} />
         <Route path="/listar_plantillas" element={<PrivateRoute element={<PlantillasTablas />} />} />
+        <Route path="/reporte_chats" element={<PrivateRoute element={<ReportesChats />} />} />
+        <Route path="/reporte_agente" element={<PrivateRoute element={<ReportesAgente />} />} />
       </Routes>
     </Suspense>
   );

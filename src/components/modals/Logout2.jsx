@@ -4,6 +4,7 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import baseURL from '../BaseUrl';
+import { Navigate } from 'react-router-dom';
 
 
 function Logout2() {
@@ -31,7 +32,7 @@ function Logout2() {
 
       // Redireccionar a la vista raíz
       navigation("/")
-      
+      return <Navigate to="/" />;
 
     } catch (error) {
       // Manejar errores aquí
@@ -40,6 +41,7 @@ function Logout2() {
       navigation("/")
       // Siempre ocultar el modal después de realizar la acción
       setShowModal(false);
+      navigation("/")
     }
   };
 

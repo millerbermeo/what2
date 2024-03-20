@@ -345,9 +345,11 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                                     <EliminarGrupo numero={item.numberw} />
                                 </div>
 
+
                                 <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'hidden' : 'flex'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
                                     <SalirGrupo/>
                                 </div>
+
                                 <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px]  justify-center items-center rounded-full`}>
                                     <ModalLeft numero={item.numberw} />
                                 </div>

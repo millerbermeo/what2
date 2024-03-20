@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import ModalLeft from '../modals/ModalLeft';
 import baseURL from '../BaseUrl';
+import ModalMensajeUser from './ModalMensajeUser';
 
 function ChatsNoRespondidos() {
     const [data, setData] = useState([]);
 
-    useEffect(() => {
+
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/chats_no_respondidos.php`);
@@ -20,6 +21,7 @@ function ChatsNoRespondidos() {
         };
 
         fetchData(); // Ejecutar la primera vez al montar el componente
+
 
         const interval = setInterval(fetchData, 60000); // Realizar la petición cada minuto
 
@@ -56,18 +58,26 @@ function ChatsNoRespondidos() {
                                 <FontAwesomeIcon icon={faCircleUser} />
                             </span>
                             <div className=''>
-                            <h4 className='font-semibold'>{chat.name ? chat.name : chat.numberw}</h4>
+
+                                <h4 className='font-semibold'>{chat.name ? chat.name : chat.numberw}</h4>
+
                                 <p className='text-sm 2xl:text-base h-10 2xl:h-12  overflow-hidden text-gray-500 break-all mb-1'>{chat.men ? chat.men : 'No hay mensaje'}</p>
                             </div>
                         </div>
                         <div className='rounded-full  top-[8px] w-6 h-6 flex justify-center items-center absolute right-0 bg-blue-600 text-white'>
                             <ModalLeft numero={chat.numberw}/>
+                         
                         </div>
+
+                        <ModalMensajeUser/>
+                        <span className='absolute right-0 bottom-0 text-[11px] font-semibold text-gray-500'>{chat.fecha}</span>
+
 
                         {/* Formatea la fecha utilizando JavaScript puro */}
                         <span className='absolute right-0 bg-blue-200 p-0.5 rounded-lg bottom-0 text-[11px] px-1 font-semibold text-black'>
                             {formatDate(chat.fecha)}
                         </span>
+
                         <div className='border-b w-full h-1 absolute -bottom-1 -z-10'></div>
                     </div>
                 ))}

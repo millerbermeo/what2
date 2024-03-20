@@ -9,9 +9,11 @@ const Sidebar = ({ mostrar, ocultar }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isChatOpen2, setIsChatOpen2] = useState(false);
+  const [isChatOpen22, setIsChatOpen22] = useState(false);
 
-  const [isDown, setIsDown] = useState(false);
+  const [isDown, setIsDown] = useState(false);https://github.com/millerbermeo/what2/pull/3/conflict?name=src%252Fcomponents%252FSidebar.jsx&ancestor_oid=7596f96a89356c9b02b3e05569d16a16efde1922&base_oid=4b63173b06a43a10ee4396ca19a5f766d4c91ef7&head_oid=b225140c4c82f27bf84e9661caedc85ce99884bf
   const [isDown2, setIsDown2] = useState(false);
+  const [isDown22, setIsDown22] = useState(false);
   const [isDown3, setIsDown3] = useState("240px");
   const [isDown4, setIsDown4] = useState(true);
 
@@ -45,9 +47,16 @@ const Sidebar = ({ mostrar, ocultar }) => {
 
   };
 
+  const toggleChatMenu22 = () => {
+
+    setIsChatOpen22(!isChatOpen22);
+    setIsDown22(!isDown22);
+
+  };
+
   const user = JSON.parse(sessionStorage.getItem('user'));
   const user2 = JSON.parse(sessionStorage.getItem('user2'));
-  
+
 
 
   // f1f3f4
@@ -109,6 +118,9 @@ const Sidebar = ({ mostrar, ocultar }) => {
                     <li className='flex items-center gap-2'><i className="fas fa-circle text-[6px]"></i> Reportes</li> */}
                   </ul>
                 </div>
+
+
+
                 <div
                   className="flex justify-start items-center gap-5 cursor-pointer hover:text-black"
                   onClick={toggleChatMenu2}
@@ -129,6 +141,8 @@ const Sidebar = ({ mostrar, ocultar }) => {
                   style={{ height: isChatOpen2 ? '130px' : '0' }}
                 >
                   <ul className="p-2 pl-12">
+
+
                   <Link to="/plantilla">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Saludo</li>
                     </Link>
@@ -143,10 +157,51 @@ const Sidebar = ({ mostrar, ocultar }) => {
                     </Link>
                     <Link to="/send">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Envío Masivo</li>
+
                     </Link>
-                  
+
                   </ul>
                 </div>
+
+
+                <div
+                  className={`flex justify-start items-center gap-5 cursor-pointer hover:text-black ${user ? 'hidden' : 'flex'}`}
+                  onClick={toggleChatMenu22}
+                ><div className="text-xl fa-solid bg-black text-white rounded-full w-[35px] h-[35px] flex justify-center items-center">
+                    <FontAwesomeIcon icon={faGear} />
+                  </div>
+
+
+                  <li className='flex w-[150px] justify-between'>
+                    <p className='text-lg'>
+                      Reportes
+                    </p>
+                    <FontAwesomeIcon icon={isDown22 ? faChevronDown : faChevronRight} className='' />
+                  </li>
+                </div>
+                <div
+                  className="sub-menu overflow-hidden duration-300"
+                  style={{ height: isChatOpen22 ? '110px' : '0' }}
+                >
+                  <ul className="p-2 pl-12">
+                    <Link to="/reporte_chats">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reportes Chats</li>
+                    </Link>
+                    <Link to="/reporte_agente">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte General</li>
+                    </Link>
+                    <Link to="/listar_plantillas">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte por Agente</li>
+                    </Link>
+                    <Link to="/campanas">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte po Numero</li>
+                    </Link>
+
+                  </ul>
+                </div>
+
+
+
                 <Link to="/perfil">
                   <div className="flex justify-start items-center gap-5 cursor-pointer hover:text-black">
 
