@@ -6,7 +6,7 @@ import Logout2 from '../../components/modals/Logout2';
 import axios from 'axios';
 import baseURL from '../../components/BaseUrl';
 
-function ReportesAgente() {
+function ReportesChatsBot() {
     const [data, setData] = useState([]);
     const fecha1 = useRef();
     const fecha2 = useRef();
@@ -21,9 +21,9 @@ function ReportesAgente() {
             const formData = new FormData();
             formData.append('fecha_inicio', fecha1.current.value);
             formData.append('fecha_fin', fecha2.current.value);
-            formData.append('number_a', user.number_a);
+            formData.append('status', agente.current.value);
 
-            const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_agente.php`, formData);
+            const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_chats.php`, formData);
             setData(response.data);
             console.log(response.data)
         } catch (error) {
@@ -66,15 +66,14 @@ function ReportesAgente() {
                                 <label>Fecha Final</label>
                                 <input type="text" ref={fecha2} placeholder="Fecha final" className="px-3 py-2 border border-gray-300 rounded-lg" />
                             </div>
-                            {/* <div className='flex gap-2 items-center'>
+                            <div className='flex gap-2 items-center'>
                                 <label htmlFor="agentSelect" className="mr-2">Agente</label>
                                 <select id="agentSelect" ref={agente} className="px-3 py-2 border border-gray-300 rounded-lg">
                                     <option value="">Selecciona un agente</option>
-                                    <option value="Agente">Agente 1</option>
-                                    <option value="Bot">Agente 2</option>
-                                    <option value="agente3">Agente 3</option>                            
+                                    <option value="Agente">Agente</option>
+                                    <option value="Bot">Bot</option>                        
                                 </select>
-                            </div> */}
+                            </div>
                             <button onClick={fetchData} className="px-4 py-2 bg-blue-500 text-white rounded-lg">Enviar</button>
                         </div>
                     </div>
@@ -157,4 +156,4 @@ function ReportesAgente() {
   )
 }
 
-export default ReportesAgente;
+export default ReportesChatsBot

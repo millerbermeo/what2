@@ -190,7 +190,7 @@ const Sidebar = ({ mostrar, ocultar }) => {
                     <Link to="/reporte_agente">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte General</li>
                     </Link>
-                    <Link to="/listar_plantillas">
+                    <Link to="/reporte_chat_bot">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte por Agente</li>
                     </Link>
                     <Link to="/campanas">
