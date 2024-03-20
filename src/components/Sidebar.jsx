@@ -11,7 +11,7 @@ const Sidebar = ({ mostrar, ocultar }) => {
   const [isChatOpen2, setIsChatOpen2] = useState(false);
   const [isChatOpen22, setIsChatOpen22] = useState(false);
 
-  const [isDown, setIsDown] = useState(false);https://github.com/millerbermeo/what2/pull/3/conflict?name=src%252Fcomponents%252FSidebar.jsx&ancestor_oid=7596f96a89356c9b02b3e05569d16a16efde1922&base_oid=4b63173b06a43a10ee4396ca19a5f766d4c91ef7&head_oid=b225140c4c82f27bf84e9661caedc85ce99884bf
+  const [isDown, setIsDown] = useState(false)
   const [isDown2, setIsDown2] = useState(false);
   const [isDown22, setIsDown22] = useState(false);
   const [isDown3, setIsDown3] = useState("240px");
