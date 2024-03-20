@@ -1,5 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import Loader from './components/Loader';
 
 
 // Importa los componentes de forma diferida
@@ -21,6 +22,15 @@ function App() {
   const user = JSON.parse(sessionStorage.getItem('user'));
   const user2 = JSON.parse(sessionStorage.getItem('user2'));
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simular una tarea asíncrona
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+
   const PrivateRoute = ({ element, path }) => {
     if (user && user.type === 'agente') {
       return element;
@@ -32,7 +42,13 @@ function App() {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>
+
+<div className="flex justify-center w-full items-center h-screen">
+      {loading ? <Loader /> : <div>Cargando...</div>}
+    </div>
+
+    </div>}>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<PrivateRoute element={<Home />} />} />

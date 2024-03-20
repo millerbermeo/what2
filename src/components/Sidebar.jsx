@@ -11,7 +11,7 @@ const Sidebar = ({ mostrar, ocultar }) => {
   const [isChatOpen2, setIsChatOpen2] = useState(false);
   const [isChatOpen22, setIsChatOpen22] = useState(false);
 
-  const [isDown, setIsDown] = useState(false);
+  const [isDown, setIsDown] = useState(false);https://github.com/millerbermeo/what2/pull/3/conflict?name=src%252Fcomponents%252FSidebar.jsx&ancestor_oid=7596f96a89356c9b02b3e05569d16a16efde1922&base_oid=4b63173b06a43a10ee4396ca19a5f766d4c91ef7&head_oid=b225140c4c82f27bf84e9661caedc85ce99884bf
   const [isDown2, setIsDown2] = useState(false);
   const [isDown22, setIsDown22] = useState(false);
   const [isDown3, setIsDown3] = useState("240px");
@@ -141,20 +141,23 @@ const Sidebar = ({ mostrar, ocultar }) => {
                   style={{ height: isChatOpen2 ? '130px' : '0' }}
                 >
                   <ul className="p-2 pl-12">
-                    <Link to="/plantilla">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla Saludo</li>
+
+
+                  <Link to="/plantilla">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Saludo</li>
                     </Link>
-                    <Link to="/reporte_agente">
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Plantilla Masiva</li>
+                    <Link to="/mensajes">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Crear Masivo</li>
                     </Link>
-                    <Link>
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Plantillas</li>
+                    <Link to="/listar_plantillas">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Administrar Plantillas</li>
                     </Link>
-                    <Link>
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Listar Campaña</li>
+                    <Link to="/campanas">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Historial Masivos</li>
                     </Link>
-                    <Link>
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Enviar Campaña</li>
+                    <Link to="/send">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Envío Masivo</li>
+
                     </Link>
 
                   </ul>
