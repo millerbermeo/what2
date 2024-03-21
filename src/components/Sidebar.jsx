@@ -184,17 +184,17 @@ const Sidebar = ({ mostrar, ocultar }) => {
                   style={{ height: isChatOpen22 ? '110px' : '0' }}
                 >
                   <ul className="p-2 pl-12">
-                    <Link to="/reporte_chats">
+                    <Link to="/reporte_chat_bot">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reportes Chats</li>
                     </Link>
-                    <Link to="/reporte_agente">
+                    {/* <Link to="/">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte General</li>
-                    </Link>
-                    <Link to="/reporte_chat_bot">
+                    </Link> */}
+                    <Link to="/reporte_agente">
                       <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte por Agente</li>
                     </Link>
-                    <Link>
-                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte po Numero</li>
+                    <Link to="/reporte_chats">
+                      <li className='flex items-center gap-2 hover:text-gray-900 hover:font-semibold duration-500 ease-out'><i className="fas fa-circle text-[6px]"></i>Reporte por Número</li>
                     </Link>
 
                   </ul>

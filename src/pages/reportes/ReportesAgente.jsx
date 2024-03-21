@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 
 const ReportesAgente = () => {
     const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 4;
     const fecha1 = useRef();
@@ -19,6 +20,21 @@ const ReportesAgente = () => {
     const user = JSON.parse(sessionStorage.getItem('user2'));
     console.log(user)
     console.log(user.number_a)
+
+    const fetchDta2 = async () => {
+        try {
+            const resultado = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_agentes.php`);
+            setData2(resultado.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchDta2();
+    }, []);
+
 
     const fetchData = async () => {
         try {
@@ -35,9 +51,9 @@ const ReportesAgente = () => {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -90,6 +106,14 @@ const ReportesAgente = () => {
                                 <label>Fecha Final</label>
                                 <input type="text" ref={fecha2} placeholder="20240315" className="px-3 py-2 border border-gray-300 rounded-lg" />
                             </div>
+                            <div>
+                                <select className='px-3 py-2 border border-gray-300 rounded-lg' ref={agente} onChange={(e) => setSelectedItem(e.target.value)}>
+                                    <option value="">Selecciona un Agente</option>
+                                    {data2.map((item, index) => (
+                                        <option key={index} value={item.number_a}>{item.name}</option>
+                                    ))}
+                                </select>
+                            </div>
                             <button onClick={fetchData} className="px-4 py-2 bg-blue-500 text-white rounded-lg">Enviar</button>
                         </div>
                     </div>
@@ -125,13 +149,13 @@ const ReportesAgente = () => {
                     </div>
 
                     <div className="overflow-x-auto rounded-lg overflow-hidden my-2">
-    <button onClick={downloadCSV} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
-        <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-        </svg>
-        <span>Download CSV</span>
-    </button>
-</div>
+                        <button onClick={downloadCSV} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                            <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                            </svg>
+                            <span>Download CSV</span>
+                        </button>
+                    </div>
 
                     <div className="overflow-x-auto border rounded-lg overflow-hidden">
                         <table className="min-w-full divide-y divide-gray-200">
@@ -167,63 +191,62 @@ const ReportesAgente = () => {
                             </tbody>
                         </table>
                         <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-              <div className="flex-1 flex justify-between sm:hidden">
-                <button
-                  onClick={() => paginate(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg
+                            <div className="flex-1 flex justify-between sm:hidden">
+                                <button
+                                    onClick={() => paginate(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg
                   {currentPage === 1 ? 'pointer-events-none opacity-50' : ''}"
-                  >
-                    Anterior
-                  </button>
-                  <button
-                    onClick={() => paginate(currentPage + 1)}
-                    disabled={currentItems.length < itemsPerPage}
-                    className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 ${indexOfLastItem >= (data.table ? data.table.length : 0) ? 'pointer-events-none opacity-50' : ''}`}
-                  >
-                    Siguiente
-                  </button>
-                </div>
-                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-sm text-gray-700">
-                      Mostrando
-                      <span className="font-medium">{` ${indexOfFirstItem + 1}`}</span>
-                      a
-                      <span className="font-medium">{` ${Math.min(indexOfLastItem, data.table ? data.table.length : 0)}`}</span>
-                      de
-                      <span className="font-medium">{` ${data.table ? data.table.length : 0}`}</span>
-                      resultados
-                    </p>
-                  </div>
-                  <div>
-                    <nav className="relative z-0  rounded-md flex gap-2 shadow-sm -space-x-px" aria-label="Pagination">
-                      <button
-                        onClick={() => paginate(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${currentPage === 1 ? 'pointer-events-none opacity-50' : ''}`}
-                      >
-                        <span className="">Anterior</span>
-                       
-                      </button>
-                      <button
-                        onClick={() => paginate(currentPage + 1)}
-                        disabled={indexOfLastItem >= (data.table ? data.table.length : 0)}
-                        className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${indexOfLastItem >= (data.table ? data.table.length : 0) ? 'pointer-events-none opacity-50' : ''}`}
-                      >
-                        <span className="">Siguiente</span>
-                    
-                      </button>
-                    </nav>
-                  </div>
-                </div>
-              </div>
+                                >
+                                    Anterior
+                                </button>
+                                <button
+                                    onClick={() => paginate(currentPage + 1)}
+                                    disabled={currentItems.length < itemsPerPage}
+                                    className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 ${indexOfLastItem >= (data.table ? data.table.length : 0) ? 'pointer-events-none opacity-50' : ''}`}
+                                >
+                                    Siguiente
+                                </button>
+                            </div>
+                            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-700">
+                                        Mostrando
+                                        <span className="font-medium">{` ${indexOfFirstItem + 1}`}</span>
+                                        a
+                                        <span className="font-medium">{` ${Math.min(indexOfLastItem, data.table ? data.table.length : 0)}`}</span>
+                                        de
+                                        <span className="font-medium">{` ${data.table ? data.table.length : 0}`}</span>
+                                        resultados
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav className="relative z-0  rounded-md flex gap-2 shadow-sm -space-x-px" aria-label="Pagination">
+                                        <button
+                                            onClick={() => paginate(currentPage - 1)}
+                                            disabled={currentPage === 1}
+                                            className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${currentPage === 1 ? 'pointer-events-none opacity-50' : ''}`}
+                                        >
+                                            <span className="">Anterior</span>
+
+                                        </button>
+                                        <button
+                                            onClick={() => paginate(currentPage + 1)}
+                                            disabled={indexOfLastItem >= (data.table ? data.table.length : 0)}
+                                            className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${indexOfLastItem >= (data.table ? data.table.length : 0) ? 'pointer-events-none opacity-50' : ''}`}
+                                        >
+                                            <span className="">Siguiente</span>
+
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
             </div>
-          </main>
-        </div>
-    </>
-  );
-  };
-  
-  export default ReportesAgente;
-  
+        </>
+    );
+};
+
+export default ReportesAgente;

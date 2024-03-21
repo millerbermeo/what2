@@ -53,16 +53,16 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   };
 
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'src/components/chatss/app.js'; // Reemplaza esto con la ruta correcta hacia tu archivo app.js
-    script.async = true;
-    document.body.appendChild(script);
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.src = 'src/components/chatss/app.js'; // Reemplaza esto con la ruta correcta hacia tu archivo app.js
+  //   script.async = true;
+  //   document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
   // console.log("----------------");
   // console.log(nameSeleccionado);

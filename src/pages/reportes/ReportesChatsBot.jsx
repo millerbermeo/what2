@@ -34,9 +34,9 @@ function ReportesChatsBot() {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -76,7 +76,7 @@ function ReportesChatsBot() {
                     </div>
 
                     <div className='flex px-2 items-start flex-col gap-8 flex-wrap lg:flex-nowrap 2xl:gap-10 mt-5 2xl:px-10 py-5 bg-gray-100 mb-5 rounded-lg '>
-                        <h1 className='text-3xl font-medium'>Reporte Agente</h1>
+                        <h1 className='text-3xl font-medium'>Reporte Chats</h1>
                         <div className="flex gap-4">
                             <div className='flex gap-2 items-center'>
                                 <label>Fecha Inicio</label>
