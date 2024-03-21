@@ -65,7 +65,7 @@ function ChatsNoRespondidos() {
                         <div className='rounded-full  top-[8px] w-6 h-6 flex justify-center items-center absolute right-0 bg-blue-600 text-white'>
                             <ModalLeft numero={chat.numberw}/>
                         </div>
-                        <ModalMensajeUser/>
+                        <ModalMensajeUser numeroSeleccionado={chat.numberw}/>
                         {/* <span className='absolute right-0 bottom-0 text-[11px] font-semibold text-gray-500'>{chat.fecha}</span> */}
 
                         {/* Formatea la fecha utilizando JavaScript puro */}
