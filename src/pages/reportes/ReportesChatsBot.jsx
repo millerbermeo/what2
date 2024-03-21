@@ -164,9 +164,9 @@ function ReportesChatsBot() {
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Mensaje
                                     </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Tipo
-                                    </th>
+                                    </th> */}
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Fecha
                                     </th>
@@ -178,7 +178,7 @@ function ReportesChatsBot() {
                     <td className="px-6 py-4 whitespace-nowrap">{item.Id}</td> 
                     <td className="px-6 py-4 whitespace-nowrap">{item.Whatsapp}</td> 
                     <td className="px-6 py-4 whitespace-wrap">{item.Mensaje}</td> 
-                    <td className="px-6 py-4 whitespace-nowrap">{item.Tipo}</td> 
+                    {/* <td className="px-6 py-4 whitespace-nowrap">{item.Tipo}</td>  */}
                     <td className="px-6 py-4 whitespace-nowrap">{item.Fecha}</td> 
                   </tr>
                 ))}
