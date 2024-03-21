@@ -27,15 +27,15 @@ function ModalChat() {
 
   const fetchDta = async () => {
     axios.get(`${baseURL}/chat_business2/Dashboard/Dashboard/api_plantillas_saludo.php`)
-    .then(response => {
-      // Actualiza el estado con las opciones del select
-      setOptions(response.data);
-      console.log(response.data)
-    })
-    .catch(error => {
-      // Maneja errores aquí
-      console.error('Error al realizar la solicitud:', error);
-    });
+      .then(response => {
+        // Actualiza el estado con las opciones del select
+        setOptions(response.data);
+        console.log(response.data)
+      })
+      .catch(error => {
+        // Maneja errores aquí
+        console.error('Error al realizar la solicitud:', error);
+      });
   }
 
 
@@ -78,7 +78,7 @@ function ModalChat() {
     axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_send_tamplate_s.php`, formData)
       .then(response => {
         // Maneja la respuesta del servidor aquí
-        console.log("hola",response.data);
+        console.log("hola", response.data);
       })
       .catch(error => {
         // Maneja errores aquí
@@ -186,10 +186,21 @@ function ModalChat() {
                 </div>
 
                 <div className='my-3 shadow p-2 bg-gray-100 flex justify-center items-center'>
-               
+  {selectedTemplateContent2 && selectedTemplateContent2.trim() !== "" && (
+    <>
+      {selectedTemplateContent2.match(/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i) ? (
+        // Si es una imagen, muestra la etiqueta img
+        <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
+      ) : (
+        // Si es un documento, muestra el enlace
+        <a target='_blank' className='bg-blue-400 w-full flex justify-center p-2 rounded-sm text-white font-semibold' href={selectedTemplateContent2}>Documento</a>
+      )}
+    </>
+  )}
+</div>
 
-                  <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
-                </div>
+
+
 
                 {/* Botón de envío */}
                 <div className='flex gap-2 justify-end'>

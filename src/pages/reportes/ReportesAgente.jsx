@@ -84,11 +84,11 @@ const ReportesAgente = () => {
                         <div className="flex gap-4">
                             <div className='flex gap-2 items-center'>
                                 <label>Fecha Inicio</label>
-                                <input type="text" ref={fecha1} placeholder="Fecha inicial" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                                <input type="text" ref={fecha1} placeholder="20240301" className="px-3 py-2 border border-gray-300 rounded-lg" />
                             </div>
                             <div className='flex gap-2 items-center'>
                                 <label>Fecha Final</label>
-                                <input type="text" ref={fecha2} placeholder="Fecha final" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                                <input type="text" ref={fecha2} placeholder="20240315" className="px-3 py-2 border border-gray-300 rounded-lg" />
                             </div>
                             <button onClick={fetchData} className="px-4 py-2 bg-blue-500 text-white rounded-lg">Enviar</button>
                         </div>
@@ -124,7 +124,7 @@ const ReportesAgente = () => {
                         </table>
                     </div>
 
-                    <div className="overflow-x-auto border rounded-lg overflow-hidden">
+                    <div className="overflow-x-auto rounded-lg overflow-hidden my-2">
     <button onClick={downloadCSV} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
         <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
@@ -197,26 +197,22 @@ const ReportesAgente = () => {
                     </p>
                   </div>
                   <div>
-                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <nav className="relative z-0  rounded-md flex gap-2 shadow-sm -space-x-px" aria-label="Pagination">
                       <button
                         onClick={() => paginate(currentPage - 1)}
                         disabled={currentPage === 1}
                         className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${currentPage === 1 ? 'pointer-events-none opacity-50' : ''}`}
                       >
-                        <span className="sr-only">Anterior</span>
-                        <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fillRule="evenodd" d="M9.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H4a1 1 0 110-2h8.586l-3.293-3.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
+                        <span className="">Anterior</span>
+                       
                       </button>
                       <button
                         onClick={() => paginate(currentPage + 1)}
                         disabled={indexOfLastItem >= (data.table ? data.table.length : 0)}
                         className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${indexOfLastItem >= (data.table ? data.table.length : 0) ? 'pointer-events-none opacity-50' : ''}`}
                       >
-                        <span className="sr-only">Siguiente</span>
-                        <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fillRule="evenodd" d="M10.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L7.586 12H16a1 1 0 110 2H7.586l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L10.707 14.707z" clipRule="evenodd" />
-                        </svg>
+                        <span className="">Siguiente</span>
+                    
                       </button>
                     </nav>
                   </div>

@@ -755,9 +755,18 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
                   <div className='my-3 shadow p-2 bg-gray-100 flex justify-center items-center'>
 
-
-                    <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
-                  </div>
+                  {selectedTemplateContent2 && selectedTemplateContent2.trim() !== "" && (
+    <>
+      {selectedTemplateContent2.match(/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i) ? (
+        // Si es una imagen, muestra la etiqueta img
+        <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
+      ) : (
+        // Si es un documento, muestra el enlace
+        <a target='_blank' className='bg-blue-400 w-full flex justify-center p-2 rounded-sm text-white font-semibold' href={selectedTemplateContent2}>Documento</a>
+      )}
+    </>
+  )}
+</div>
 
                   <div className='flex gap-2 justify-end'>
                     <button
