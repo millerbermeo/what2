@@ -40,14 +40,16 @@ const ReportesAgente = () => {
         fetchDta2();
     }, []);
 
+   
 
     const fetchData = async () => {
         try {
             const formData = new FormData();
             formData.append('fecha_inicio', fecha1.current.value);
             formData.append('fecha_fin', fecha2.current.value);
-            formData.append('number_a', agente);
+            formData.append('number_a', agente.current.value);
 
+            console.log("hola mundoxxxxxxxxxxxxxxxxxxxxxxxxxxx",agente.current.value)
             const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_agente.php`, formData);
             setData(response.data);
             console.log(response.data)
