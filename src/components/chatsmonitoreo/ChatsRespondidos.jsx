@@ -34,7 +34,7 @@ function ChatsRespondidos() {
 
             <div className='w-full px-2 2xl:px-5 pt-2 h-[100%] overflow-y-auto custom-scrollbar3 pb-14'>
                 {data.map((chat) => (
-                    <div key={chat.id} className='flex relative items-center justify-between h-20 pt-2'>
+                    <div key={chat.id} className='flex relative items-start justify-between h-24 pt-2'>
                         <div className='flex items-start gap-3'>
                             <span className='text-4xl text-gray-900 hidden 2xl:flex'>
                                 <FontAwesomeIcon icon={faCircleUser} />
@@ -48,7 +48,11 @@ function ChatsRespondidos() {
                         <div className='rounded-full top-[8px] w-6 h-6 flex justify-center items-center absolute right-0 bg-blue-600 text-white'>
                             <ModalLeft numero={chat.numberw} />
                         </div>
+
                         <span className='absolute right-0 bottom-0 text-[11px] font-semibold text-gray-500'>{chat.fecha}</span>
+                        <span className='absolute right-[100px] bg-blue-200 p-0.5 rounded-lg bottom-0 text-[11px] px-1 font-semibold text-black'>
+    {chat.agente ? chat.agente.split(' ')[0] : ''}
+</span>
                         <div className='border-b w-full h-1 absolute -bottom-1 -z-10'></div>
                     </div>
                 ))}

@@ -30,7 +30,7 @@ function ListarPlantillas2() {
         fetchData();
     }, []);
 
-    
+
     const toggleExpand = (index) => {
         // Crear una copia del estado de expansión
         const newExpandedNumbers = [...expandedNumbers];
@@ -66,94 +66,98 @@ function ListarPlantillas2() {
 
 
 
-  
+
 
 
 
     return (
         <div>
-  
-                    <div className='flex justify-start flex-col mt-10 px-2 lg:px-0 lg:pr-5'>
-                        <h2 className='font-semibold text-2xl text-gray-900 text-center'>Plantillas Saludo</h2>
-                        <div className='flex justify-start 2xl:ml-36 gap-2 mt-10'>
-                            <div className='flex gap-2'>
-                                <input
-                                    type="text"
-                                    placeholder="Buscar..."
-                                    className="px-2 py-1 border outline-none rounded mb-2"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                                <input type="number" value={inputValue} onChange={handleInputOnchange} className='w-14 h-[34px] mx-auto pl-4 border rounded outline-none border-gray-600' />
 
-                            </div>
-                            {/* <Link to="/send">
+            <div className='flex justify-start flex-col mt-10 px-2 lg:px-0 lg:pr-5'>
+                <h2 className='font-semibold text-2xl text-gray-900 text-center'>Plantillas Saludo</h2>
+                <div className='flex justify-start 2xl:ml-36 gap-2 mt-10'>
+                    <div className='flex gap-2'>
+                        <input
+                            type="text"
+                            placeholder="Buscar..."
+                            className="px-2 py-1 border outline-none rounded mb-2"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <select id="options" name="options" value={inputValue} onChange={handleInputOnchange} className="block h-8 w-20 bg-white border border-gray-400 hover:border-gray-500  rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    {/* <Link to="/send">
                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded">
                                     Crear
                                 </button>
                             </Link> */}
 
-                        </div>
+                </div>
 
-                        <div className="container mx-auto mt-2 overflow-x-auto">
-                            <table className="min-w-full bg-gray-700 rounded-lg">
-                                <thead className="text-white">
-                                    <tr>
-                                        <th className="py-3 px-4 border-r text-left">ID</th>
-                                        <th className="py-3 px-4 border-r text-left">Nombre</th>
-                                        <th className="py-3 px-4 border-r text-left">Contenido</th>
-                                        <th className="py-3 px-4 border-r text-left">Url</th>
-                                        <th className="py-3 px-4 border-r text-left">tipo</th>
-                                        {/* <th className="py-3 px-4 text-left">estado</th> */}
-                                        <th className="py-3 px-4 text-left">Acciones</th>   
+                <div className="container mx-auto mt-2 overflow-x-auto">
+                    <table className="min-w-full bg-gray-700 rounded-lg">
+                        <thead className="text-white">
+                            <tr>
+                                <th className="py-3 px-4 border-r text-left">ID</th>
+                                <th className="py-3 px-4 border-r text-left">Nombre</th>
+                                <th className="py-3 px-4 border-r text-left">Contenido</th>
+                                <th className="py-3 px-4 border-r text-left">Url</th>
+                                <th className="py-3 px-4 border-r text-left">tipo</th>
+                                {/* <th className="py-3 px-4 text-left">estado</th> */}
+                                <th className="py-3 px-4 text-left">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody className='border'>
+                            {paginatedCampanas.map((campana, index) => (
+                                <React.Fragment key={campana.id}>
+                                    <tr className={`border border-b ${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-300'}`}>
+                                        <td className="py-3 font-bold px-4">{campana.id}</td>
+                                        <td className="py-3 px-4">{campana.nombre}</td>
+                                        <td className="px-4">
+                                            {campana.contenido}
+                                        </td>
+
+                                        <td className="py-3 px-4 break-all flex-wrap"><a href={campana.url}>{campana.url}</a></td>
+                                        <td className="py-3 px-4">{campana.tipo}</td>
+                                        {/* <td className="py-3 px-4">{campana.estado}</td> */}
+                                        <td className="py-3 px-4 text-center">
+                                            {campana.estado === '1' && <EliminarSaludos id={campana.id} fetchData={fetchData} />}
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody className='border'>
-                                    {paginatedCampanas.map((campana, index) => (
-                                        <React.Fragment key={campana.id}>
-                                            <tr className={`border border-b ${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-300'}`}>
-                                                <td className="py-3 font-bold px-4">{campana.id}</td>
-                                                <td className="py-3 px-4">{campana.nombre}</td>
-                                                <td className="px-4">
-                                                    {campana.contenido}
-                                                </td>
-
-                                                <td className="py-3 px-4"><a href={campana.url}>{campana.url}</a></td>
-                                                <td className="py-3 px-4">{campana.tipo}</td>
-                                                {/* <td className="py-3 px-4">{campana.estado}</td> */}
-                                                <td className="py-3 px-4 text-center">
-                                                    {campana.estado === '1' && <EliminarSaludos id={campana.id}  fetchData={fetchData}/>}
-                                                </td>
-                                            </tr>
-                                        </React.Fragment>
-                                    ))}
-                                </tbody>
-                            </table>
+                                </React.Fragment>
+                            ))}
+                        </tbody>
+                    </table>
 
 
 
 
-                        </div>
+                </div>
 
-                        <div className="flex justify-center w-full lg:justify-end gap-2 mt-4 2xl:pr-36">
-                            <button
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 1}
-                                className="bg-gray-300 cursor-pointer hover:bg-gray-400 hover:text-white text-gray-800 font-bold py-2 px-4 rounded-l"
-                            >
-                                Anterior
-                            </button>
+                <div className="flex justify-center w-full lg:justify-end gap-2 mt-4 2xl:pr-36">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="bg-gray-300 cursor-pointer hover:bg-gray-400 hover:text-white text-gray-800 font-bold py-2 px-4 rounded-l"
+                    >
+                        Anterior
+                    </button>
 
 
-                            <button
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                disabled={currentPage === totalPages}
-                                className="bg-gray-300 cursor-pointer hover:bg-gray-400 hover:text-white text-gray-800 font-bold py-2 px-4 rounded-r"
-                            >
-                                Siguiente
-                            </button>
-                        </div>
-                    </div>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="bg-gray-300 cursor-pointer hover:bg-gray-400 hover:text-white text-gray-800 font-bold py-2 px-4 rounded-r"
+                    >
+                        Siguiente
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }

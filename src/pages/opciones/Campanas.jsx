@@ -93,7 +93,15 @@ function Campanas() {
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
-                                <input type="number" value={inputValue} onChange={handleInputOnchange} className='w-14 h-[34px] mx-auto pl-4 border rounded outline-none border-gray-600' />
+
+                                <select id="options" name="options" value={inputValue} onChange={handleInputOnchange} className="block h-8 w-20 bg-white border border-gray-400 hover:border-gray-500  rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+
+
                                 <Link to="/send">
                                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-[33px] px-4 rounded">
                                         Crear
