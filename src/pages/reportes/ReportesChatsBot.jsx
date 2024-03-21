@@ -87,9 +87,9 @@ function ReportesChatsBot() {
                                 <input type="text" ref={fecha2} placeholder="20240319" className="px-3 py-2 border border-gray-300 rounded-lg" />
                             </div>
                             <div className='flex gap-2 items-center'>
-                                <label htmlFor="agentSelect" className="mr-2">Agente</label>
+                                <label htmlFor="agentSelect" className="mr-2">Tipo</label>
                                 <select id="agentSelect" ref={agente} className="px-3 py-2 border border-gray-300 rounded-lg">
-                                    <option value="">Selecciona un agente</option>
+                                    <option value="">Selecciona un Tipo</option>
                                     <option value="Agente">Agente</option>
                                     <option value="Bot">Bot</option>                        
                                 </select>
