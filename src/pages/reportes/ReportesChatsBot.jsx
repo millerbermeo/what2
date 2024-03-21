@@ -10,7 +10,12 @@ import { saveAs } from 'file-saver';
 function ReportesChatsBot() {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 4;
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+
+    const handleItemsPerPageChange = (e) => {
+      setItemsPerPage(parseInt(e.target.value)); // Parse the selected value to integer
+      setCurrentPage(1); // Reset currentPage to 1 when changing items per page
+    };
     const fecha1 = useRef();
     const fecha2 = useRef();
     const agente = useRef();
@@ -128,7 +133,8 @@ function ReportesChatsBot() {
                         </table>
                     </div>
 
-                    <div className="overflow-x-auto rounded-lg overflow-hidden my-2">
+                    <div className='flex gap-4 items-center'>
+   <div className="overflow-x-auto rounded-lg overflow-hidden my-2">
             <button onClick={downloadCSV} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
               <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
@@ -136,6 +142,15 @@ function ReportesChatsBot() {
               <span>Download CSV</span>
             </button>
           </div>
+
+
+          <select id="options" name="options" value={itemsPerPage} onChange={handleItemsPerPageChange} className="block h-8 w-20 bg-white border border-gray-400 hover:border-gray-500  rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+        </select>
+   </div>
                     <div className="overflow-x-auto border rounded-lg overflow-hidden">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
