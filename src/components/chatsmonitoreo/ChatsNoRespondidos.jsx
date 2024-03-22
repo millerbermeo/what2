@@ -59,7 +59,7 @@ function ChatsNoRespondidos() {
 
                                 <h4 className='font-semibold'>{chat.name ? chat.name : chat.numberw}</h4>
 
-                                <p className='text-sm 2xl:text-base h-10 2xl:h-12  overflow-hidden text-gray-500 break-all mb-1'>{chat.men ? chat.men : 'No hay mensaje'}</p>
+                                <p className='text-sm w-72 2xl:text-base h-10 2xl:h-12  overflow-hidden text-gray-500 break-all mb-1'>{chat.men ? chat.men : 'No hay mensaje'}</p>
                             </div>
                         </div>
                         <div className='rounded-full  top-[8px] w-6 h-6 flex justify-center items-center absolute right-0 bg-blue-600 text-white'>
