@@ -49,6 +49,8 @@ function ChatsRespondidos() {
                             <ModalLeft numero={chat.numberw} />
                         </div>
 
+                        
+
                         <span className='absolute right-0 bottom-0 text-[11px] font-semibold text-gray-500'>{chat.fecha}</span>
                         <span className='absolute right-[100px] bg-blue-200 p-0.5 rounded-lg bottom-0 text-[11px] px-1 font-semibold text-black'>
     {chat.agente ? chat.agente.split(' ')[0] : ''}

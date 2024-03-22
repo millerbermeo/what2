@@ -76,7 +76,7 @@ const ModalMensajeUser = ({ numeroSeleccionado }) => {
           <div className="modal-content bg-white w-[700px] rounded-lg p-8 m-auto my-32">
             <span className="close absolute top-0 right-0 p-4" onClick={() => setShowModal(false)}>&times;</span>
             <button className="close-btn bg-gray-200  -translate-y-5 w-8 h-8  rounded-full p-1" onClick={() => setShowModal(false)}><FontAwesomeIcon icon={faXmark} /></button>
-            <div className="message-container max-h-64 overflow-y-auto overflow-x-hidden flex flex-col gap-y-5">
+            <div className="message-container max-h-64 overflow-y-auto text-base overflow-x-hidden flex flex-col gap-y-5">
               {data.map((message, index) => (
                 <div key={message.id} ref={index === data.length - 1 ? lastMessageRef : null} className={`message break-all flex-wrap p-2 w-44 rounded-lg ${message.position === 'left' ? 'bg-gray-200 self-start' : 'bg-blue-200 self-end'}`}>
                   {message.men}
