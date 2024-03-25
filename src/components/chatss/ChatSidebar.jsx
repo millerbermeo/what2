@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import ModalChat from '../modals/ModalChat';
 import ModalAgenda from '../modals/ModalAgenda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRobot, faFlag } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeXmark, faFlag, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import ModalLeft from '../modals/ModalLeft';
 import ModalName from '../modals/ModalName';
 import ModalBot from '../modals/ModalBot';
@@ -34,7 +34,11 @@ const ChatSidebar = ({ onClicEnDiv }) => {
     const [mostrar, setMostrar] = useState(true)
     const [filtroActivo, setFiltroActivo] = useState('filtro1'); // Estado para el filtro activo
     const [filtroNoLeidos, setFiltroNoLeidos] = useState(false);
+    const [estadoReproduccion, setEstadoReproduccion] = useState(true);
 
+    const toggleEstadoReproduccion = () => {
+        setEstadoReproduccion(!estadoReproduccion);
+    };
 
     const handleDivClick = () => {
         // Actualiza el estilo del div al hacer clic
@@ -135,9 +139,10 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                 if (uniqueNewMessages.length > 0) {
 
                     let b1Value = uniqueNewMessages[0].b1;
+                    // console.log(estadoReproduccion)
+                    // console.log("--------------------------------")
 
-
-                    if (b1Value === "1") {
+                    if (b1Value === "1" && estadoReproduccion === true) {
                         newMessageSoundRef.current.play();
                     }
 
@@ -246,7 +251,13 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
     return (
         <>
+
+
             <div style={divStyle} className="w-full lg:w-[680px] h-screen lg:h-[95vh] lg:z-10 bg-gray-200 mb-96 md:mb-0  border-r flex flex-col items-center border-gray-300 shadow-lg p-3">
+                <button className='absolute top-6 right-28 md:right-[5%] 2xl:right-[3.5%] text-2xl' onClick={toggleEstadoReproduccion}>
+                    {estadoReproduccion ? <FontAwesomeIcon icon={faVolumeHigh} /> : <FontAwesomeIcon icon={faVolumeXmark} />}
+                </button>
+
                 <div className='flex justify-start 2xl:justify-center gap-[20px] items-center w-full md:-z-10'>
                     <div className='w-[45px]'>
                         <img className='bg-transparent' src="logologo.png" alt="" />
@@ -263,6 +274,8 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                     </div>
                 </div>
 
+
+
                 <div className='bg-[#fff] h-8 rounded my-2 md:-z-20 w-full'>
 
                     <div className="relative mb-3">
@@ -277,6 +290,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
                     </div>
 
                 </div>
+
 
                 <div className='w-full h-10 flex justify-center gap-3 md:-z-20'>
                     <div className='w-[50%] bg-gray-800 hover:bg-gray-900 grid place-content-center font-bold text-white rounded cursor-pointer' onClick={handleMostrarTodosClick}>
@@ -347,7 +361,7 @@ const ChatSidebar = ({ onClicEnDiv }) => {
 
 
                                 <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'hidden' : 'flex'} hover:bg-black text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px] flex justify-center items-center rounded-full`}>
-                                    <SalirGrupo/>
+                                    <SalirGrupo />
                                 </div>
 
                                 <div className={`bg-blue-500 text-lg md:text-[15px] ${mostrar ? 'flex' : 'hidden'} hover:bg-blue-600 text-white font-bold w-7 h-7 md:w-[22px] md:h-[22px]  justify-center items-center rounded-full`}>

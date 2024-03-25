@@ -6,6 +6,7 @@ import Logout2 from '../../components/modals/Logout2';
 import axios from 'axios';
 import baseURL from '../../components/BaseUrl';
 import { saveAs } from 'file-saver'; 
+import { format } from 'date-fns';
 
 function ReportesChatsBot() {
     const [data, setData] = useState([]);
@@ -25,19 +26,27 @@ function ReportesChatsBot() {
     console.log(user.number_a);
 
     const fetchData = async () => {
-        try {
-            const formData = new FormData();
-            formData.append('fecha_inicio', fecha1.current.value);
-            formData.append('fecha_fin', fecha2.current.value);
-            formData.append('status', agente.current.value);
-
-            const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_chats.php`, formData);
-            setData(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.log("Error del servidor", error);
-        }
-    };
+      try {
+          // Convertir las fechas de los campos de entrada a objetos de fecha de JavaScript
+          const startDate = new Date(fecha1.current.value);
+          const endDate = new Date(fecha2.current.value);
+  
+          // Formatear las fechas según el formato YYYYMMDD
+          const formattedStartDate = format(startDate, 'yyyyMMdd');
+          const formattedEndDate = format(endDate, 'yyyyMMdd');
+  
+          const formData = new FormData();
+          formData.append('fecha_inicio', formattedStartDate);
+          formData.append('fecha_fin', formattedEndDate);
+          formData.append('status', agente.current.value);
+  
+          const response = await axios.post(`${baseURL}/chat_business2/Dashboard/Dashboard/api_reporte_chats.php`, formData);
+          setData(response.data);
+          console.log(response.data);
+      } catch (error) {
+          console.log("Error del servidor", error);
+      }
+  };
 
     // useEffect(() => {
     //     fetchData();
@@ -85,11 +94,11 @@ function ReportesChatsBot() {
                         <div className="flex gap-4">
                             <div className='flex gap-2 items-center'>
                                 <label>Fecha Inicio</label>
-                                <input type="text" ref={fecha1} placeholder="20240318" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                                <input type="date" ref={fecha1} placeholder="20240318" className="px-3 py-2 border border-gray-300 rounded-lg" />
                             </div>
                             <div className='flex gap-2 items-center'>
                                 <label>Fecha Final</label>
-                                <input type="text" ref={fecha2} placeholder="20240319" className="px-3 py-2 border border-gray-300 rounded-lg" />
+                                <input type="date" ref={fecha2} placeholder="20240319" className="px-3 py-2 border border-gray-300 rounded-lg" />
                             </div>
                             <div className='flex gap-2 items-center'>
                                 <label htmlFor="agentSelect" className="mr-2">Tipo</label>

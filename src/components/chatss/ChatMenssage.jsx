@@ -15,7 +15,7 @@ import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import LineSound from '../grabacion/LineSound';
 import RecorderSound from '../grabacion/RecorderSound';
 import baseURL from '../BaseUrl';
-import MuteButton from '../MuteButton';
+
 
 
 
@@ -146,7 +146,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     if (!numeroSeleccionado) {
       console.warn('No hay número seleccionado. El mensaje no se enviará.');
       return; // Detener la función si no hay número seleccionado
-  }
+    }
 
 
     const formData = new FormData();
@@ -177,13 +177,13 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
   const motrarPlantilla = () => {
     // Verificar si hay un número seleccionado
     if (!numeroSeleccionado) {
-        console.warn('No hay número seleccionado. La plantilla no se mostrará.');
-        return; // Detener la función si no hay número seleccionado
+      console.warn('No hay número seleccionado. La plantilla no se mostrará.');
+      return; // Detener la función si no hay número seleccionado
     }
 
     // Mostrar la plantilla solo si hay un número seleccionado
     setMostrarPlantilla(true);
-}
+  }
 
 
 
@@ -429,11 +429,16 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
     } else if (mensaje.tipo_media === 'voice') {
       return (
         <div className='relative'>
-          <audio controls className="cursor-pointer relative w-[200px]" style={mensaje.b1 === '1' ? { right: '-16px' } : { left: '-16px' }}>
+          <audio controls controlsList="nodownload" className="cursor-pointer relative w-[220px]" style={mensaje.b1 === '1' ? { right: '-16px' } : { left: '-16px' }}>
             <source src={mensaje.url} />
             Your browser does not support the audio tag.
           </audio>
         </div>
+
+
+
+
+
       );
     } else if (mensaje.tipo_media === 'sticker') {
       // Handle sticker rendering (ajusta el código según tu implementación de stickers)
@@ -709,12 +714,12 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <InfoUser numero={numeroSeleccionado} nombre={nameSeleccionado} />
               <img className='w-[30px] rounded-full' src="negociemos.jpg" alt="" />
               <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
-              <MuteButton/>
+
             </div>
           </div>
 
           <div className='flex gap-5 mt-2 items-center text-sm'>
-            <span>{primerNombre}</span>
+            <span className='mr-10'>{primerNombre}</span>
             <Logout />
           </div>
 
@@ -757,18 +762,18 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
                   <div className='my-3 shadow p-2 bg-gray-100 flex justify-center items-center'>
 
-                  {selectedTemplateContent2 && selectedTemplateContent2.trim() !== "" && (
-    <>
-      {selectedTemplateContent2.match(/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i) ? (
-        // Si es una imagen, muestra la etiqueta img
-        <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
-      ) : (
-        // Si es un documento, muestra el enlace
-        <a target='_blank' className='bg-blue-400 w-full flex justify-center p-2 rounded-sm text-white font-semibold' href={selectedTemplateContent2}>Documento</a>
-      )}
-    </>
-  )}
-</div>
+                    {selectedTemplateContent2 && selectedTemplateContent2.trim() !== "" && (
+                      <>
+                        {selectedTemplateContent2.match(/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i) ? (
+                          // Si es una imagen, muestra la etiqueta img
+                          <img className='max-h-44 w-auto' src={selectedTemplateContent2} alt="" />
+                        ) : (
+                          // Si es un documento, muestra el enlace
+                          <a target='_blank' className='bg-blue-400 w-full flex justify-center p-2 rounded-sm text-white font-semibold' href={selectedTemplateContent2}>Documento</a>
+                        )}
+                      </>
+                    )}
+                  </div>
 
                   <div className='flex gap-2 justify-end'>
                     <button
@@ -851,7 +856,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               )}</div>
           )}
         </div>
-        <div className='w-full flex items-center justify-center fixed md:static h-14 bg-gray-200 bottom-0 scale-x-110 2xl:scale-y-[1.02]'>
+        <div className='w-full flex items-center justify-center fixed md:static h-[70px] bg-gray-200 bottom-0 scale-x-110'>
           <div className="w-[90%] mx-auto p-2 gap-2 flex">
             <button onClick={handleReloadPage} className='flex md:hidden' type='submit'>
               <div className='w-[40px] h-[40px] bg-[#000] rounded-[25px] text-white flex justify-center items-center text-2xl'>
@@ -859,10 +864,10 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               </div>
             </button>
             <div className="relative w-full text-gray-600 ">
-              <div className='absolute top-2 left-2'>
+              <div className='absolute top-2 lg:top-3 left-2'>
                 <button onClick={motrarPlantilla}><FontAwesomeIcon icon={faMessage} /></button>
               </div>
-              <div className='ml-16 absolute -left-8 top-2'>
+              <div className='ml-16 absolute -left-8 top-2 lg:top-3'>
                 <input
                   ref={archivoInputRef}
                   id="fileInput"
@@ -875,7 +880,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
                   <FontAwesomeIcon icon={faCloudArrowUp} />
                 </label>
               </div>
-              <div className='ml-16 absolute -left-2 top-2'>
+              <div className='ml-16 absolute -left-2 top-2 lg:top-3'>
                 <button onClick={toggleDiv}>
                   <FontAwesomeIcon icon={faIcons} />
                 </button>
@@ -900,7 +905,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
 
               </div>
 
-              <div className='absolute left-20 top-2'>
+              <div className='absolute left-20 top-2 lg:top-3'>
                 <div className='relative flex'>
                   <ReactMic
                     record={isRecording}
@@ -946,7 +951,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <input
                 ref={mensajeInputRef}
                 onKeyDown={handleKeyDown}
-                className="w-full border-2 border-gray-300 bg-white h-10 px-8 pl-28 pr-4 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                className="w-full border-2 border-gray-300 bg-white h-10 lg:h-[48px] px-8 pl-28 pr-4 rounded-lg text-[14px] lg:text-[18px] focus:outline-none focus:border-blue-500"
                 type="text"
                 placeholder="Escribe algo..."
               />

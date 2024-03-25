@@ -19,6 +19,7 @@
     "@heroicons/react": "^2.0.18",
     "axios": "^1.6.0",
     "babel-plugin-macros": "^3.1.0",
+    "date-fns": "^3.6.0",
     "emoji-mart": "^5.5.2",
     "file-saver": "^2.0.5",
     "heroicons": "^2.0.18",

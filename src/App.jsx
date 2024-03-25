@@ -26,12 +26,12 @@ function App() {
 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simular una tarea asíncrona
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   // Simular una tarea asíncrona
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 3000);
+  // }, []);
 
   const PrivateRoute = ({ element, path }) => {
     if (user && user.type === 'agente') {
