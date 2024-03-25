@@ -68,7 +68,7 @@ const ModalMensajeUser = ({ numeroSeleccionado }) => {
 
   return (
     <div>
-      <button onClick={() => setShowModal(true)} className="text-blue-500 rounded">
+      <button onClick={() => setShowModal(true)} className="text-blue-500 flex rounded">
         <FontAwesomeIcon icon={faCommentDots} />
       </button>
       {showModal && (

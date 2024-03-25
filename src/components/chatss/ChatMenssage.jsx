@@ -15,6 +15,7 @@ import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import LineSound from '../grabacion/LineSound';
 import RecorderSound from '../grabacion/RecorderSound';
 import baseURL from '../BaseUrl';
+import MuteButton from '../MuteButton';
 
 
 
@@ -708,6 +709,7 @@ function ChatMenssage({ numeroSeleccionado, nameSeleccionado }) {
               <InfoUser numero={numeroSeleccionado} nombre={nameSeleccionado} />
               <img className='w-[30px] rounded-full' src="negociemos.jpg" alt="" />
               <span className='font-normal'>{nameSeleccionado ? nameSeleccionado : numeroSeleccionado ? numeroSeleccionado : "Distribuidora Negociemos"}</span>
+              <MuteButton/>
             </div>
           </div>
 
